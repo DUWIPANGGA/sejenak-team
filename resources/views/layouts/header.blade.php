@@ -1,3 +1,1 @@
-<div>
-    <!-- Because you are alive, everything is possible. - Thich Nhat Hanh -->
-</div>
+        @vite(['resources/css/app.css', 'resources/js/app.js'])

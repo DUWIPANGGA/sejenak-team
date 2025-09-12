@@ -1,45 +1,549 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sejenak - @yield('title')</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Lexend:wght@100..900&display=swap');
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        body {
+            font-family: 'Lexend', sans-serif;
+        }
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        .dot-background {
+            background-image: radial-gradient(#d6d9e1 3px, transparent 1px);
+            background-size: 20px 20px;
+        }
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        .text-shadow-h1 {
+            color: white;
+            text-shadow:
+                -1px -1px 0 #080330,
+                1px -1px 0 #080330,
+                -1px 1px 0 #080330,
+                1px 1px 0 #080330,
+                3px 3px 0 #080330;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+        }
 
-        <!-- Styles -->
-        @livewireStyles
-    </head>
-    <body class="font-sans antialiased">
-        <x-banner />
+        .text-shadow-soft {
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
+        }
 
-        <div class="min-h-screen bg-gray-100">
-            @livewire('navigation-menu')
+        .text-shadow-glow {
+            text-shadow: 0 0 6px #8FD14F;
+        }
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
+        /* Floating chat avatar and bubble styles */
+        #floating-chat-container {
+            position: fixed;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+        #floating-chat-container.mobile {
+            bottom: 20px;
+            left: 20px;
+            top: auto;
+            right: auto;
+        }
+
+        #floating-chat-container.desktop {
+            bottom: 5vh;
+            right: 5vw;
+            top: auto;
+            left: auto;
+        }
+
+        #floating-chat-avatar-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #604CC3;
+            /* Warna sekunder */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            position: relative;
+            border: 2px solid #080330;
+        }
+
+        #floating-chat-avatar-btn:hover {
+            transform: scale(1.1);
+        }
+
+        #floating-chat-avatar-btn img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        #floating-chat-avatar-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            width: 15px;
+            height: 15px;
+            background-color: #8FD14F;
+            /* Warna primary */
+            border: 2px solid #080330;
+            border-radius: 50%;
+        }
+
+        #chat-bubble {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            background-color: white;
+            border: 2px solid #080330;
+            border-radius: 18px;
+            padding: 12px 15px;
+            max-width: 300px;
+            box-shadow: 3px 4px 0 #080330;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 101;
+            display: flex;
+            flex-direction: column;
+            height: 30vh;
+        }
+
+        #chat-bubble.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #chat-bubble-content {
+            flex-grow: 1;
+            padding-bottom: 10px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .chat-message-ai,
+        .chat-message-user {
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            max-width: 80%;
+            border: #080330 2px solid;
+        }
+
+        .chat-message-ai {
+            align-self: flex-start;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-bottom-left-radius: 0;
+        }
+
+        .chat-message-user {
+            align-self: flex-end;
+            background-color: #8FD14F;
+            color: white;
+            border-bottom-right-radius: 0;
+        }
+
+        #chat-input-area {
+            display: flex;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+        }
+
+        #chat-input-area input {
+            flex-grow: 1;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 8px 15px;
+            margin-right: 8px;
+        }
+
+        #chat-input-area button {
+            background-color: #8FD14F;
+            color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            cursor: pointer;
+        }
+
+        #chat-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            right: 20px;
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: white transparent;
+            transform: rotate(30deg);
+        }
+
+        #chat-bubble::before {
+            content: '';
+            position: absolute;
+            bottom: -13px;
+            right: 19px;
+            border-width: 11px 11px 0;
+            border-style: solid;
+            border-color: #080330 transparent;
+            transform: rotate(30deg);
+            z-index: -1;
+        }
+
+        @media (max-width: 768px) {
+            #floating-chat-container.mobile {
+                bottom: 20px;
+                left: 20px;
+                top: auto;
+                right: auto;
+            }
+
+            #chat-bubble {
+                bottom: 70px;
+                right: -20px;
+                left: auto;
+            }
+
+            #chat-bubble::after {
+                bottom: -10px;
+                right: 20px;
+                left: auto;
+            }
+
+            #chat-bubble::before {
+                bottom: -13px;
+                right: 19px;
+                left: auto;
+            }
+        }
+
+    </style>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow-custom {
+                text-shadow: 3px 5px 0px #000000;
+            }
+            .content-calendar {
+                @apply w-[90%] h-[90%] border border-black rounded flex justify-center items-center m-0;
+            }
+            .td-meditation {
+                @apply absolute w-3 h-3 bg-stroke border border-black rounded-full -bottom-[50%] left-[20%];
+            }
+            .td-jurnaling {
+                @apply absolute w-3 h-3 bg-stroke border border-black rounded-full -bottom-[50%] -left-[15%];
+            }
+            .td-disable {
+                @apply bg-stroke;
+            }
+            .td-purple {
+                @apply bg-secondary;
+            }
+            .td-orange {
+                @apply bg-accent;
+            }
+            .today {
+                @apply text-accent font-bold;
+            }
+        }
+    </style>
+    @yield('style')
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8FD14F', // from --primary
+                        secondary: '#604CC3', // from --secondary
+                        dark: '#080330', // from --dark
+                        light: '#ffffff', // from --light
+                        white: '#f7f7f7', // from --white (duplikat, pilih salah satu)
+                        stroke: '#000000', // from --stroke
+                        purple: '#876582', // from --purple
+                        orange: '#FF6600', // from --orange
+                        black: '#080330', // same as dark
+                    }
+                    , fontFamily: {
+                        lexend: ['Lexend', 'sans-serif']
+                        , exo2: ['exo-2', 'sans-serif']
+                    }
+                    , boxShadow: {
+                        'border-offset': '3px 4px 0 #080330'
+                        , 'border-offset-lg': '5px 7px 0 #080330'
+                        , 'border-offset-accent': '3px 4px 0 #8FD14F'
+                    , }
+                    , textShadow: {
+                        h1: '2px 2px 0 #080330, 4px 4px 0 #2C2B4B'
+                    , }
+                    , fontSize: {
+                        h1: ['2.5rem', {
+                            lineHeight: '3rem'
+                            , fontWeight: '700'
+                        }]
+                        , h2: ['2rem', {
+                            lineHeight: '2.5rem'
+                            , fontWeight: '700'
+                        }]
+                        , h3: ['1.75rem', {
+                            lineHeight: '2.25rem'
+                            , fontWeight: '600'
+                        }]
+                        , h4: ['1.5rem', {
+                            lineHeight: '2rem'
+                            , fontWeight: '600'
+                        }]
+                        , h5: ['1.25rem', {
+                            lineHeight: '1.75rem'
+                            , fontWeight: '500'
+                        }]
+                        , h6: ['1rem', {
+                            lineHeight: '1.5rem'
+                            , fontWeight: '500'
+                        }]
+                    , }
+                    , borderRadius: {
+                        'playful-sm': '12px'
+                        , 'playful-md': '18px'
+                        , 'playful-lg': '24px'
+                    , }
+                , }
+            , }
+        , };
+
+    </script>
+</head>
+<body class="bg-gray-100 min-h-screen flex lexend">
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-10 hidden"></div>
+
+    <aside id="sidebar" class="fixed hidden md:static w-[20vw] md:w-[6vw] min-h-[100vh] flex-col md:flex z-20 items-center py-5 transition-all duration-300 bg-gray-100">
+        <nav class="flex flex-col items-center justify-center flex-1 w-full gap-4 bg-gray-100">
+            <div class="flex flex-col items-center gap-4 mb-0 w-full">
+                <a href="{{ route('user.profiles') }}" class="w-16 h-16 rounded-full overflow-hidden border-2 border-primary transition-transform duration-200 hover:scale-110 flex items-center justify-center bg-gray-200 text-dark font-bold text-xl">
+                    @if (Auth::user()->avatar)
+                    <img src="{{ asset(Auth::user()->avatar) }}" alt="Foto Profil" class="object-cover w-full h-full">
+                    @else
+                    <span>
+                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                    </span>
+                    @endif
+                </a>
+            </div>
+            <a href="{{ route('user.meditation') }}" class="flex flex-col items-center justify-center w-12 h-12 transition-transform duration-200 hover:scale-110 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('assets/icon/meditation.svg') }}'); background-size: 70%">
+                <p class="mt-14 text-xs font-normal {{ request()->routeIs('user.meditation') ? 'text-primary' : 'text-secondary' }} tracking-wider">Meditation</p>
+            </a>
+            <a href="{{ route('user.dashboard') }}" class="flex flex-col items-center justify-center w-12 h-12 transition-transform duration-200 hover:scale-110 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('assets/icon/dashboard.svg') }}'); background-size: 70%">
+                <p class="mt-14 text-xs font-normal {{ request()->routeIs('user.dashboard') ? 'text-primary' : 'text-secondary' }} tracking-wider">Menu</p>
+            </a>
+            <a href="{{ route('user.konseling') }}" class="flex flex-col items-center justify-center w-12 h-12 transition-transform duration-200 hover:scale-110 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('assets/icon/chat.svg') }}'); background-size: 90%">
+                <p class="mt-14 text-xs font-normal {{ request()->routeIs('user.konseling') ? 'text-primary' : 'text-secondary' }} tracking-wider">Chat</p>
+            </a>
+            <a href="{{ route('user.history') }}" class="flex flex-col items-center justify-center w-12 h-12 transition-transform duration-200 hover:scale-110 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('assets/icon/calendar.svg') }}'); background-size: 70%">
+                <p class="mt-14 text-xs font-normal {{ request()->routeIs('user.history') ? 'text-primary' : 'text-secondary' }} tracking-wider">History</p>
+            </a>
+            <a href="{{ route('user.comunity') }}" class="flex flex-col items-center justify-center w-12 h-12 transition-transform duration-200 hover:scale-110 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('assets/icon/comunity.svg') }}'); background-size: 70%">
+                <p class="mt-14 text-xs font-normal {{ request()->routeIs('user.comunity') ? 'text-primary' : 'text-secondary' }} tracking-wider">Post</p>
+            </a>
+            <a href="{{ route('user.journal') }}" class="flex flex-col items-center justify-center w-12 h-12 transition-transform duration-200 hover:scale-110 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('assets/icon/journal.svg') }}'); background-size: 70%">
+                <p class="mt-14 text-xs font-normal {{ request()->routeIs('user.journal') ? 'text-primary' : 'text-secondary' }} tracking-wider">Journal</p>
+            </a>
+            <form method="POST" action="{{ route('logout') }}" class="flex flex-col items-center justify-center w-12 h-12 transition-transform duration-200 hover:scale-110 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('assets/icon/logout.svg') }}'); background-size: 70%">
+                @csrf
+                <button type="submit" class="flex flex-col items-center justify-center w-12 h-12 transition-transform duration-200 hover:scale-110 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('assets/icon/logout.svg') }}'); background-size: 70%">
+                    <p class="mt-14 text-xs font-normal text-primary tracking-wider">Logout</p>
+                </button>
+            </form>
+        </nav>
+    </aside>
+
+    <main class="flex-1">
+        <header class="bg-primary text-white p-4 flex items-center justify-between align-middle md:hidden ">
+            <button id="menu-toggle" class="text-white focus:outline-none">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            <h1 class="text-xl font-bold flex align-middle">
+                <img src="{{ asset('assets/icon/logo.svg') }}" class="w-8 h-8 inline mr-2"> Sejenak
+            </h1>
+            <div class="w-6"></div>
+        </header>
+
+        <div class="dot-background md:m-5 md:ml-1 md:rounded-[40px] border-2 border-dark md:shadow-[5px_7px_0px_#080330] p-2 md:py-6 px-0 flex flex-col md:flex-row justify-center align-middle items-center max-w-[100vw] md:max-w-[95vw] h-[94vh] max-h-[94vh] overflow-hidden">
+            @yield('content')
         </div>
+    </main>
 
-        @stack('modals')
+    <div id="floating-chat-container" class="desktop">
+        <div id="chat-bubble">
+            <div id="chat-bubble-content">
+                <p class="chat-message-ai">Hai! Aku adalah Sejenak AI. Ada yang bisa saya bantu?</p>
+            </div>
+            <div id="chat-input-area">
+                <input type="text" id="chat-input" placeholder="Ketik pesan Anda..." onkeydown="handleKeyDown(event)">
+                <button id="chat-send-btn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+        <div id="floating-chat-avatar-btn">
+            <img src="{{ asset('assets/icon/ai-avatar.svg') }}" alt="AI Avatar">
+        </div>
+    </div>
 
-        @livewireScripts
-    </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            const floatingChatContainer = document.getElementById('floating-chat-container');
+            const floatingChatAvatarBtn = document.getElementById('floating-chat-avatar-btn');
+            const chatBubble = document.getElementById('chat-bubble');
+            const chatBubbleContent = document.getElementById('chat-bubble-content');
+            const chatInput = document.getElementById('chat-input');
+            const chatSendBtn = document.getElementById('chat-send-btn');
+
+            // Sidebar toggle logic
+            if (menuToggle) {
+                menuToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('hidden');
+                    overlay.classList.toggle('hidden');
+                });
+            }
+
+            if (overlay) {
+                overlay.addEventListener('click', function() {
+                    sidebar.classList.add('hidden');
+                    overlay.classList.add('hidden');
+                });
+            }
+
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    sidebar.classList.remove('hidden');
+                    if (overlay) {
+                        overlay.classList.add('hidden');
+                    }
+                } else {
+                    sidebar.classList.add('hidden');
+                }
+                setChatPosition();
+            });
+
+            // Floating chat logic
+            function isMobile() {
+                return window.innerWidth <= 768;
+            }
+
+            function setChatPosition() {
+                if (isMobile()) {
+                    floatingChatContainer.classList.remove('desktop');
+                    floatingChatContainer.classList.add('mobile');
+                    chatBubble.style.right = '0';
+                    chatBubble.style.left = 'auto';
+                } else {
+                    floatingChatContainer.classList.remove('mobile');
+                    floatingChatContainer.classList.add('desktop');
+                    chatBubble.style.right = '0';
+                    chatBubble.style.left = 'auto';
+                }
+            }
+
+            floatingChatAvatarBtn.addEventListener('click', function() {
+                chatBubble.classList.toggle('show');
+            });
+
+            function addMessage(message, isUser) {
+                const messageElement = document.createElement('p');
+                messageElement.textContent = message;
+                messageElement.classList.add(isUser ? 'chat-message-user' : 'chat-message-ai');
+                chatBubbleContent.appendChild(messageElement);
+                chatBubbleContent.scrollTop = chatBubbleContent.scrollHeight;
+            }
+
+            async function sendMessage() {
+                const userMessage = chatInput.value.trim();
+                if (userMessage === '') {
+                    return;
+                }
+
+                addMessage(userMessage, true);
+                chatInput.value = '';
+
+                addMessage('Thinking...', false);
+
+                const API_KEY = 'AIzaSyBLma6UUgkYmEIj9Rhvgog_GG5DBgq9ERg'; // WARNING: This is INSECURE!
+                const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+
+
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST'
+                        , headers: {
+                            'Content-Type': 'application/json'
+                        , }
+                        , body: JSON.stringify({
+                            contents: [{
+                                parts: [{
+                                    text: `
+                            Kamu adalah Sejenak, seorang chatbot yang berfungsi sebagai pelayan user yang mampir ke website sejenak.
+                            Kamu ramah, hangat, dan sangat suportif. Kamu paham tentang psikologi, kesehatan mental, dan berbagai isu yang dihadapi Gen Z.
+                            Gunakan bahasa Indonesia yang santai, seperti chat dengan teman sebaya.
+                            Hindari jawaban yang terlalu formal, kaku, atau seperti robot. kamu punya pengetahuan detail tentang sistem aplikasi sejenak yaitu : Sejenak adalah aplikasi kesehatan mental yang dirancang untuk membantu individu yang sedang berada di bawah tekanan agar dapat mengelola emosi, stres, dan kecemasan dengan lebih sehat. Melalui fitur jurnal harian, pengguna dapat mengekspresikan perasaan dan melakukan refleksi diri, sementara mood tracker membantu memantau suasana hati sehari-hari agar pola emosional dapat terlihat secara jangka panjang. Aplikasi ini juga menyediakan challenge kesehatan mental yang mendorong kebiasaan positif seperti meditasi singkat atau latihan rasa syukur, serta exercise berupa aktivitas relaksasi dan audio meditasi yang menenangkan. Untuk menciptakan rasa kebersamaan, tersedia circle atau komunitas kecil sebagai ruang berbagi dan saling mendukung, ditambah dengan fitur post, komentar, balasan, dan like yang memungkinkan interaksi sosial yang sehat. Pengguna juga dapat berkomunikasi secara pribadi melalui pesan langsung, mengikuti sesi terapi atau latihan khusus, dan bagi yang membutuhkan layanan profesional, aplikasi ini mendukung proposal layanan serta transaksi untuk konseling premium. Semua fitur ini diatur melalui sistem role dan user management, sehingga peran pengguna—baik sebagai anggota komunitas, admin, maupun konselor—dapat berjalan sesuai fungsinya. Dengan ekosistem ini, Sejenak menjadi ruang aman dan suportif bagi setiap orang untuk beristirahat sejenak, menguatkan diri, dan membangun kesehatan mental yang lebih baik.
+                            Contoh gaya bicara: "gimana, udah enakan?", "spill dong ceritanya", "santai aja yaa", "semangat!", dll.,kamu hanya membalas chat dengan singkat maybe ga sampe 1 paragraf
+                            Tanggapi pesan ini dengan persona tersebut:
+                            
+                            ${userMessage}
+                        `
+                                }]
+                            }]
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API response error: ${response.status} ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+
+                    const messages = chatBubbleContent.querySelectorAll('p');
+                    messages[messages.length - 1].remove();
+
+                    if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
+                        const aiResponse = data.candidates[0].content.parts[0].text;
+                        addMessage(aiResponse, false);
+                    } else {
+                        addMessage('Sorry, I couldn\'t generate a response.', false);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    const messages = chatBubbleContent.querySelectorAll('p');
+                    messages[messages.length - 1].remove();
+                    addMessage('An error occurred. Please try again later.', false);
+                }
+            }
+
+            chatSendBtn.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            // Initialize chat position
+            setChatPosition();
+        });
+
+    </script>
+    @yield('script')
+</body>
 </html>

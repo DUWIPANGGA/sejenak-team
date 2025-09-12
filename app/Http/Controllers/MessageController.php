@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 
 class MessageController extends Controller
 {
+    public function user(){
+        return view('messages.user');
+    }
     public function index()
     {
         $messages = Message::with(['session', 'sender'])->paginate(20);

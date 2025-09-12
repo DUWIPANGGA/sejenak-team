@@ -62,10 +62,11 @@ class JournalController extends Controller
         return redirect()->route('journals.index')->with('success', 'Journal deleted successfully.');
     }
 
-    public function userJournals(User $user)
+    public function user()
     {
-        $journals = $user->journals()->orderBy('created_at', 'desc')->paginate(10);
-        return view('journals.user-journals', compact('user', 'journals'));
+        // $journals = $user->journals()->orderBy('created_at', 'desc')->paginate(10);
+        return view('journals.user');
+        // return view('journals.user', compact('user', 'journals'));
     }
 
     public function search(Request $request)

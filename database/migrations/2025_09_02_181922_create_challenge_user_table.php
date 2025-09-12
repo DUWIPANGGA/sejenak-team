@@ -8,15 +8,14 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('challenge_user', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('challenge_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->enum('status', ['pending', 'completed'])->default('pending');
-            $table->timestamps();
-            
-            $table->unique(['challenge_id', 'user_id']);
-        });
+       Schema::create('challenge_user', function (Blueprint $table) {
+    $table->foreignId('challenge_id');
+    $table->foreignId('user_id');
+    $table->enum('status', ['pending', 'in_progress', 'completed', 'cancelled']); // Example enum values
+    $table->timestamps();
+    
+    $table->primary(['challenge_id', 'user_id']);
+});
     }
 
     public function down()
