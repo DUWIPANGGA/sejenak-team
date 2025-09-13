@@ -9,6 +9,15 @@ class Session extends Model
 {
     use HasFactory;
 
+    /**
+     * PENTING: Menentukan nama tabel yang benar secara manual.
+     * Ini akan memberitahu Laravel untuk mencari tabel 'consult_sessions'
+     * bukan 'sessions'. Inilah baris yang memperbaiki error.
+     *
+     * @var string
+     */
+    protected $table = 'consult_sessions';
+
     protected $fillable = [
         'user_id',
         'konselor_id',

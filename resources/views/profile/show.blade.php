@@ -100,10 +100,19 @@
             <div class="bg-white p-4 rounded-playful-sm border-2 border-dark shadow-border-offset">
                 <h3 class="text-h5 font-bold text-dark mb-4">Akses Cepat</h3>
                 <div class="flex flex-col gap-4">
-                    <a href="{{ route('user.profiles.edit',Auth::user()->name) }}" class="w-full px-4 py-2 bg-primary text-white font-bold text-center rounded-playful-sm border-2 border-dark shadow-border-offset hover:bg-green-600 transition-all duration-200">
+
+                    {{-- Tombol ini hanya tampil untuk admin atau super_admin --}}
+                    @if(Auth::check() && in_array(Auth::user()->role->name, ['super_admin', 'admin']))
+                        <a href="{{ route('admin.dashboard') }}" class="w-full px-4 py-2 bg-secondary text-white font-bold text-center rounded-playful-sm border-2 border-dark shadow-border-offset hover:bg-purple-700 transition-all duration-200">
+                            <i class="fas fa-tachometer-alt mr-2"></i> Dashboard Admin
+                        </a>
+                    @endif
+
+                    <a href="{{ route('user.profiles.edit', Auth::user()->name) }}" class="w-full px-4 py-2 bg-primary text-white font-bold text-center rounded-playful-sm border-2 border-dark shadow-border-offset hover:bg-green-600 transition-all duration-200">
                         <i class="fas fa-edit mr-2"></i> Edit Profil
                     </a>
-                    <a href=" " class="w-full px-4 py-2 bg-white text-dark font-bold text-center rounded-playful-sm border-2 border-dark shadow-border-offset hover:bg-gray-200 transition-all duration-200">
+                    
+                    <a href="#" class="w-full px-4 py-2 bg-white text-dark font-bold text-center rounded-playful-sm border-2 border-dark shadow-border-offset hover:bg-gray-200 transition-all duration-200">
                         <i class="fas fa-cog mr-2"></i> Pengaturan Akun
                     </a>
                 </div>

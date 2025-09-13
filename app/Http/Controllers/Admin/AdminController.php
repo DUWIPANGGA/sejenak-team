@@ -22,12 +22,6 @@ use Carbon\Carbon;
 
 class AdminController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('role:admin,super_admin');
-    }
-
     /**
      * Dashboard Admin
      */
