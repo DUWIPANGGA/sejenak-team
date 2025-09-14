@@ -56,6 +56,10 @@
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
+                                    {{-- Tambahan: Menampilkan Avatar --}}
+                                    <div class="flex-shrink-0 h-10 w-10">
+                                        <img class="h-10 w-10 rounded-full border-2 border-dark" src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=random&color=fff" alt="{{ $user->name }}">
+                                    </div>
                                     <div class="ml-4">
                                         <div class="text-sm font-semibold text-dark">{{ $user->name }}</div>
                                         <div class="text-sm text-gray-500">{{ $user->email }}</div>
@@ -85,20 +89,24 @@
                                 <a href="{{ route('admin.users.edit', $user->id) }}" class="inline-flex items-center justify-center w-9 h-9 bg-blue-100 text-blue-600 rounded-playful-sm border-2 border-dark hover:bg-blue-200" title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                @if($user->is_suspended)
-                                    <form action="{{ route('admin.users.unsuspend', $user->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Aktifkan kembali pengguna ini?');">
-                                        @csrf
-                                        <button type="submit" class="inline-flex items-center justify-center w-9 h-9 bg-green-100 text-green-600 rounded-playful-sm border-2 border-dark hover:bg-green-200" title="Unsuspend">
-                                            <i class="fas fa-check-circle"></i>
-                                        </button>
-                                    </form>
-                                @else
-                                    <form action="{{ route('admin.users.suspend', $user->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menangguhkan pengguna ini?');">
-                                        @csrf
-                                        <button type="submit" class="inline-flex items-center justify-center w-9 h-9 bg-red-100 text-red-600 rounded-playful-sm border-2 border-dark hover:bg-red-200" title="Suspend">
-                                            <i class="fas fa-ban"></i>
-                                        </button>
-                                    </form>
+                                
+                                {{-- Tambahan: Proteksi agar tidak bisa suspend diri sendiri --}}
+                                @if(Auth::id() !== $user->id)
+                                    @if($user->is_suspended)
+                                        <form action="{{ route('admin.users.unsuspend', $user->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Aktifkan kembali pengguna ini?');">
+                                            @csrf
+                                            <button type="submit" class="inline-flex items-center justify-center w-9 h-9 bg-green-100 text-green-600 rounded-playful-sm border-2 border-dark hover:bg-green-200" title="Unsuspend">
+                                                <i class="fas fa-check-circle"></i>
+                                            </button>
+                                        </form>
+                                    @else
+                                        <form action="{{ route('admin.users.suspend', $user->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menangguhkan pengguna ini?');">
+                                            @csrf
+                                            <button type="submit" class="inline-flex items-center justify-center w-9 h-9 bg-red-100 text-red-600 rounded-playful-sm border-2 border-dark hover:bg-red-200" title="Suspend">
+                                                <i class="fas fa-ban"></i>
+                                            </button>
+                                        </form>
+                                    @endif
                                 @endif
                             </td>
                         </tr>
@@ -114,7 +122,8 @@
         </div>
         
         <div class="mt-6">
-            {{ $users->links() }}
+            {{-- Tambahan: Agar filter tetap aktif saat pindah halaman --}}
+            {{ $users->withQueryString()->links() }}
         </div>
     </div>
 </div>

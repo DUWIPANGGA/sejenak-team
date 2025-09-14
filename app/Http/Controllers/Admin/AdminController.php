@@ -17,8 +17,9 @@ use App\Models\Circle;
 use App\Models\Mood;
 use App\Models\Journal;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -119,23 +120,25 @@ class AdminController extends Controller
             ->merge($user->posts->map(function($post) {
                 return [
                     'type' => 'post',
-                    'content' => str_limit($post->content, 100),
+                    'content' => Str::limit($post->content, 100),
                     'created_at' => $post->created_at,
-                    'url' => route('posts.show', $post)
+                    'url' => null
+                    // 'url' => route('posts.show', $post)
                 ];
             }))
             ->merge($user->comments->map(function($comment) {
                 return [
                     'type' => 'comment',
-                    'content' => str_limit($comment->content, 100),
+                    'content' => Str::limit($comment->content, 100),
                     'created_at' => $comment->created_at,
-                    'url' => route('posts.show', $comment->post) . '#comment-' . $comment->id
+                    'url' => null
+                    // 'url' => route('posts.show', $comment->post) . '#comment-' . $comment->id
                 ];
             }))
             ->merge($user->moods->map(function($mood) {
                 return [
                     'type' => 'mood',
-                    'content' => 'Mood: ' . $mood->mood . ($mood->note ? ' - ' . str_limit($mood->note, 50) : ''),
+                    'content' => 'Mood: ' . $mood->mood . ($mood->note ? ' - ' . Str::limit($mood->note, 50) : ''),
                     'created_at' => $mood->created_at,
                     'url' => null
                 ];

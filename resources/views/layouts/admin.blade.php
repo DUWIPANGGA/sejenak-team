@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - @yield('title')</title>
+    <title>Sejenak - @yield('title')</title>
 
     {{-- Script & Styles --}}
     <script src="https://cdn.tailwindcss.com"></script>
@@ -104,7 +104,25 @@
                 <i class="fas fa-file-alt w-6 text-center"></i>
                 <span class="ml-4 font-semibold">Proposal Konselor</span>
             </a>
-            <a href="#" class="flex items-center mt-3 px-4 py-3 rounded-playful-sm transition-colors duration-200 hover:bg-secondary">
+            <div>
+                <button type"button" id="moderation-menu-button" class="flex items-center justify-between w-full mt-3 px-4 py-3 rounded-playful-sm transition-colors duration-200 hover:bg-secondary {{ request()->routeIs('admin.moderation.*') ? 'bg-secondary' : '' }}">
+                    <span class="flex items-center">
+                        <i class="fas fa-shield-alt w-6 text-center"></i>
+                        <span class="ml-4 font-semibold">Moderasi</span>
+                    </span>
+                    <i id="moderation-chevron" class="fas fa-chevron-down text-xs transition-transform"></i>
+                </button>
+
+                <div id="moderation-submenu" class="hidden mt-2 space-y-2 pl-8">
+                    <a href="{{ route('admin.moderation.posts') }}" class="block px-4 py-2 text-sm font-semibold rounded-playful-sm hover:bg-secondary {{ request()->routeIs('admin.moderation.posts') ? 'bg-secondary' : '' }}">
+                        Postingan
+                    </a>
+                    <a href="{{ route('admin.moderation.comments') }}" class="block px-4 py-2 text-sm font-semibold rounded-playful-sm hover:bg-secondary {{ request()->routeIs('admin.moderation.comments') ? 'bg-secondary' : '' }}">
+                        Komentar
+                    </a>
+                </div>
+            </div>
+            <a href="{{ route('admin.transactions') }}" class="flex items-center mt-3 px-4 py-3 rounded-playful-sm transition-colors duration-200 hover:bg-secondary {{ request()->routeIs('admin.transactions*') ? 'bg-secondary' : '' }}">
                 <i class="fas fa-cart-plus w-6 text-center"></i>
                 <span class="ml-4 font-semibold">Transaksi</span>
             </a>
@@ -156,6 +174,22 @@
             const menuToggle = document.getElementById('menu-toggle');
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('overlay');
+            const moderationButton = document.getElementById('moderation-menu-button');
+            const moderationSubmenu = document.getElementById('moderation-submenu');
+            const moderationChevron = document.getElementById('moderation-chevron');
+
+            if (moderationButton) {
+                // Jika halaman moderasi sedang aktif, tampilkan submenu secara default
+                if (moderationSubmenu.querySelector('a.bg-secondary')) {
+                    moderationSubmenu.classList.remove('hidden');
+                    moderationChevron.classList.add('rotate-180');
+                }
+
+                moderationButton.addEventListener('click', () => {
+                    moderationSubmenu.classList.toggle('hidden');
+                    moderationChevron.classList.toggle('rotate-180');
+                });
+            }
 
             if (menuToggle) {
                 menuToggle.addEventListener('click', function() {

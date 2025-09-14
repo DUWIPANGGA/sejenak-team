@@ -10,6 +10,7 @@ use App\Http\Controllers\ComunityController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MeditationController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Konselor\KonselorController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -139,6 +140,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,super_ad
     
     // Reports
     Route::get('/reports', [AdminController::class, 'reports'])->name('reports');
+});
+
+// // Konselor Routes
+Route::prefix('konselor')->name('konselor.')->middleware(['auth', 'role:konselor'])->group(function () {
+    Route::get('/dashboard', [KonselorController::class, 'dashboard'])->name('dashboard');
 });
 
 // Rute ini akan menghasilkan error 404

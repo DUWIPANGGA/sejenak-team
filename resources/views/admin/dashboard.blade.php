@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Admin Dashboard')
+@section('title', 'Dashboard Admin')
 
 {{-- Menambahkan Font Awesome untuk ikon --}}
 @push('styles')
