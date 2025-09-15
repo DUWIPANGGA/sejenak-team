@@ -33,6 +33,7 @@ return new class extends Migration
 
     $table->foreignId('role_id')->constrained()->onDelete('cascade')->default(1);
     $table->integer('tokens_balance')->default(0);
+    $table->boolean('is_suspended')->default(false);
 
     $table->rememberToken();
     $table->timestamps();

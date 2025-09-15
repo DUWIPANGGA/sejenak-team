@@ -10,6 +10,7 @@ use App\Http\Controllers\ComunityController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MeditationController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Konselor\KonselorController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -86,59 +87,66 @@ Route::middleware([
 // Route::post('exercises/{exercise}/complete/{user}', [ExerciseController::class, 'completeExercise'])->name('exercises.complete');
 // Route::get('exercises/type/{type}', [ExerciseController::class, 'byType'])->name('exercises.by-type');
 // Route::get('exercises/user/{user}/progress', [ExerciseController::class, 'userProgress'])->name('exercises.progress');
+
 // // Admin Routes
-// Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,super_admin'])->group(function () {
-//     // Dashboard
-//     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,super_admin'])->group(function () {
+    // Dashboard
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     
-//     // User Management
-//     Route::get('/users', [AdminController::class, 'users'])->name('users');
-//     Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('users.edit');
-//     Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('users.update');
-//     Route::post('/users/{user}/suspend', [AdminController::class, 'suspendUser'])->name('users.suspend');
-//     Route::post('/users/{user}/unsuspend', [AdminController::class, 'unsuspendUser'])->name('users.unsuspend');
-//     Route::get('/users/{user}/activity', [AdminController::class, 'userActivity'])->name('users.activity');
+    // User Management
+    Route::get('/users', [AdminController::class, 'users'])->name('users');
+    Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('users.edit');
+    Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('users.update');
+    Route::post('/users/{user}/suspend', [AdminController::class, 'suspendUser'])->name('users.suspend');
+    Route::post('/users/{user}/unsuspend', [AdminController::class, 'unsuspendUser'])->name('users.unsuspend');
+    Route::get('/users/{user}/activity', [AdminController::class, 'userActivity'])->name('users.activity');
     
-//     // Proposal Management
-//     Route::get('/proposals', [AdminController::class, 'proposals'])->name('proposals');
-//     Route::get('/proposals/{proposal}/review', [AdminController::class, 'reviewProposal'])->name('proposals.review');
-//     Route::post('/proposals/{proposal}/approve', [AdminController::class, 'approveProposal'])->name('proposals.approve');
-//     Route::post('/proposals/{proposal}/reject', [AdminController::class, 'rejectProposal'])->name('proposals.reject');
+    // Proposal Management
+    Route::get('/proposals', [AdminController::class, 'proposals'])->name('proposals');
+    Route::get('/proposals/{proposal}/review', [AdminController::class, 'reviewProposal'])->name('proposals.review');
+    Route::post('/proposals/{proposal}/approve', [AdminController::class, 'approveProposal'])->name('proposals.approve');
+    Route::post('/proposals/{proposal}/reject', [AdminController::class, 'rejectProposal'])->name('proposals.reject');
     
-//     // Moderation
-//     Route::get('/moderation/posts', [AdminController::class, 'moderationPosts'])->name('moderation.posts');
-//     Route::get('/moderation/comments', [AdminController::class, 'moderationComments'])->name('moderation.comments');
-//     Route::delete('/posts/{post}', [AdminController::class, 'deletePost'])->name('posts.delete');
-//     Route::delete('/comments/{comment}', [AdminController::class, 'deleteComment'])->name('comments.delete');
-//     Route::post('/posts/{post}/pin', [AdminController::class, 'pinPost'])->name('posts.pin');
-//     Route::post('/posts/{post}/unpin', [AdminController::class, 'unpinPost'])->name('posts.unpin');
+    // Moderation
+    Route::get('/moderation/posts', [AdminController::class, 'moderationPosts'])->name('moderation.posts');
+    Route::get('/moderation/comments', [AdminController::class, 'moderationComments'])->name('moderation.comments');
+    Route::delete('/posts/{post}', [AdminController::class, 'deletePost'])->name('posts.delete');
+    Route::delete('/comments/{comment}', [AdminController::class, 'deleteComment'])->name('comments.delete');
+    Route::post('/posts/{post}/pin', [AdminController::class, 'pinPost'])->name('posts.pin');
+    Route::post('/posts/{post}/unpin', [AdminController::class, 'unpinPost'])->name('posts.unpin');
     
-//     // Counseling Monitoring
-//     Route::get('/counseling/stats', [AdminController::class, 'counselingStats'])->name('counseling.stats');
+    // Counseling Monitoring
+    Route::get('/counseling/stats', [AdminController::class, 'counselingStats'])->name('counseling.stats');
     
-//     // Transaction Management
-//     Route::get('/transactions', [AdminController::class, 'transactions'])->name('transactions');
-//     Route::get('/transactions/export', [AdminController::class, 'exportTransactions'])->name('transactions.export');
+    // Transaction Management
+    Route::get('/transactions', [AdminController::class, 'transactions'])->name('transactions');
+    Route::get('/transactions/export', [AdminController::class, 'exportTransactions'])->name('transactions.export');
     
-//     // Audio Management
-//     Route::get('/audios', [AdminController::class, 'audios'])->name('audios');
-//     Route::get('/audios/create', [AdminController::class, 'createAudio'])->name('audios.create');
-//     Route::post('/audios', [AdminController::class, 'storeAudio'])->name('audios.store');
-//     Route::get('/audios/{audio}/edit', [AdminController::class, 'editAudio'])->name('audios.edit');
-//     Route::put('/audios/{audio}', [AdminController::class, 'updateAudio'])->name('audios.update');
-//     Route::delete('/audios/{audio}', [AdminController::class, 'deleteAudio'])->name('audios.delete');
+    // Audio Management
+    Route::get('/audios', [AdminController::class, 'audios'])->name('audios');
+    Route::get('/audios/create', [AdminController::class, 'createAudio'])->name('audios.create');
+    Route::post('/audios', [AdminController::class, 'storeAudio'])->name('audios.store');
+    Route::get('/audios/{audio}/edit', [AdminController::class, 'editAudio'])->name('audios.edit');
+    Route::put('/audios/{audio}', [AdminController::class, 'updateAudio'])->name('audios.update');
+    Route::delete('/audios/{audio}', [AdminController::class, 'deleteAudio'])->name('audios.delete');
     
-//     // Challenge Management
-//     Route::get('/challenges', [AdminController::class, 'challenges'])->name('challenges');
-//     Route::get('/challenges/{challenge}/participants', [AdminController::class, 'challengeParticipants'])->name('challenges.participants');
+    // Challenge Management
+    Route::get('/challenges', [AdminController::class, 'challenges'])->name('challenges');
+    Route::get('/challenges/{challenge}/participants', [AdminController::class, 'challengeParticipants'])->name('challenges.participants');
     
-//     // Circle Management (Super Admin only)
-//     Route::get('/circles', [AdminController::class, 'circles'])->name('circles');
-//     Route::delete('/circles/{circle}', [AdminController::class, 'deleteCircle'])->name('circles.delete');
+    // Circle Management (Super Admin only)
+    Route::get('/circles', [AdminController::class, 'circles'])->name('circles');
+    Route::delete('/circles/{circle}', [AdminController::class, 'deleteCircle'])->name('circles.delete');
     
-//     // Reports
-//     Route::get('/reports', [AdminController::class, 'reports'])->name('reports');
-// });
+    // Reports
+    Route::get('/reports', [AdminController::class, 'reports'])->name('reports');
+});
+
+// // Konselor Routes
+Route::prefix('konselor')->name('konselor.')->middleware(['auth', 'role:konselor'])->group(function () {
+    Route::get('/dashboard', [KonselorController::class, 'dashboard'])->name('dashboard');
+});
+
 // Rute ini akan menghasilkan error 404
 Route::get('/not-found-test', function () {
     abort(404, 'Halaman yang Anda cari tidak ada.');

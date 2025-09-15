@@ -20,6 +20,7 @@ class User extends Authenticatable
         'tokens_balance',
         'two_factor_recovery_codes',
         'two_factor_secret',
+        'is_suspended',
     ];
 
     protected $hidden = [
