@@ -149,7 +149,7 @@ Route::get('/server-error-test', function () {
     abort(503, 'Layanan sedang tidak tersedia.');
 });
 
-// Rute ini akan menghasilkan error 403 (Forbidden)
+// Rute ini xakan menghasilkan error 403 (Forbidden)
 Route::get('/forbidden-test', function () {
     abort(403, 'Anda tidak memiliki akses ke halaman ini.');
 });
