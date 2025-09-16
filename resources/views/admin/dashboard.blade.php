@@ -39,8 +39,8 @@
 
         <div class="bg-white rounded-playful-sm border-2 border-dark shadow-border-offset p-6 flex items-center justify-between">
             <div>
-                <p class="text-sm font-medium text-gray-500">Sesi Berlangsung</p>
-                <p class="text-3xl font-bold text-dark">{{ number_format($stats['ongoing_sessions']) }}</p>
+                <p class="text-sm font-medium text-gray-500">Total Audio</p>
+                <p class="text-3xl font-bold text-dark">{{ number_format($stats['total_audios']) }}</p>
             </div>
             <div class="bg-yellow-100 text-yellow-600 rounded-playful-sm border-2 border-dark p-3">
                 <i class="fas fa-comments text-2xl"></i>

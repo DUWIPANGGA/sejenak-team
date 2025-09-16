@@ -67,7 +67,7 @@
                                 <img class="h-9 w-9 rounded-full object-cover border-2 border-dark" src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=8FD14F&color=080330" alt="Avatar">
                             </button>
                             <div id="profile-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-playful-sm border-2 border-dark shadow-border-offset py-1 z-40">
-                                <a href="#" class="block px-4 py-2 text-sm text-dark hover:bg-gray-100">Profil Saya</a>
+                                <a href="{{ route('user.profiles') }}" class="block px-4 py-2 text-sm text-dark hover:bg-gray-100">Profil Saya</a>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">Logout</button>

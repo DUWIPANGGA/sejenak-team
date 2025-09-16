@@ -126,7 +126,7 @@
                 <i class="fas fa-cart-plus w-6 text-center"></i>
                 <span class="ml-4 font-semibold">Transaksi</span>
             </a>
-            <a href="#" class="flex items-center mt-3 px-4 py-3 rounded-playful-sm transition-colors duration-200 hover:bg-secondary">
+            <a href="{{ route('admin.audios') }}" class="flex items-center mt-3 px-4 py-3 rounded-playful-sm transition-colors duration-200 hover:bg-secondary {{ request()->routeIs('admin.audios*') ? 'bg-secondary' : '' }}">
                 <i class="fas fa-music w-6 text-center"></i>
                 <span class="ml-4 font-semibold">Audio</span>
             </a>

@@ -38,6 +38,7 @@ class AdminController extends Controller
             'total_posts' => Post::count(),
             'total_transactions' => Transaction::sum('amount'),
             'pending_proposals' => Proposal::where('status', 'pending')->count(),
+            'total_audios' => Audio::count(),
         ];
 
         // Weekly mood statistics

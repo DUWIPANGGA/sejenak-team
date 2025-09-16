@@ -9,10 +9,12 @@ class Audio extends Model
 {
     use HasFactory;
 
+    protected $table = 'audios'; // pastikan sesuai dengan nama tabel di migration
+
     protected $fillable = [
         'title',
         'file_path',
-        'category'
+        'category',
     ];
 
     public function users()
