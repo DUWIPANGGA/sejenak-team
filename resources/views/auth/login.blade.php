@@ -40,7 +40,7 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#8FD14F',
+                        primary: '#94B704',
                         dark: '#080330',
                         lightbg: '#f7f7f7',
                         logininput: '#e6d09c',
@@ -62,12 +62,12 @@
     <div class="flex h-screen w-screen">
         <div class="hidden md:flex flex-col items-center justify-center p-8 bg-primary w-1/2 relative text-white text-center">
             <h1 class="text-4xl font-bold mb-4 text-shadow-h1">Luangkan waktu refleksi cukup sejenak saja</h1>
-            <div class="relative w-64 h-64 bg-[#f1e5c2] border-4 border-dark my-8 overflow-hidden">
-                <svg class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 100 100">
-                    <path class="fill-[#f1e5c2] stroke-dark stroke-[2px]" d="M 0,0 L 100,0 L 100,100 C 95,95 85,95 80,100 C 75,95 65,95 60,100 C 55,95 45,95 40,100 C 35,95 25,95 20,100 C 15,95 5,95 0,100 Z" vector-effect="non-scaling-stroke"/>
-                </svg>
+            <div class="md:w-1/2 flex flex-row justify-center align-bottom items-end gap-6 p-8">
+                <img class="h-full" src="{{ asset('assets/component/vas.svg') }}" alt="">
+                <img class="w-100" src="{{ asset('assets/component/container.svg') }}" alt="">
+                <img class="h-full flex justify-end" src="{{ asset('assets/component/table.svg') }}" alt="">
             </div>
-            <p class="text-sm font-light">Perjalanan menuju kesejahteraan emosional dimulai di sini.</p>
+            <p class="text-xl">Perjalanan menuju kesejahteraan emosional dimulai di sini.</p>
         </div>
 
         <div class="flex-1 flex items-center justify-center p-4 bg-lightbg md:w-1/2">

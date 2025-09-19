@@ -57,15 +57,15 @@
             <h2 class="font-bold text-2xl md:text-3xl text-white mb-4 text-center font-exo2 text-shadow-h1">Aktivitasmu 🚀</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="stat-card p-4 rounded-playful-lg border-2 border-dark bg-white text-center shadow-border-offset">
-                    <p class="text-4xl font-bold text-orange font-exo2" id="postCount">0</p>
+                    <p class="text-4xl font-bold text-orange font-exo2" id="postCount">{{ $postCount }}</p>
                     <p class="text-sm md:text-base text-dark font-medium mt-1 font-lexend">Postingan Dibuat</p>
                 </div>
                 <div class="stat-card p-4 rounded-playful-lg border-2 border-dark bg-white text-center shadow-border-offset">
-                    <p class="text-4xl font-bold text-secondary font-exo2" id="journalCount">0</p>
+                    <p class="text-4xl font-bold text-secondary font-exo2" id="journalCount">{{ $journalCount }}</p>
                     <p class="text-sm md:text-base text-dark font-medium mt-1 font-lexend">Jurnal Ditulis</p>
                 </div>
                 <div class="stat-card p-4 rounded-playful-lg border-2 border-dark bg-white text-center shadow-border-offset">
-                    <p class="text-4xl font-bold text-primary font-exo2" id="streakCount">0</p>
+                    <p class="text-4xl font-bold text-primary font-exo2" id="streakCount">{{ $streakCount }}</p>
                     <p class="text-sm md:text-base text-dark font-medium mt-1 font-lexend">Hari Berturut-turut</p>
                 </div>
             </div>
@@ -87,43 +87,21 @@
 @section('script')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+    const moodInfo = {
+    "Bahagia": { emoji: "😊", color: "bg-yellow-400", borderColor: "border-yellow-600" },
+    "Tenang": { emoji: "😌", color: "bg-blue-400", borderColor: "border-blue-600" },
+    "Biasa": { emoji: "😐", color: "bg-gray-400", borderColor: "border-gray-600" },
+    "Sedih": { emoji: "😢", color: "bg-purple-400", borderColor: "border-purple-600" },
+    "Marah": { emoji: "😡", color: "bg-red-400", borderColor: "border-red-600" },
+    "Semangat": { emoji: "💪", color: "bg-green-400", borderColor: "border-green-600" }
+};
+
     document.addEventListener('DOMContentLoaded', function() {
         // --- Dummy Data & Setup ---
         const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
         let currentDate = new Date();
 
-        const moodData = {
-            'Bahagia': {
-                emoji: '😊'
-                , color: 'bg-green-100'
-                , borderColor: 'border-green-400'
-            }
-            , 'Tenang': {
-                emoji: '😌'
-                , color: 'bg-blue-100'
-                , borderColor: 'border-blue-400'
-            }
-            , 'Biasa': {
-                emoji: '😐'
-                , color: 'bg-yellow-100'
-                , borderColor: 'border-yellow-400'
-            }
-            , 'Sedih': {
-                emoji: '😔'
-                , color: 'bg-red-100'
-                , borderColor: 'border-red-400'
-            }
-            , 'Marah': {
-                emoji: '😡'
-                , color: 'bg-red-200'
-                , borderColor: 'border-red-600'
-            }
-            , 'Semangat': {
-                emoji: '🤩'
-                , color: 'bg-orange-100'
-                , borderColor: 'border-orange-400'
-            }
-        };
+    const moodData = @json($moodData);
 
         const generateDummyData = (year, month) => {
             const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -313,24 +291,25 @@
             });
         }
 
-        function updateMoodSummary() {
-            const summaryContainer = document.getElementById('moodSummaryIcons');
-            summaryContainer.innerHTML = '';
-            for (const moodName in currentData.moodCounts) {
-                if (currentData.moodCounts[moodName] > 0) {
-                    const moodItem = document.createElement('div');
-                    moodItem.className = 'flex flex-col items-center flex-grow';
-                    moodItem.innerHTML = `
-                        <div class="w-16 h-16 ${moodData[moodName].color} rounded-full flex items-center justify-center mb-2 border-2 ${moodData[moodName].borderColor}">
-                            <span class="text-3xl">${moodData[moodName].emoji}</span>
-                        </div>
-                        <span class="text-sm font-medium font-lexend text-center">${moodName}</span>
-                        <span class="text-xs font-bold font-exo2 text-dark mt-1">${currentData.moodCounts[moodName]} hari</span>
-                    `;
-                    summaryContainer.appendChild(moodItem);
-                }
-            }
+       function updateMoodSummary() {
+    const summaryContainer = document.getElementById('moodSummaryIcons');
+    summaryContainer.innerHTML = '';
+    for (const moodName in moodData.moodCounts) {
+        if (moodData.moodCounts[moodName] > 0) {
+            const moodItem = document.createElement('div');
+            moodItem.className = 'flex flex-col items-center flex-grow';
+            moodItem.innerHTML = `
+                <div class="w-16 h-16 ${moodInfo[moodName].color} rounded-full flex items-center justify-center mb-2 border-2 ${moodInfo[moodName].borderColor}">
+                    <span class="text-3xl">${moodInfo[moodName].emoji}</span>
+                </div>
+                <span class="text-sm font-medium font-lexend text-center">${moodName}</span>
+                <span class="text-xs font-bold font-exo2 text-dark mt-1">${moodData.moodCounts[moodName]} hari</span>
+            `;
+            summaryContainer.appendChild(moodItem);
         }
+    }
+}
+
 
         // --- Stats Functionality ---
         function updateStats() {
@@ -365,72 +344,93 @@
             if (moodChartInstance) {
                 moodChartInstance.destroy();
             }
+            
+            // Siapkan data untuk chart (contoh, perlu disesuaikan dengan data real)
+            const moodHistory = [
+                { day: 'Sen', mood: 'Bahagia', value: 80 },
+                { day: 'Sel', mood: 'Tenang', value: 70 },
+                { day: 'Rab', mood: 'Biasa', value: 60 },
+                { day: 'Kam', mood: 'Sedih', value: 40 },
+                { day: 'Jum', mood: 'Marah', value: 30 },
+                { day: 'Sab', mood: 'Semangat', value: 90 },
+                { day: 'Min', mood: 'Bahagia', value: 85 }
+            ];
+            
             const ctx = document.getElementById('moodChart').getContext('2d');
             moodChartInstance = new Chart(ctx, {
-                type: 'bar'
-                , data: {
-                    labels: currentData.moodHistory.map(d => d.day)
-                    , datasets: [{
-                        label: 'Tingkat Mood'
-                        , data: currentData.moodHistory.map(d => d.value)
-                        , backgroundColor: currentData.moodHistory.map(d => {
-                            const mood = moodData[d.mood];
-                            return mood.borderColor.replace('border-', 'rgba(')
-                                .replace('-400', ', 0.7)').replace('-600', ', 0.7)')
-                                .replace('blue', '59, 130, 246').replace('red', '239, 68, 68')
-                                .replace('yellow', '245, 158, 11').replace('green', '34, 197, 94')
-                                .replace('orange', '249, 115, 22').replace('purple', '139, 92, 246');
-                        })
-                        , borderColor: currentData.moodHistory.map(d => moodData[d.mood].borderColor.replace('border-', ''))
-                        , borderWidth: 2
-                        , borderRadius: 8
-                        , borderSkipped: false
+                type: 'bar',
+                data: {
+                    labels: moodHistory.map(d => d.day),
+                    datasets: [{
+                        label: 'Tingkat Mood',
+                        data: moodHistory.map(d => d.value),
+                        backgroundColor: moodHistory.map(d => {
+                            const color = moodInfo[d.mood].color;
+                            return color === 'bg-yellow-400' ? 'rgba(245, 158, 11, 0.7)' :
+                                   color === 'bg-blue-400' ? 'rgba(59, 130, 246, 0.7)' :
+                                   color === 'bg-gray-400' ? 'rgba(156, 163, 175, 0.7)' :
+                                   color === 'bg-purple-400' ? 'rgba(139, 92, 246, 0.7)' :
+                                   color === 'bg-red-400' ? 'rgba(239, 68, 68, 0.7)' :
+                                   'rgba(34, 197, 94, 0.7)';
+                        }),
+                        borderColor: moodHistory.map(d => {
+                            const borderColor = moodInfo[d.mood].borderColor;
+                            return borderColor === 'border-yellow-600' ? 'rgb(245, 158, 11)' :
+                                   borderColor === 'border-blue-600' ? 'rgb(59, 130, 246)' :
+                                   borderColor === 'border-gray-600' ? 'rgb(156, 163, 175)' :
+                                   borderColor === 'border-purple-600' ? 'rgb(139, 92, 246)' :
+                                   borderColor === 'border-red-600' ? 'rgb(239, 68, 68)' :
+                                   'rgb(34, 197, 94)';
+                        }),
+                        borderWidth: 2,
+                        borderRadius: 8,
+                        borderSkipped: false
                     }]
-                }
-                , options: {
+                },
+                options: {
                     scales: {
                         x: {
                             grid: {
                                 display: false
-                            }
-                            , ticks: {
-                                color: '#1A1A40'
-                                , font: {
+                            },
+                            ticks: {
+                                color: '#1A1A40',
+                                font: {
                                     family: 'Lexend'
                                 }
                             }
-                        }
-                        , y: {
-                            beginAtZero: true
-                            , max: 100
-                            , ticks: {
+                        },
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
                                 callback: function(value) {
                                     return value + '%';
-                                }
-                                , color: '#1A1A40'
-                                , font: {
+                                },
+                                color: '#1A1A40',
+                                font: {
                                     family: 'Lexend'
                                 }
-                            }
-                            , grid: {
+                            },
+                            grid: {
                                 color: '#e5e7eb'
                             }
                         }
-                    }
-                    , plugins: {
+                    },
+                    plugins: {
                         legend: {
                             display: false
-                        }
-                        , tooltip: {
+                        },
+                        tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    const moodName = currentData.moodHistory[context.dataIndex].mood;
+                                    const moodName = moodHistory[context.dataIndex].mood;
                                     return `Mood: ${moodName} (${context.raw}%)`;
                                 }
                             }
                         }
-                    }
-                    , maintainAspectRatio: false
+                    },
+                    maintainAspectRatio: false
                 }
             });
         }

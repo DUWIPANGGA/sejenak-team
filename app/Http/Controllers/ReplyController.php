@@ -24,16 +24,25 @@ class ReplyController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'comment_id' => 'required|exists:comments,id',
-            'user_id' => 'required|exists:users,id',
-            'content' => 'required|string',
+            'content' => 'required|string|max:1000',
         ]);
-
-        Reply::create($validated);
-        return redirect()->route('replies.index')->with('success', 'Reply created successfully.');
+        
+        $reply = Reply::create([
+            'comment_id' => $request->comment_id,
+            'user_id' => auth()->id(),
+            'content' => $request->content,
+        ]);
+        
+        $reply->load('user');
+        
+        return response()->json([
+            'success' => true,
+            'reply' => $reply,
+            'message' => 'Balasan berhasil ditambahkan.'
+        ]);
     }
-
     public function show(Reply $reply)
     {
         $reply->load(['comment.post', 'user']);

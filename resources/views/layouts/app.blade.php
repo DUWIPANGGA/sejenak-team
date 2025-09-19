@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Sejenak - @yield('title')</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
@@ -232,6 +233,21 @@
     </style>
     <style type="text/tailwindcss">
         @layer utilities {
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none;  /* IE/Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+.calendar-day-circle {
+    @apply w-10 h-10 flex items-center justify-center rounded-full border-2 transition-all cursor-pointer;
+}
+
+.calendar-dot {
+    @apply absolute bottom-1 w-2 h-2 rounded-full;
+}
             .text-shadow-custom {
                 text-shadow: 3px 5px 0px #000000;
             }
@@ -264,8 +280,8 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#8FD14F', // from --primary
-                        secondary: '#604CC3', // from --secondary
+                        primary: '#94B704', // from --primary
+                        secondary: '#DCD489', // from --secondary
                         dark: '#080330', // from --dark
                         light: '#ffffff', // from --light
                         white: '#f7f7f7', // from --white (duplikat, pilih salah satu)
@@ -326,46 +342,7 @@
 <body class="bg-gray-100 min-h-screen flex lexend">
     <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-10 hidden"></div>
 
-    <aside id="sidebar" class="fixed hidden md:static w-[20vw] md:w-[6vw] min-h-[100vh] flex-col md:flex z-20 items-center py-5 transition-all duration-300 bg-gray-100">
-        <nav class="flex flex-col items-center justify-center flex-1 w-full gap-4 bg-gray-100">
-            <div class="flex flex-col items-center gap-4 mb-0 w-full">
-                <a href="{{ route('user.profiles') }}" class="w-16 h-16 rounded-full overflow-hidden border-2 border-primary transition-transform duration-200 hover:scale-110 flex items-center justify-center bg-gray-200 text-dark font-bold text-xl">
-                    @if (Auth::user()->avatar)
-                    <img src="{{ asset(Auth::user()->avatar) }}" alt="Foto Profil" class="object-cover w-full h-full">
-                    @else
-                    <span>
-                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                    </span>
-                    @endif
-                </a>
-            </div>
-            <a href="{{ route('user.meditation') }}" class="flex flex-col items-center justify-center w-12 h-12 transition-transform duration-200 hover:scale-110 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('assets/icon/meditation.svg') }}'); background-size: 70%">
-                <p class="mt-14 text-xs font-normal {{ request()->routeIs('user.meditation') ? 'text-primary' : 'text-secondary' }} tracking-wider">Meditation</p>
-            </a>
-            <a href="{{ route('user.dashboard') }}" class="flex flex-col items-center justify-center w-12 h-12 transition-transform duration-200 hover:scale-110 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('assets/icon/dashboard.svg') }}'); background-size: 70%">
-                <p class="mt-14 text-xs font-normal {{ request()->routeIs('user.dashboard') ? 'text-primary' : 'text-secondary' }} tracking-wider">Menu</p>
-            </a>
-            <a href="{{ route('user.konseling') }}" class="flex flex-col items-center justify-center w-12 h-12 transition-transform duration-200 hover:scale-110 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('assets/icon/chat.svg') }}'); background-size: 90%">
-                <p class="mt-14 text-xs font-normal {{ request()->routeIs('user.konseling') ? 'text-primary' : 'text-secondary' }} tracking-wider">Chat</p>
-            </a>
-            <a href="{{ route('user.history') }}" class="flex flex-col items-center justify-center w-12 h-12 transition-transform duration-200 hover:scale-110 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('assets/icon/calendar.svg') }}'); background-size: 70%">
-                <p class="mt-14 text-xs font-normal {{ request()->routeIs('user.history') ? 'text-primary' : 'text-secondary' }} tracking-wider">History</p>
-            </a>
-            <a href="{{ route('user.comunity') }}" class="flex flex-col items-center justify-center w-12 h-12 transition-transform duration-200 hover:scale-110 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('assets/icon/comunity.svg') }}'); background-size: 70%">
-                <p class="mt-14 text-xs font-normal {{ request()->routeIs('user.comunity') ? 'text-primary' : 'text-secondary' }} tracking-wider">Post</p>
-            </a>
-            <a href="{{ route('user.journal') }}" class="flex flex-col items-center justify-center w-12 h-12 transition-transform duration-200 hover:scale-110 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('assets/icon/journal.svg') }}'); background-size: 70%">
-                <p class="mt-14 text-xs font-normal {{ request()->routeIs('user.journal') ? 'text-primary' : 'text-secondary' }} tracking-wider">Journal</p>
-            </a>
-            <form method="POST" action="{{ route('logout') }}" class="flex flex-col items-center justify-center w-12 h-12 transition-transform duration-200 hover:scale-110 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('assets/icon/logout.svg') }}'); background-size: 70%">
-                @csrf
-                <button type="submit" class="flex flex-col items-center justify-center w-12 h-12 transition-transform duration-200 hover:scale-110 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('assets/icon/logout.svg') }}'); background-size: 70%">
-                    <p class="mt-14 text-xs font-normal text-primary tracking-wider">Logout</p>
-                </button>
-            </form>
-        </nav>
-    </aside>
-
+    @include('layouts.component.sidebar')
     <main class="flex-1">
         <header class="bg-primary text-white p-4 flex items-center justify-between align-middle md:hidden ">
             <button id="menu-toggle" class="text-white focus:outline-none">
@@ -378,6 +355,53 @@
         </header>
 
         <div class="dot-background md:m-5 md:ml-1 md:rounded-[40px] border-2 border-dark md:shadow-[5px_7px_0px_#080330] p-2 md:py-6 px-0 flex flex-col md:flex-row justify-center align-middle items-center max-w-[100vw] md:max-w-[95vw] h-[94vh] max-h-[94vh] overflow-hidden">
+            <!-- Error Notification -->
+            @if(session('error') || $errors->any())
+            <div x-data="{ show: true }" x-show="show" x-transition class="fixed top-20 md:top-10 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4">
+                <div class="bg-red-500 text-white px-4 py-3 rounded-lg shadow-lg flex items-start space-x-3 w-full">
+                    <!-- Icon -->
+
+
+                    <div class="flex-1">
+                        <p class="font-semibold">Terjadi Kesalahan</p>
+
+                        @if(session('error'))
+                        <p class="text-sm">{{ session('error') }}</p>
+                        @endif
+
+                        @if($errors->any())
+                        <ul class="list-disc list-inside text-sm">
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        @endif
+                    </div>
+
+                    <!-- Tombol Close -->
+                    <button @click="show = false" class="text-white/80 hover:text-white ml-2">
+                        ✕
+                    </button>
+                </div>
+            </div>
+            @endif
+            @if(session('success'))
+            <div x-data="{ show: true }" x-show="show" x-transition class="fixed top-20 md:top-10 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4">
+                <div class="bg-green-500 text-white px-4 py-3 rounded-lg shadow-lg flex items-start space-x-3 w-full">
+                    <!-- Icon -->
+
+                    <div class="flex-1">
+                        <p class="font-semibold">Berhasil</p>
+                        <p class="text-sm">{{ session('success') }}</p>
+                    </div>
+
+                    <!-- Tombol Close -->
+                    <button @click="show = false" class="text-white/80 hover:text-white ml-2">
+                        ✕
+                    </button>
+                </div>
+            </div>
+            @endif
             @yield('content')
         </div>
     </main>

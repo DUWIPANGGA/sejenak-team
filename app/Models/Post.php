@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model
 {
@@ -43,7 +44,10 @@ class Post extends Model
     {
         return $query->where('is_banned', false);
     }
-
+    public function isLikedByUser()
+    {
+        return $this->likes()->where('user_id', Auth::id())->exists();
+    }
     public function scopeBanned($query)
     {
         return $query->where('is_banned', true);

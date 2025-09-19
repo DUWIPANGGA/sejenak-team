@@ -1,7 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MoodController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReplyController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\MessageController;
@@ -29,12 +33,25 @@ Route::middleware([
 ])->group(function () {
     Route::get('/dashboard', [DashboardController::class,'index'])->name('user.dashboard');
     Route::get('/comunity', [ComunityController::class,'user'])->name('user.comunity');
+    Route::post('/comunity', [PostController::class,'store'])->name('user.comunity.store');
+    Route::get('/posts/{post}/comments', [PostController::class,'loadComment'])->name('posts.comments');
+    Route::post('/replies', [ReplyController::class, 'store'])->name('replies.store');
+    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::post('/post/{post}/like', [PostController::class, 'toggleLike'])->name('post.toggleLike');
+    Route::post('/comment/{comment}/like', [PostController::class, 'toggleLike'])->name('comment.like');
+    Route::get('/comunity/edit/{id}', [PostController::class,'edit'])->name('user.comunity.edit');
+    Route::delete('/comunity/edit/{id}', [PostController::class,'destroy'])->name('user.comunity.destroy');
+    
+    Route::get('/journal', [JournalController::class,'user'])->name('user.journal');
+    Route::post('/journal', [JournalController::class,'store'])->name('user.journal.store');
+    Route::get('/journal/{id}', [JournalController::class,'getJournal'])->name('user.journal.get');
+    Route::post('/mood', [MoodController::class,'store'])->name('user.mood');
+    
     Route::get('/history', [HistoryController::class,'user'])->name('user.history');
     Route::get('/meditation', [MeditationController::class,'user'])->name('user.meditation');
     Route::get('/konseling', [MessageController::class,'user'])->name('user.konseling');
     Route::get('/profile', [DashboardController::class,'index'])->name('user.profile');
     Route::get('/exercise', [DashboardController::class,'index'])->name('user.exercise');
-    Route::get('/journal', [JournalController::class,'user'])->name('user.journal');
     Route::get('/setting', [DashboardController::class,'index'])->name('user.setting');
     Route::get('/token',function(){
         return view('transactions.token');

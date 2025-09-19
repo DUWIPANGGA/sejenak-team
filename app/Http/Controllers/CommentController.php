@@ -24,14 +24,24 @@ class CommentController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'post_id' => 'required|exists:posts,id',
-            'user_id' => 'required|exists:users,id',
-            'content' => 'required|string',
+            'content' => 'required|string|max:1000',
         ]);
-
-        Comment::create($validated);
-        return redirect()->route('comments.index')->with('success', 'Comment created successfully.');
+        
+        $comment = Comment::create([
+            'post_id' => $request->post_id,
+            'user_id' => auth()->id(),
+            'content' => $request->content,
+        ]);
+        
+        $comment->load('user');
+        
+        return response()->json([
+            'success' => true,
+            'comment' => $comment,
+            'message' => 'Komentar berhasil ditambahkan.'
+        ]);
     }
 
     public function show(Comment $comment)

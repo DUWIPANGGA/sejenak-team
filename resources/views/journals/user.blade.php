@@ -4,12 +4,13 @@
 <style>
     /* Tambahan styling untuk memoles detail seperti pada gambar */
     .calendar-day-circle {
-        @apply w-6 h-6 md:w-8 md:h-8 flex justify-center items-center rounded-full border-2 border-dark cursor-pointer transition-colors text-xs md:text-sm font-semibold;
+        @apply w-6 h-6 md: w-8 md:h-8 flex justify-center items-center rounded-full border-2 border-dark cursor-pointer transition-colors text-xs md:text-sm font-semibold;
     }
 
     /* Efek hover untuk hari di kalender */
     .calendar-day-circle:hover {
-        @apply border-primary text-primary bg-primary/20; /* Warna border dan teks berubah, latar belakang sedikit transparan */
+        @apply border-primary text-primary bg-primary/20;
+        /* Warna border dan teks berubah, latar belakang sedikit transparan */
     }
 
     /* Efek hover khusus untuk hari yang memiliki jurnal */
@@ -33,7 +34,8 @@
 
     /* Efek hover untuk item riwayat */
     .history-item:hover {
-        @apply bg-gray-200 shadow-none transform translate-x-1 translate-y-1; /* Menggunakan shadow-none untuk menghilangkan bayangan saat hover */
+        @apply bg-gray-200 shadow-none transform translate-x-1 translate-y-1;
+        /* Menggunakan shadow-none untuk menghilangkan bayangan saat hover */
     }
 
     /* Styling untuk dropdown format */
@@ -156,9 +158,12 @@
     /* NEW STYLES: Header dengan warna dan efek shadow */
     .header-journal {
         @apply p-4 rounded-playful-lg;
-        background-color: #f0f0f0; /* Warna latar belakang abu-abu terang */
-        border: 2px solid #333; /* Border solid */
-        box-shadow: 4px 4px 0 #333; /* Offset shadow */
+        background-color: #f0f0f0;
+        /* Warna latar belakang abu-abu terang */
+        border: 2px solid #333;
+        /* Border solid */
+        box-shadow: 4px 4px 0 #333;
+        /* Offset shadow */
     }
 
     /* NEW STYLES: Efek hover pada item riwayat */
@@ -169,6 +174,7 @@
     .history-item:not(.history-item-active):hover {
         @apply bg-gray-200 transform translate-x-1 translate-y-1 shadow-none;
     }
+
 </style>
 
 @section('content')
@@ -177,63 +183,22 @@
 
     <div class="flex flex-col w-full md:w-[350px] min-w-[280px] h-full gap-4">
 
-        <div class="p-4 bg-white border-2 border-dark rounded-playful-lg shadow-border-offset">
-            <h2 class="text-3xl font-extrabold text-dark text-center mb-6">Desember</h2>
-            <div class="grid grid-cols-7 gap-2 text-center">
-                @php
-                    $daysInMonth = 31;
-                    // Asumsi hari pertama bulan Desember adalah hari Jumat (indeks 4)
-                    $startDay = 5; 
-                    // Data dummy untuk hari yang diisi (misal: tanggal 3, 5, 8)
-                    $journaledDays = [3, 4, 5, 8, 9, 10]; 
-                @endphp
-                
-                @for ($i = 0; $i < $startDay; $i++)
-                    <div></div>
-                @endfor
-                
-                @for ($day = 1; $day <= $daysInMonth; $day++)
-                    @php
-                        $isJournaled = in_array($day, $journaledDays);
-                        $isActive = ($day == 3); // Hari dengan lingkaran hijau
-                    @endphp
-                    <div class="relative flex justify-center items-center">
-                        <div class="calendar-day-circle {{ $isJournaled ? ($isActive ? 'border-primary bg-white' : 'border-dark bg-white') : 'bg-white border-gray-300' }} hover:border-primary hover:text-primary">
-                            {{ $day }}
-                        </div>
-                        {{-- Dot indikator jurnal --}}
-                        @if ($isJournaled)
-                            <div class="calendar-dot bg-primary"></div>
-                        @endif
-                    </div>
-                @endfor
-            </div>
-        </div>
+        <div id="calendar" class="p-4 bg-white border-2 border-dark rounded-playful-lg shadow-border-offset">
+    <h2 id="calendar-title" class="text-3xl font-extrabold text-dark text-center mb-6"></h2>
+    <div id="calendar-grid" class="grid grid-cols-7 gap-2 text-center"></div>
+</div>
 
         <div class="flex-1  bg-white border-2 border-dark rounded-playful-lg shadow-border-offset flex flex-col overflow-hidden">
             <h3 class="text-xl font-bold border-b-2 border-dark text-center text-white mb-4 p-2 bg-primary">Riwayat</h3>
             <div class="flex-1 space-y-3 overflow-y-auto pr-2 p-4 m-0">
-                @php
-                    $historyItems = [
-                        ['title' => 'Bros...', 'date' => '28 Okt 2024', 'active' => false],
-                        ['title' => "We're SOOO back", 'date' => '28 Okt 2024', 'active' => false],
-                        ['title' => 'Its SOOO over', 'date' => '28 Okt 2024', 'active' => false],
-                        ['title' => 'Bros...', 'date' => '28 Okt 2024', 'active' => false],
-                        ['title' => 'WERE BACK', 'date' => '28 Okt 2024', 'active' => false],
-                        ['title' => 'ITS OVER', 'date' => '28 Okt 2024', 'active' => true], // Item Aktif
-                        ['title' => 'My first day', 'date' => '27 Okt 2024', 'active' => false],
-                        ['title' => 'Thinking about life', 'date' => '27 Okt 2024', 'active' => false],
-                        ['title' => 'What a day', 'date' => '26 Okt 2024', 'active' => false],
-                    ];
-                @endphp
+                @foreach ($journals as $item)
+                <div data-id="{{ $item['id'] }}" class="p-3 bg-gray-100 border-2 border-dark rounded-playful-md flex justify-between items-start cursor-pointer shadow-border-offset hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all
+        {{ $item['active'] ? 'history-item-active' : '' }}">
 
-                @foreach ($historyItems as $item)
-                    <div class="p-3 bg-gray-100 border-2 border-dark rounded-playful-md flex justify-between items-center cursor-pointer shadow-border-offset hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all
-                        {{ $item['active'] ? 'history-item-active' : '' }}">
-                        <p class="text-sm font-medium">{{ $item['title'] }}</p>
-                        <span class="text-xs {{ $item['active'] ? 'text-white/80' : 'text-gray-500' }}">{{ $item['date'] }}</span>
-                    </div>
-                @endforeach
+                    <div class="flex flex-col">
+                        <p class="text-sm font-bold text-dark
+
+
             </div>
 
             <div class="mt-4 flex justify-between items-center px-4 pb-4">
@@ -242,34 +207,35 @@
                     <i class="fas fa-chevron-down text-white text-xs"></i>
                 </div>
                 <div class="py-2 px-4 bg-gray-200 border-2 border-dark rounded-full cursor-pointer hover:bg-gray-300 transition-colors shadow-border-offset">
-                    <span class="text-dark text-xs font-semibold">New</span>
+                    <button id="new-note-btn" class="text-dark text-xs font-semibold">New</button>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="flex flex-col flex-1 h-full bg-white border-2 border-dark rounded-playful-lg shadow-border-offset p-6  min-w-[300px]">
-        
-        <div class="flex justify-between items-start mb-4 pb-2 border-b-2 border-dark">
+
+        <div class="flex justify-between items-start pb-2 border-b-2 border-dark">
             <div class="flex flex-col">
-                <input type="text" value="Judul Baru" class="text-2xl md:text-3xl font-bold text-dark mb-1 bg-transparent focus:outline-none border-none p-0"/>
-                <p class="text-sm text-gray-500">New Note</p>
+                <input id="note-title" type="text" value="{{ $lastJournal ? $lastJournal->title : '' }}" placeholder="Judul Baru" class="text-2xl md:text-3xl font-bold text-dark bg-transparent focus:outline-none border-none p-0" />
             </div>
             <div class="flex flex-col items-end text-sm text-gray-500">
-                <span class="text-sm">10:24</span>
-                <span class="text-sm">29 Oktober, 2024</span>
+                <span id="note-time" class="text-sm">
+                    {{ $lastJournal ? $lastJournal->updated_at->format('H:i') : '-' }}
+                </span>
+                <span id="note-date" class="text-sm">
+                    {{ $lastJournal ? $lastJournal->updated_at->translatedFormat('d F, Y') : '-' }}
+                </span>
             </div>
         </div>
-        
+
+
         <div class="flex-1 overflow-y-auto p-2">
-            {{-- Menggunakan div dengan contenteditable untuk editor gaya WYSIWYG --}}
-            <div id="editor-content" contenteditable="true"
-                class="w-full h-full p-0 bg-transparent focus:outline-none text-dark text-base md:text-lg min-h-[50vh]"
-                placeholder="Tulis jurnal Anda di sini...">
-                {{-- Konten awal bisa ditaruh di sini --}}
-                <p>Mulai menulis jurnalmu hari ini...</p>
+            <div id="editor-content" contenteditable="true" data-journal-id="{{ $lastJournal ? $lastJournal->id : 0 }}" class="w-full h-full p-0 bg-transparent focus:outline-none text-dark text-base md:text-lg min-h-[50vh]" placeholder="Tulis jurnal Anda di sini...">
+                {!! $lastJournal ? $lastJournal->content : '' !!}
             </div>
         </div>
+
 
         <div class="flex items-center justify-between p-3 mt-4 border-t-2 border-dark">
             <div class="flex space-x-4 text-xl text-dark">
@@ -288,7 +254,7 @@
                         <button data-command="formatBlock" data-value="small">Kecil</button>
                     </div>
                 </div>
-                
+
                 <div class="color-dropdown hidden">
                     <button class="toolbar-btn" id="color-btn" title="Warna Teks">
                         <i class="fas fa-palette"></i>
@@ -306,15 +272,15 @@
                         <div class="color-option" style="background-color: #FFFFFF; border: 2px solid #333;" data-value="#FFFFFF"></div>
                     </div>
                 </div>
-                
+
                 <button class="toolbar-btn" data-command="bold" id="btn-bold" title="Bold"><i class="fas fa-bold"></i></button>
                 <button class="toolbar-btn" data-command="italic" id="btn-italic" title="Italic"><i class="fas fa-italic"></i></button>
                 <button class="toolbar-btn" data-command="underline" id="btn-underline" title="Underline"><i class="fas fa-underline"></i></button>
                 <button class="toolbar-btn" data-command="strikeThrough" id="btn-strike" title="Strikethrough"><i class="fas fa-strikethrough"></i></button>
                 <button class="toolbar-btn" data-command="insertHorizontalRule" title="Horizontal Rule"><i class="fas fa-minus"></i></button>
             </div>
-            
-            <button class="w-12 h-12 flex justify-center items-center bg-primary border-2 border-dark rounded-full shadow-border-offset-accent hover:bg-primary/80 transition-colors">
+
+            <button id="save-journal-btn" class="w-12 h-12 flex justify-center items-center bg-primary border-2 border-dark rounded-full shadow-border-offset-accent hover:bg-primary/80 transition-colors">
                 <i class="fas fa-check text-dark text-xl"></i>
             </button>
         </div>
@@ -326,6 +292,138 @@
 
 @section('script')
 <script>
+    const contentDiv = document.getElementById("editor-content");
+    const titleInput = document.getElementById("note-title");
+    const noteTime = document.getElementById("note-time");
+    const noteDate = document.getElementById("note-date");
+
+    function formatDateTime(isoString) {
+        const date = new Date(isoString);
+
+        const optionsDate = {
+            day: '2-digit'
+            , month: 'long'
+            , year: 'numeric'
+        };
+        const optionsTime = {
+            hour: '2-digit'
+            , minute: '2-digit'
+        };
+
+        const formattedDate = date.toLocaleDateString('id-ID', optionsDate);
+        const formattedTime = date.toLocaleTimeString('id-ID', optionsTime);
+
+        return {
+            date: formattedDate
+            , time: formattedTime
+        };
+    }
+
+    document.getElementById("save-journal-btn").addEventListener("click", async function() {
+        const journalId = contentDiv.getAttribute("data-journal-id") || 0;
+        const title = titleInput.value.trim();
+        const content = contentDiv.innerHTML.trim();
+
+        if (!title || !content) {
+            alert("Judul dan konten tidak boleh kosong!");
+            return;
+        }
+
+        try {
+            const response = await fetch("{{ route('user.journal.store') }}", {
+                method: "POST"
+                , headers: {
+                    "Content-Type": "application/json"
+                    , "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                }
+                , body: JSON.stringify({
+                    id: journalId != 0 ? journalId : null
+                    , title: title
+                    , content: content
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // alert(result.message);
+
+                // update id ke element editor
+                if (result.data && result.data.id) {
+                    contentDiv.setAttribute("data-journal-id", result.data.id);
+                }
+
+                // Format tanggal (misalnya "Today" atau "18 Sep 2025")
+                const today = new Date();
+                const options = {
+                    day: "2-digit"
+                    , month: "short"
+                    , year: "numeric"
+                };
+                const formattedDate = today.toLocaleDateString("en-GB", options); // ex: "18 Sep 2025"
+                const {
+                    date
+                    , time
+                } = formatDateTime(result.data.updated_at);
+
+                noteDate.innerHTML = date; // contoh: 18 September 2025
+                noteTime.innerHTML = time; // contoh: 16.28
+                // buat elemen baru untuk riwayat
+                const historyContainer = document.querySelector(".space-y-3");
+                const newHistoryItem = document.createElement("div");
+                newHistoryItem.className =
+                    "p-3 bg-gray-100 border-2 border-dark rounded-playful-md flex justify-between items-center cursor-pointer shadow-border-offset hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all history-item-active";
+                newHistoryItem.innerHTML = `
+                <p class="text-sm font-medium">${title}</p>
+                <span class="text-xs text-white/80">${formattedDate}</span>
+            `;
+
+                // hapus dulu active di item lain
+                historyContainer.querySelectorAll(".history-item-active").forEach(el => {
+                    el.classList.remove("history-item-active");
+                    const dateSpan = el.querySelector("span");
+                    if (dateSpan) dateSpan.classList.remove("text-white/80");
+                    if (dateSpan) dateSpan.classList.add("text-gray-500");
+                });
+
+                // prepend ke atas list (biar entry terbaru muncul pertama)
+                historyContainer.prepend(newHistoryItem);
+            } else {
+                alert("Gagal menyimpan jurnal.");
+            }
+
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Terjadi kesalahan saat menyimpan jurnal.");
+        }
+    });
+
+    document.getElementById("new-note-btn").addEventListener("click", function() {
+        // Reset judul
+        const titleInput = document.getElementById("note-title");
+        titleInput.value = "";
+        titleInput.placeholder = "Judul Baru";
+
+        // Reset tanggal & waktu
+        document.getElementById("note-time").textContent = "-";
+        document.getElementById("note-date").textContent = "-";
+
+        // Kosongkan isi editor
+        const editor = document.getElementById("editor-content");
+        editor.innerHTML = "";
+        editor.setAttribute("data-journal-id", 0);
+    });
+
+
+
+
+
+
+
+
+
+
+
     document.addEventListener('DOMContentLoaded', function() {
         const editorContent = document.getElementById('editor-content');
         const toolbarButtons = document.querySelectorAll('.toolbar-btn');
@@ -340,7 +438,7 @@
         const executeCommand = (command, value = null) => {
             document.execCommand('styleWithCSS', false, true);
             document.execCommand(command, false, value);
-            editorContent.focus(); 
+            editorContent.focus();
         };
 
         // Helper function to close all dropdowns
@@ -394,7 +492,7 @@
             const command = button.getAttribute('data-command');
             if (command && command !== 'formatBlock' && command !== 'foreColor') {
                 button.addEventListener('click', (e) => {
-                    e.preventDefault(); 
+                    e.preventDefault();
                     executeCommand(command);
                 });
             }
@@ -417,7 +515,7 @@
             // Update color button state
             const currentColor = document.queryCommandValue('foreColor').toLowerCase();
             const hexColor = rgbToHex(currentColor);
-            
+
             // Hapus class 'active' dari semua opsi warna
             colorOptions.forEach(option => option.classList.remove('active'));
 
@@ -447,7 +545,7 @@
         editorContent.addEventListener('keyup', updateToolbarState);
         editorContent.addEventListener('mouseup', updateToolbarState);
         editorContent.addEventListener('focus', updateToolbarState);
-        
+
         // Close dropdowns when clicking outside
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.format-dropdown') && !e.target.closest('.color-dropdown')) {
@@ -461,11 +559,130 @@
             const journalContent = editorContent.innerHTML;
             console.log("Journal Title:", journalTitle);
             console.log("Journal Content:", journalContent);
-            alert("Journal saved! (Check console for data)");
+            // alert("Journal saved! (Check console for data)");
         });
-        
+        const historyContainer = document.querySelector(".space-y-3");
+
+        // delegasi klik biar jalan juga untuk item baru
+        historyContainer.addEventListener("click", async function(e) {
+            const item = e.target.closest("div.p-3"); // klik wrapper item
+            if (!item) return;
+
+            // ambil id journal dari data-id
+            const journalId = item.getAttribute("data-id");
+            if (!journalId) return;
+
+            try {
+                const response = await fetch(`/journal/${journalId}`);
+                const result = await response.json();
+
+                if (result.success) {
+                    const journal = result.data;
+
+                    // set ke editor
+                    editorContent.innerHTML = journal.content;
+                    editorContent.setAttribute("data-journal-id", journal.id);
+                    titleInput.value = journal.title;
+
+                    // update active class
+                    historyContainer.querySelectorAll("div.p-3").forEach(el => {
+                        el.classList.remove("history-item-active");
+                        const span = el.querySelector("span");
+                        if (span) {
+                            span.classList.remove("text-white/80");
+                            span.classList.add("text-gray-500");
+                        }
+                    });
+                    item.classList.add("history-item-active");
+                    const span = item.querySelector("span");
+                    if (span) {
+                        span.classList.remove("text-gray-500");
+                        span.classList.add("text-white/80");
+                    }
+                    const {
+                        date
+                        , time
+                    } = formatDateTime(result.data.updated_at);
+
+                    noteDate.innerHTML = date; // contoh: 18 September 2025
+                    noteTime.innerHTML = time; // contoh: 16.28
+                } else {
+                    alert("Gagal mengambil data jurnal.");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Terjadi kesalahan saat mengambil jurnal.");
+            }
+        });
         // Initial state update
         updateToolbarState();
+        const grid = document.getElementById("calendar-grid");
+        const title = document.getElementById("calendar-title");
+
+        // --- Data kalender ---
+        const today = new Date();
+        const currentYear = today.getFullYear();
+        const currentMonth = today.getMonth(); // 0 = Januari
+        const activeDay = today.getDate();
+
+        // Nama bulan
+        const monthNames = [
+            "Januari", "Februari", "Maret", "April", "Mei", "Juni"
+            , "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+        ];
+
+        // Hitung jumlah hari dalam bulan
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+        // Hari pertama bulan (0 = Minggu, 6 = Sabtu)
+        const startDay = new Date(currentYear, currentMonth, 1).getDay();
+
+        // Dummy data jurnal (nanti bisa ambil dari backend)
+        const journaledDays = [3, 4, 5, 8, 9, 10];
+
+        // --- Render judul kalender ---
+        title.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+        // Kosongkan grid
+        grid.innerHTML = "";
+
+        // Tambahkan slot kosong sebelum tanggal 1
+        for (let i = 0; i < startDay; i++) {
+            const emptyCell = document.createElement("div");
+            grid.appendChild(emptyCell);
+        }
+
+        // Render tanggal
+        for (let day = 1; day <= daysInMonth; day++) {
+            const cell = document.createElement("div");
+            cell.className = "relative flex justify-center items-center";
+
+            const isJournaled = journaledDays.includes(day);
+            const isActive = day === activeDay;
+
+            // Lingkaran tanggal
+            const dayCircle = document.createElement("div");
+            dayCircle.className = `calendar-day-circle ${
+                isJournaled
+                    ? isActive
+                        ? "border-primary bg-white"
+                        : "border-dark bg-white"
+                    : "bg-white border-gray-300"
+            } hover:border-primary hover:text-primary`;
+            dayCircle.textContent = day;
+
+            cell.appendChild(dayCircle);
+
+            // Dot indikator kalau ada jurnal
+            if (isJournaled) {
+                const dot = document.createElement("div");
+                dot.className = "calendar-dot bg-primary";
+                cell.appendChild(dot);
+            }
+
+            grid.appendChild(cell);
+        }
     });
+
 </script>
 @endsection
