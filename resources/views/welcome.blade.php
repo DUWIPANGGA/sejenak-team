@@ -1,5 +1,5 @@
     @extends('layouts.guest')
-    @section('title', 'safe space for everybody')
+    @section('title', 'Safe Space for Everybody')
 
     @section('content')
     <div class="flex flex-col items-center h-full w-full overflow-x-hidden no-scrollbar z-10">

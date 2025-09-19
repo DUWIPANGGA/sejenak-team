@@ -10,10 +10,13 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->string('order_id')->unique(); // ID unik untuk setiap order
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->integer('amount');
-            $table->enum('type', ['topup', 'usage']);
-            $table->text('description')->nullable();
+            $table->string('package_name'); // Nama paket (e.g., Paket Basic)
+            $table->integer('token_amount'); // Jumlah token yang dibeli
+            $table->bigInteger('price'); // Harga paket
+            $table->enum('status', ['pending', 'success', 'failed', 'expired']);
+            $table->string('snap_token')->nullable(); // Token untuk menampilkan Midtrans Snap
             $table->timestamps();
         });
     }

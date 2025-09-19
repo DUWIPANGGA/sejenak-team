@@ -15,6 +15,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MeditationController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Konselor\KonselorController;
+use App\Http\Controllers\TransactionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -59,6 +60,7 @@ Route::middleware([
     Route::get('/challenges',function(){
         return view('challenges.user');
     })->name('user.challenges');
+    Route::post('/checkout', [TransactionController::class, 'checkout'])->name('checkout');
     Route::get('/profile', [ProfileController::class,'show'])->name('user.profiles');
     Route::get('/profile/edit/{name}', [ProfileController::class,'edit'])->name('user.profiles.edit');
     Route::patch('/profile/edit', [ProfileController::class,'update'])->name('user.profiles.update');
