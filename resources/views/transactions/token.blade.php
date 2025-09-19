@@ -2,8 +2,6 @@
 
 @section('title', 'Top Up Token')
 
-{{-- 1. Menambahkan script Midtrans Snap --}}
-{{-- Pastikan di file layout (layouts/app.blade.php) ada @stack('scripts') --}}
 @push('scripts')
     <script type="text/javascript"
       src="{{ config('midtrans.snap_url') }}"
@@ -167,7 +165,7 @@
                         window.snap.pay(result.snapToken, {
                             onSuccess: function(result){
                                 alert("Pembayaran berhasil!"); 
-                                window.location.href = '{{ route("user.history") }}'; 
+                                window.location.href = '{{ route("user.token") }}'; 
                             },
                             onPending: function(result){
                                 alert("Menunggu pembayaran Anda!"); 

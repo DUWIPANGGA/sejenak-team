@@ -37,7 +37,7 @@ class TransactionController extends Controller
         ]);
 
         // Buat Order ID yang unik
-        $orderId = 'TOKEN-' . Str::uuid();
+        $orderId = Str::uuid();
 
         // Buat transaksi baru di database dengan status pending
         // Pastikan model Transaction Anda memiliki 'order_id', 'package_name', 'token_amount', 'price', 'status' di $fillable

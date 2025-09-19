@@ -61,7 +61,6 @@ Route::middleware([
         return view('challenges.user');
     })->name('user.challenges');
     Route::post('/checkout', [TransactionController::class, 'checkout'])->name('checkout');
-    Route::post('/midtrans/callback', [TransactionController::class, 'callback'])->name('midtrans.callback');
     Route::get('/profile', [ProfileController::class,'show'])->name('user.profiles');
     Route::get('/profile/edit/{name}', [ProfileController::class,'edit'])->name('user.profiles.edit');
     Route::patch('/profile/edit', [ProfileController::class,'update'])->name('user.profiles.update');
