@@ -1,4 +1,7 @@
 @extends('layouts.app')
+
+@section('title', 'Top Up Token')
+
 @section('content')
 <div class="flex flex-col items-center w-full h-full p-4 md:p-0 overflow-y-auto m-0 p-0">
     <div class="text-center my-8 md:my-12">

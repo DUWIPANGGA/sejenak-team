@@ -162,6 +162,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,super_ad
 // // Konselor Routes
 Route::prefix('konselor')->name('konselor.')->middleware(['auth', 'role:konselor'])->group(function () {
     Route::get('/dashboard', [KonselorController::class, 'dashboard'])->name('dashboard');
+
+    // Audio Management
+    Route::get('/audios', [KonselorController::class, 'audios'])->name('audios');
+    Route::get('/audios/create', [KonselorController::class, 'createAudio'])->name('audios.create');
+    Route::post('/audios', [KonselorController::class, 'storeAudio'])->name('audios.store');
+    Route::get('/audios/{audio}/edit', [KonselorController::class, 'editAudio'])->name('audios.edit');
+    Route::put('/audios/{audio}', [KonselorController::class, 'updateAudio'])->name('audios.update');
+    Route::delete('/audios/{audio}', [KonselorController::class, 'deleteAudio'])->name('audios.delete');
 });
 
 // Rute ini akan menghasilkan error 404

@@ -55,9 +55,10 @@
                     </div>
 
                     <nav class="hidden md:flex items-center space-x-6">
-                        <a href="#" class="font-semibold text-dark hover:text-primary transition-colors">Dashboard</a>
+                        <a href="{{ route('konselor.dashboard') }}" class="font-semibold text-dark hover:text-primary transition-colors">Dashboard</a>
                         <a href="#" class="font-semibold text-dark hover:text-primary transition-colors">Jadwal Sesi</a>
                         <a href="#" class="font-semibold text-dark hover:text-primary transition-colors">Klien Saya</a>
+                        <a href="{{ route('konselor.audios') }}" class="font-semibold text-dark hover:text-primary transition-colors">Audio</a>
                         <a href="#" class="font-semibold text-dark hover:text-primary transition-colors">Pesan</a>
                     </nav>
 
@@ -81,9 +82,10 @@
                 </div>
 
                 <div id="mobile-menu" class="hidden md:hidden mt-4">
-                    <a href="#" class="block py-2 px-4 text-sm font-semibold text-dark hover:bg-gray-100 rounded-playful-sm">Dashboard</a>
+                    <a href="{{ route('konselor.dashboard') }}" class="block py-2 px-4 text-sm font-semibold text-dark hover:bg-gray-100 rounded-playful-sm">Dashboard</a>
                     <a href="#" class="block py-2 px-4 text-sm font-semibold text-dark hover:bg-gray-100 rounded-playful-sm">Jadwal Sesi</a>
                     <a href="#" class="block py-2 px-4 text-sm font-semibold text-dark hover:bg-gray-100 rounded-playful-sm">Klien Saya</a>
+                    <a href="{{ route('konselor.audios') }}" class="block py-2 px-4 text-sm font-semibold text-dark hover:bg-gray-100 rounded-playful-sm">Audio</a>
                     <a href="#" class="block py-2 px-4 text-sm font-semibold text-dark hover:bg-gray-100 rounded-playful-sm">Pesan</a>
                 </div>
             </div>
