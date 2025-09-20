@@ -23,8 +23,14 @@ Route::get('/', function () {
 Route::get('/dev', function () {
     return view('developer');
 });
-Route::get('/term-of-service', function () {
+Route::get('/syarat-dan-ketentuan', function () {
     return view('terms-of-service');
+});
+Route::get('/kebijakan-privasi', function () {
+    return view('privacy-policy');
+});
+Route::get('/kebijakan-pengembalian-dana', function () {
+    return view('refund-policy');
 });
 
 Route::middleware([
