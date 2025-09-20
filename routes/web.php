@@ -54,13 +54,14 @@ Route::middleware([
     Route::get('/profile', [DashboardController::class,'index'])->name('user.profile');
     Route::get('/exercise', [DashboardController::class,'index'])->name('user.exercise');
     Route::get('/setting', [DashboardController::class,'index'])->name('user.setting');
-    Route::get('/token',function(){
-        return view('transactions.token');
-    })->name('user.token');
+    Route::get('/token', [TransactionController::class, 'showTokenPage'])->name('user.token');
     Route::get('/challenges',function(){
         return view('challenges.user');
     })->name('user.challenges');
     Route::post('/checkout', [TransactionController::class, 'checkout'])->name('checkout');
+    Route::get('/payment/success', [TransactionController::class, 'success'])->name('payment.success');
+    Route::get('/payment/pending', [TransactionController::class, 'pending'])->name('payment.pending');
+    Route::get('/payment/failed', [TransactionController::class, 'failed'])->name('payment.failed');
     Route::get('/profile', [ProfileController::class,'show'])->name('user.profiles');
     Route::get('/profile/edit/{name}', [ProfileController::class,'edit'])->name('user.profiles.edit');
     Route::patch('/profile/edit', [ProfileController::class,'update'])->name('user.profiles.update');

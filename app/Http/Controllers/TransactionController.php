@@ -22,7 +22,27 @@ class TransactionController extends Controller
         \Midtrans\Config::$is3ds = true;
     }
 
-    // --- FUNGSI BARU UNTUK MIDTRANS ---
+    /**
+     * Show token package selection page.
+     */
+    public function showTokenPage()
+    {
+        $packages = [
+            ['icon' => 'fas fa-seedling', 'name' => 'Paket Basic', 'tokens' => 50, 'price' => 10000, 'color' => 'primary'],
+            ['icon' => 'fas fa-piggy-bank', 'name' => 'Paket Hemat', 'tokens' => 120, 'price' => 20000, 'color' => 'secondary'],
+            ['icon' => 'fas fa-gift', 'name' => 'Paket Medium', 'tokens' => 250, 'price' => 40000, 'color' => 'orange'],
+            ['icon' => 'fas fa-star', 'name' => 'Paket Mega', 'tokens' => 550, 'price' => 80000, 'color' => 'primary'],
+            ['icon' => 'fas fa-fire', 'name' => 'Paket Super', 'tokens' => 1200, 'price' => 150000, 'color' => 'secondary'],
+            ['icon' => 'fas fa-rocket', 'name' => 'Paket Ultimate', 'tokens' => 3000, 'price' => 300000, 'color' => 'orange'],
+            ['icon' => 'fas fa-heart', 'name' => 'Paket Keluarga', 'tokens' => 5000, 'price' => 450000, 'color' => 'primary'],
+            ['icon' => 'fas fa-calendar-alt', 'name' => 'Paket Tahunan', 'tokens' => 10000, 'price' => 600000, 'color' => 'secondary'],
+            ['icon' => 'fas fa-infinity', 'name' => 'Paket Sejenak', 'tokens' => 25000, 'price' => 1500000, 'color' => 'orange'],
+
+            // ...tambahkan semua paket lainnya di sini
+        ];
+
+        return view('transactions.token', compact('packages'));
+    }
 
     /**
      * Handle user request to checkout a token package.
@@ -137,6 +157,30 @@ class TransactionController extends Controller
 
         // 7. Beri respons 'OK' ke Midtrans agar mereka tahu notifikasi sudah diterima
         return response()->json(['status' => 'ok']);
+    }
+
+    /**
+     * Menampilkan halaman ketika pembayaran berhasil.
+     */
+    public function success()
+    {
+        return view('transactions.success');
+    }
+
+    /**
+     * Menampilkan halaman ketika pembayaran pending.
+     */
+    public function pending()
+    {
+        return view('transactions.pending');
+    }
+
+    /**
+     * Menampilkan halaman ketika pembayaran gagal.
+     */
+    public function failed()
+    {
+        return view('transactions.failed');
     }
 
     public function index()

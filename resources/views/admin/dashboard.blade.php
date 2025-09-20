@@ -43,7 +43,7 @@
                 <p class="text-3xl font-bold text-dark">{{ number_format($stats['total_audios']) }}</p>
             </div>
             <div class="bg-yellow-100 text-yellow-600 rounded-playful-sm border-2 border-dark p-3">
-                <i class="fas fa-comments text-2xl"></i>
+                <i class="fas fa-music text-2xl"></i>
             </div>
         </div>
         
