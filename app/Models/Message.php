@@ -2,31 +2,34 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Message extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'session_id',
         'sender_id',
-        'content',
-        'type'
+        'receiver_id',
+        'body',
+        'read'
     ];
 
     protected $casts = [
-        'type' => 'string'
+        'read' => 'boolean',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
     ];
-
-    public function session()
-    {
-        return $this->belongsTo(Session::class);
-    }
 
     public function sender()
     {
         return $this->belongsTo(User::class, 'sender_id');
+    }
+
+    public function receiver()
+    {
+        return $this->belongsTo(User::class, 'receiver_id');
     }
 }

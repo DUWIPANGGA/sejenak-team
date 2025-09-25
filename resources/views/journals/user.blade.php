@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Journaling')
+{{-- @section('title', 'Journaling') --}}
+@section('style')
 <style>
     /* Tambahan styling untuk memoles detail seperti pada gambar */
     .calendar-day-circle {
@@ -176,7 +177,7 @@
     }
 
 </style>
-
+@endsection
 @section('content')
 
 <div class="flex flex-col md:flex-row w-full h-full gap-2 md:gap-4 p-2 md:p-4 rounded-playful-lg overflow-scroll md:overflow-hidden">
@@ -184,24 +185,31 @@
     <div class="flex flex-col w-full md:w-[350px] min-w-[280px] h-full gap-4">
 
         <div id="calendar" class="p-4 bg-white border-2 border-dark rounded-playful-lg shadow-border-offset">
-    <h2 id="calendar-title" class="text-3xl font-extrabold text-dark text-center mb-6"></h2>
-    <div id="calendar-grid" class="grid grid-cols-7 gap-2 text-center"></div>
-</div>
+            <h2 id="calendar-title" class="text-3xl font-extrabold text-dark text-center mb-6"></h2>
+            <div id="calendar-grid" class="grid grid-cols-7 gap-2 text-center"></div>
+        </div>
 
         <div class="flex-1  bg-white border-2 border-dark rounded-playful-lg shadow-border-offset flex flex-col overflow-hidden">
             <h3 class="text-xl font-bold border-b-2 border-dark text-center text-white mb-4 p-2 bg-primary">Riwayat</h3>
             <div class="flex-1 space-y-3 overflow-y-auto pr-2 p-4 m-0">
                 @foreach ($journals as $item)
                 <div data-id="{{ $item['id'] }}" class="p-3 bg-gray-100 border-2 border-dark rounded-playful-md flex justify-between items-start cursor-pointer shadow-border-offset hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all
-        {{ $item['active'] ? 'history-item-active' : '' }}">
+     {{ $item['active'] ? 'history-item-active' : '' }}">
 
                     <div class="flex flex-col">
-                        <p class="text-sm font-bold text-dark
-
+                        <p class="text-sm font-bold text-dark">
+                            {{ $item['title'] ?? 'Tanpa Judul' }}
+                        </p>
+                        <span class="text-xs text-gray-500">
+                            {{ \Carbon\Carbon::parse($item['updated_at'])->format('d M Y') }}
+                        </span>
+                    </div>
+                </div>
+                @endforeach
 
             </div>
 
-            <div class="mt-4 flex justify-between items-center px-4 pb-4">
+            <div class=" mt-4 flex justify-between items-center px-4 pb-4">
                 <div class="py-2 px-4 bg-secondary border-2 border-dark rounded-full shadow-border-offset-accent flex items-center gap-2 cursor-pointer hover:bg-secondary/90">
                     <span class="text-white text-xs font-semibold">Notebook1</span>
                     <i class="fas fa-chevron-down text-white text-xs"></i>
@@ -285,6 +293,8 @@
             </button>
         </div>
     </div>
+</div>
+</div>
 </div>
 
 @endsection

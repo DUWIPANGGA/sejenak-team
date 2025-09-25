@@ -9,13 +9,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('messages', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('session_id')->constrained('consult_sessions')->onDelete('cascade');
-            $table->foreignId('sender_id')->constrained('users')->onDelete('cascade');
-            $table->text('content');
-            $table->enum('type', ['text', 'image', 'audio']);
-            $table->timestamps();
-        });
+        $table->id();
+        $table->foreignId('sender_id')->constrained('users')->onDelete('cascade');
+        $table->foreignId('receiver_id')->constrained('users')->onDelete('cascade');
+        $table->text('body');
+        $table->boolean('read')->default(false);
+        $table->timestamps();
+    });
     }
 
     public function down()

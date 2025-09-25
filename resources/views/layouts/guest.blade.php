@@ -6,24 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <meta name="description"
-        content="Sejenak adalah platform yang membantu Anda berefleksi dan terhubung dengan orang lain untuk kesejahteraan emosional. Mulailah perjalanan Anda menuju kesehatan mental di sini.">
-    <meta name="keywords"
-        content="kesehatan mental, kesejahteraan emosional, refleksi, koneksi, Sejenak, platform perawatan diri, kesejahteraan, kesehatan mental, terapi">
+    <meta name="description" content="Sejenak adalah platform yang membantu Anda berefleksi dan terhubung dengan orang lain untuk kesejahteraan emosional. Mulailah perjalanan Anda menuju kesehatan mental di sini.">
+    <meta name="keywords" content="kesehatan mental, kesejahteraan emosional, refleksi, koneksi, Sejenak, platform perawatan diri, kesejahteraan, kesehatan mental, terapi">
     <meta name="robots" content="index, follow">
 
     <meta property="og:title" content="Sejenak - Space For Everybody">
-    <meta property="og:description"
-        content="Sejenak adalah platform yang membantu Anda berefleksi dan terhubung dengan orang lain untuk kesejahteraan emosional. Mulailah perjalanan Anda menuju kesehatan mental di sini.">
+    <meta property="og:description" content="Sejenak adalah platform yang membantu Anda berefleksi dan terhubung dengan orang lain untuk kesejahteraan emosional. Mulailah perjalanan Anda menuju kesehatan mental di sini.">
     <meta property="og:image" content="/img/icon3.png">
     <meta property="og:url" content="https://www.sejenak.miomidev.com">
-        <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
     <title>Sejenak - @yield('title')</title>
     <link rel="icon" href="/img/icon3.png">
     <style>
-                @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Lexend:wght@100..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Lexend:wght@100..900&display=swap');
 
         /* Custom scrollbar hiding */
         .no-scrollbar::-webkit-scrollbar {
@@ -71,7 +68,7 @@
             box-shadow: 5px 5px 0px #080330;
             background-color: #DCD489;
         }
-        
+
         .nav-btn:hover a {
             color: #F7F7F7;
         }
@@ -135,7 +132,8 @@
             display: flex;
             justify-content: center;
             align-content: center;
-            gap: 16px; /* Added gap for spacing */
+            gap: 16px;
+            /* Added gap for spacing */
         }
 
         /* Responsive adjustments */
@@ -191,6 +189,7 @@
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
+
     </style>
     @yield('style')
     <script>
@@ -199,42 +198,44 @@
                 extend: {
                     colors: {
                         primary: {
-                            DEFAULT: '#97C200',
-                            light: '#B8E356',
-                            dark: '#7AA000',
-                        },
-                        secondary: {
-                            DEFAULT: '#DCD489',
-                            light: '#F5F3EB',
-                            dark: '#D6D2C3',
-                        },
-                        accent: {
-                            DEFAULT: '#1C1532',
-                            hover: '#2B2345',
-                        },
-                        black: '#080330',
-                        white: '#FFFFFF',
-                        gray: {
-                            DEFAULT: '#6B7280',
-                            light: '#9CA3AF',
-                        },
-                        success: '#A3D900',
-                        warning: '#FFCE00',
-                    },
-                    fontFamily: {
-                        'exo': ['Exo 2', 'sans-serif'],
-                        'lexend': ['Lexend', 'sans-serif'],
-                    },
-                    boxShadow: {
-                        'border-offset': '3px 4px 0 #080330',
-                        'border-offset-lg': '5px 7px 0 #080330',
-                        'border-bot-shadow': '0 7px 0 #080330',
-                        'border-offset-accent': '3px 4px 0 #8FD14F',
-                    }, borderRadius: {
+                            DEFAULT: '#97C200'
+                            , light: '#B8E356'
+                            , dark: '#7AA000'
+                        , }
+                        , secondary: {
+                            DEFAULT: '#DCD489'
+                            , light: '#F5F3EB'
+                            , dark: '#D6D2C3'
+                        , }
+                        , accent: {
+                            DEFAULT: '#1C1532'
+                            , hover: '#2B2345'
+                        , }
+                        , black: '#080330'
+                        , white: '#FFFFFF'
+                        , gray: {
+                            DEFAULT: '#6B7280'
+                            , light: '#9CA3AF'
+                        , }
+                        , success: '#A3D900'
+                        , warning: '#FFCE00'
+                    , }
+                    , fontFamily: {
+                        'exo': ['Exo 2', 'sans-serif']
+                        , 'lexend': ['Lexend', 'sans-serif']
+                    , }
+                    , boxShadow: {
+                        'border-offset': '3px 4px 0 #080330'
+                        , 'border-offset-lg': '5px 7px 0 #080330'
+                        , 'border-bot-shadow': '0 7px 0 #080330'
+                        , 'border-offset-accent': '3px 4px 0 #8FD14F'
+                    , }
+                    , borderRadius: {
                         'playful-sm': '12px'
                         , 'playful-md': '18px'
                         , 'playful-lg': '24px'
-                    , }, fontSize: {
+                    , }
+                    , fontSize: {
                         h1: ['2.5rem', {
                             lineHeight: '3rem'
                             , fontWeight: '700'
@@ -263,6 +264,7 @@
                 }
             }
         }
+
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -271,8 +273,7 @@
     {{-- @include('layouts.component.loading') --}}
 
     <nav class="bg-white h-[70px] w-[90%] flex justify-between gap-4 items-center px-4 relative z-[100]">
-        <img src="{{ asset('assets/icon/sejenak_logo_text.svg') }}" alt="Logo"
-            class="h-[70%] aspect-auto min-w-[150px]">
+        <img src="{{ asset('assets/icon/sejenak_logo_text.svg') }}" alt="Logo" class="h-[70%] aspect-auto min-w-[150px]">
 
         <ul class="w-[40%] min-w-[300px] desktop-nav">
             <li class="nav-btn"><a href="#second-layer">About</a></li>
@@ -292,24 +293,24 @@
             </ul>
         </div>
     </nav>
-<main class=" container border-[3px] border-black w-[98vw] rounded-[24px]   
-        shadow-[0_0_0_10px_white]" id="main">
-            <div class="sticky top-4 z-10 h-[100px] flex justify-center ">
-                <div class="min-h-[50px] -mx-[3px] w-[calc(100%+5px)] h-[30px] bg-transparent 
+    <main class="bg-primary container border-[3px] border-black w-[98vw] rounded-[24px]   
+        shadow-[0_0_0_10px_white] " id="main">
+        <div class="sticky top-4 z-10 h-[100px] flex justify-center ">
+            <div class="min-h-[50px] -mx-[3px] w-[calc(100%+5px)] h-[30px] bg-transparent 
                 rounded-t-[24px] border-t-[3px] border-x-[3px] border-black 
                 shadow-[0_-20px_0_20px_white]"></div>
+        </div>
+        <div class="container h-full relative top-[-100px] z-1">
+            <div class="main-content container w-full h-[100%]">
+                @yield('content')
             </div>
-            <div class="container h-full relative top-[-100px] z-1">
-                <div class="main-content container  w-full h-[100%]">
-                    @yield('content')
-                </div>
-            </div>
-        </main>
-    <section id="foot"
-        class="w-full bg-white z-12 p-8 flex flex-col md:flex-row justify-evenly gap-5 mt-8">
+        </div>
+    </main>
+    <section id="foot" class="w-full bg-white z-12 p-8 flex flex-col md:flex-row justify-evenly gap-5 mt-8 text-xl">
+
         <div class="company">
             <li class="font-bold list-none">Company</li>
-            <ul class="list-none">
+            <ul class="list-none space-y-1">
                 <li><a href="">About us</a></li>
                 <li><a href="">Careers</a></li>
                 <li><a href="">Security</a></li>
@@ -317,16 +318,18 @@
                 <li><a href="">Term & Privacy</a></li>
             </ul>
         </div>
+
         <div class="download">
             <li class="font-bold list-none">Download</li>
-            <ul class="list-none">
+            <ul class="list-none space-y-1">
                 <li><a href="">IOS & Android</a></li>
                 <li><a href="">Mac & Windows</a></li>
             </ul>
         </div>
+
         <div class="resource">
             <li class="font-bold list-none">Resource</li>
-            <ul class="list-none">
+            <ul class="list-none space-y-1">
                 <li><a href="">Help & center</a></li>
                 <li><a href="">Pricing</a></li>
                 <li><a href="">Blog</a></li>
@@ -334,16 +337,19 @@
                 <li><a href="">Affiliates</a></li>
             </ul>
         </div>
+
         <div class="help-us">
             <li class="font-bold list-none">Help Us</li>
-            <ul class="list-none">
+            <ul class="list-none space-y-1">
                 <li><a href="">Donate</a></li>
             </ul>
         </div>
+
         <div id="foot-picture" class="relative w-64 h-64 rounded-md">
             <img class="w-full" src="{{ asset('assets/component/sejenak_icon_transparent.svg') }}" alt="">
         </div>
     </section>
+
 
     <script>
         // Mobile menu toggle functionality
@@ -379,6 +385,7 @@
                 mobileToggle.textContent = '≡';
             }
         });
+
     </script>
     @yield('script')
 </body>

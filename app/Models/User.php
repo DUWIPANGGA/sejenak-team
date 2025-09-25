@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -113,5 +114,13 @@ class User extends Authenticatable
         return $this->belongsToMany(Exercise::class, 'exercise_user')
                     ->withPivot('status')
                     ->withTimestamps();
+    }
+    public function isOnline()
+    {
+        return Cache::has('user-is-online-' . $this->id);
+    }
+    public function getAvatar()
+    {
+        return $this->avatar ? asset('storage/' . $this->avatar) : asset('images/user-avatar.png');
     }
 }

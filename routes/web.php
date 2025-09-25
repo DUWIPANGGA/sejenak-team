@@ -11,7 +11,9 @@ use App\Http\Controllers\JournalController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ComunityController;
+use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KonselingController;
 use App\Http\Controllers\MeditationController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Konselor\KonselorController;
@@ -49,7 +51,9 @@ Route::middleware([
     
     Route::get('/history', [HistoryController::class,'user'])->name('user.history');
     Route::get('/meditation', [MeditationController::class,'user'])->name('user.meditation');
-    Route::get('/konseling', [MessageController::class,'user'])->name('user.konseling');
+    Route::get('/meditation/white-noise', [MeditationController::class,'meditasi'])->name('user.meditation.meditasi');
+    Route::get('/konseling',[MessagesController::class, 'index'])->name('user.konseling');
+    Route::get('/konseling/bot',[KonselingController::class, 'user'])->name('user.konseling.bot');
     Route::get('/profile', [DashboardController::class,'index'])->name('user.profile');
     Route::get('/exercise', [DashboardController::class,'index'])->name('user.exercise');
     Route::get('/setting', [DashboardController::class,'index'])->name('user.setting');
@@ -63,7 +67,15 @@ Route::middleware([
     Route::get('/profile/edit/{name}', [ProfileController::class,'edit'])->name('user.profiles.edit');
     Route::patch('/profile/edit', [ProfileController::class,'update'])->name('user.profiles.update');
 });
-
+Route::group(['prefix' => 'chat', 'middleware' => 'auth'], function() {
+    Route::get('/', [MessagesController::class, 'index'])->name('chat');
+    Route::get('{id}', [MessagesController::class, 'show'])->name('chat.show');
+    Route::get('users/list', [MessagesController::class, 'getUsers'])->name('chat.users');
+    Route::get('messages/{id}', [MessagesController::class, 'getMessages'])->name('chat.messages');
+    Route::post('send', [MessagesController::class, 'sendMessage'])->name('chat.send');
+    Route::post('mark-read/{id}', [MessagesController::class, 'markAsRead'])->name('chat.markRead');
+    Route::get('search-users', [MessagesController::class, 'searchUsers'])->name('chat.search');
+});
 // // Resource Routes
 // Route::resource('users', UserController::class);
 // Route::resource('roles', RoleController::class);

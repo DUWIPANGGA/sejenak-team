@@ -2,17 +2,21 @@
     @section('title', 'safe space for everybody')
 
     @section('content')
-    <div class="flex flex-col items-center h-full w-full overflow-x-hidden no-scrollbar z-10">
-        <section class="w-[100%] py-20 flex flex-col md:flex-row items-center justify-between gap-8 bg-primary">
-            <div class="md:w-1/2 flex flex-row justify-center align-bottom items-end gap-6">
+    <div class="bg-whiteflex flex-col items-center h-full w-full overflow-x-hidden no-scrollbar z-10">
+        <section class="w-[100%] py-20 flex flex-col md:flex-row items-center justify-arround gap-8 bg-primary">
+            <div class="md:w-1/2 flex flex-row justify-center align-middle items-end gap-6 relative">
                 <img class="h-full" src="{{ asset('assets/component/vas.svg') }}" alt="">
                 <img src="{{ asset('assets/component/container.svg') }}" alt="">
-                <img class="h-full flex justify-end" src="{{ asset('assets/component/table.svg') }}" alt="">
+                <img id="lady_icon" src="{{ asset('assets/component/lady_icon.svg') }}" alt="" class="absolute 
+           transition duration-300 ease-in-out 
+           hover:translate-y-[-5px] 
+           hover:shadow-xl 
+           cursor-pointer"> <img class="h-full flex justify-end" src="{{ asset('assets/component/table.svg') }}" alt="">
             </div>
-            <div class="md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left">
-                <h1 class="text-4xl md:text-4xl lg:text-5xl font-extrabold text-black leading-relaxed mb-4">
+            <div class="md:w-1/3 flex flex-col items-center md:items-start text-center md:text-left">
+                <h1 class="text-4xl md:text-4xl lg:text-5xl font-extrabold text-black leading-loose mb-4">
                     Luangkan waktu refleksi cukup
-                    <span class="text-white bg-accent py-2 border-black shadow-border-offset rounded-playful-md px-6 rotate-3 inline-block">
+                    <span class="text-white bg-accent py-2 border-black shadow-border-offset rounded-playful-md px-6 rotate-1 inline-block">
                         Sejenak
                     </span> saja
                 </h1>
@@ -34,7 +38,7 @@
 
 
 
-        <section id="second-layer" class="flex flex-col lg:flex-row gap-8 justify-center items-center py-20 px-8 lg:px-60 w-full">
+        <section id="second-layer" class="bg-white flex flex-col lg:flex-row gap-8 justify-center items-center py-20 px-8 lg:px-60 w-full">
             <div id="second-left" class="w-full lg:w-1/2 flex justify-center lg:justify-start">
                 <ul>
                     <h2 class="text-4xl font-bold text-primary mb-6">Sejenak</h2>
@@ -52,10 +56,7 @@
                 </p>
             </div>
         </section>
-
-
-
-        <section id="features" class="w-full bg-[url('assets/component/bg-third.svg')] flex justify-center">
+        <section id="features" class="bg-white w-full bg-[url('assets/component/bg-third.svg')] flex justify-center">
             <div class="w-full md:w-[50%] p-2 md:p-12 text-center
                 grid grid-cols-1 md:grid-cols-2 justify-items-center gap-2 md:gap-6 ">
                 <div class="chat-card max-w-sm bg-[#F7F7F7] border-2 border-black rounded-playful-md
@@ -105,10 +106,10 @@
             </div>
         </section>
         {{-- SEPARATOR 1: SCROLLING KE KIRI --}}
-        <div class="separator-scrolling-bg-right w-full h-14 bg-[url('assets/component/buy_now_banner.svg')] bg-repeat-x bg-[length:auto_120%] bg-[position:0_-4px] relative -top-7 -rotate-2 bg-white border-[6px] border-black">
+        <div class="separator-scrolling-bg-right w-full h-14 bg-[url('assets/component/buy_now_banner.svg')] bg-repeat-x bg-[length:auto_120%] bg-[position:0_-4px] relative  bg-white border-[6px] border-black">
         </div>
-        <section id="pricing" class="w-full flex justify-center my-12 py-12 text-center">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-4 md:px-0 lg:px-20">
+        <section id="pricing" class="bg-white w-full flex justify-center py-12 text-center ">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-4 md:px-0 lg:px-20 w-[80%]">
                 {{-- KARTU 1 (FREE) --}}
                 <div class="animate-rotate-slow card w-full md:w-1/2 p-6 flex flex-col items-center justify-between rounded-xl transform transition-transform duration-300 hover:scale-105 hover:-translate-y-2" style="background-image: url('{{ asset('assets/component/price_container1.svg') }}'); background-size: contain; background-repeat: no-repeat; background-position: center; min-height: 450px;">
 
@@ -116,21 +117,21 @@
 
                 {{-- KARTU 2 (PREMIUM) --}}
                 <div class="animate-rotate-slow card p-6 bg-no-repeat bg-contain rounded-xl transform transition-transform hover:scale-105 hover:translate-y-[-10px] flex justify-end aspect-[5/3] overflow-hidden">
-                    <img src="{{ asset('assets/component/price_container2.svg') }}" alt=""> 
+                    <img src="{{ asset('assets/component/price_container2.svg') }}" alt="">
                     <div class="absolute top-2 right-0 w-20">
-                        <img class="absolute animate-rotate" src="{{ asset('assets/component/star_bg.svg') }}" alt=""> 
-                        <img class="absolute -left-1 -top-1 animate-rotate" src="{{ asset('assets/component/star_fg.svg') }}" alt=""> 
+                        <img class="absolute animate-rotate" src="{{ asset('assets/component/star_bg.svg') }}" alt="">
+                        <img class="absolute -left-1 -top-1 animate-rotate" src="{{ asset('assets/component/star_fg.svg') }}" alt="">
                     </div>
                 </div>
             </div>
         </section>
 
         {{-- SEPARATOR 4: SCROLLING KE KIRI --}}
-        <div class="separator-scrolling-bg w-full h-14 bg-[url('assets/component/buy_now_banner.svg')] bg-repeat-x bg-[length:auto_120%] bg-[position:0_-4px] relative top-7 -rotate-2 bg-white border-[6px] border-black">
+        <div class="separator-scrolling-bg w-full h-14 bg-[url('assets/component/buy_now_banner.svg')] bg-repeat-x bg-[length:auto_120%] bg-[position:0_-4px] relative   bg-white border-[6px] border-black">
         </div>
 
-        <section id="cta-section" class="w-full h-full flex justify-center py-20 bg-primary bg-dot-pattern">
-            <div class="w-full md:w-[70%] text-center md:text-left p-8">
+        <section id="cta-section" class="w-full h-full flex justify-center align-middle py-20 bg-primary bg-dot-pattern">
+            <div class="w-full md:w-[40%] text-center flex-col flex align-middle justify-center md:text-left p-8">
                 <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-4">
                     Siap untuk memulai?
                 </h2>
@@ -222,19 +223,23 @@
                 background-position: -100% 0;
             }
         }
-@keyframes full-rotation {
-    0% {
-        transform: rotate(0deg);
-    }
-    50% {
-        transform: rotate(180deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-    
-}
-      @keyframes background-scrolling-right {
+
+        @keyframes full-rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            50% {
+                transform: rotate(180deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+
+        }
+
+        @keyframes background-scrolling-right {
             from {
                 background-position: -100% 0;
             }
@@ -270,10 +275,12 @@
                 transform: rotate(0deg);
             }
         }
-.animate-rotate {
-    animation: full-rotation 3s linear infinite;
-    transform-origin: center center;
-}
+
+        .animate-rotate {
+            animation: full-rotation 3s linear infinite;
+            transform-origin: center center;
+        }
+
         /* KELAS CSS YANG MENGGUNAKAN KEYFRAMES */
         .separator-scrolling-bg {
             animation: background-scrolling-left 20s linear infinite;

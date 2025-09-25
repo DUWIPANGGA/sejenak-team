@@ -7,7 +7,7 @@ use App\Models\Session;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class MessageController extends Controller
+class KonselingController extends Controller
 {
     public function user(){
         return view('messages.user');
