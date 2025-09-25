@@ -10,3 +10,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::post('/midtrans/callback', [TransactionController::class, 'callback']);
+

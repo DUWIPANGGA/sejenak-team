@@ -237,11 +237,6 @@
 
         {{-- Header Section --}}
         <section class="w-full py-12 text-center text-white relative z-10 px-4">
-            <div class="error-illustration mb-8 animate-shake">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#97C200">
-                    <path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/>
-                </svg>
-            </div>
             
             <h1 class="text-6xl md:text-8xl lg:text-9xl font-extrabold text-black leading-tight mb-4 animate-rotate-slow">
                 <span class="text-white bg-primary py-2 border-black shadow-border-offset rounded-playful-md px-6 rotate-3 inline-block" id="error-code">
@@ -258,7 +253,7 @@
             </p>
             
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="/" class="nav-btn inline-block py-3 px-8 rounded-full text-white font-bold bg-primary border-2 border-black cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-[5px_5px_0_#080330] hover:bg-primary-dark mb-4 text-center">
+                <a href="/" class="nav-btn inline-block py-3 px-8 rounded-full text-black font-bold bg-secondary border-2 border-black cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-[5px_5px_0_#080330] hover:bg-secondary-dark text-center">
                     <i class="fas fa-home mr-2"></i>Kembali ke Beranda
                 </a>
                 
