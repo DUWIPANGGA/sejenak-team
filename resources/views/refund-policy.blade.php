@@ -1,5 +1,5 @@
 @extends('layouts.guest')
-@section('title', 'Kebijakan Privasi - Sejenak')
+@section('title', 'Kebijakan Pengembalian Dana - Sejenak')
 
 @section('content')
 <div class="flex flex-col items-center h-full w-full overflow-x-hidden no-scrollbar z-10">
@@ -7,10 +7,10 @@
     {{-- Header Section --}}
     <section class="w-full py-20 text-center text-white bg-primary">
         <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-black leading-tight mb-4">
-            Kebijakan Privasi
+            Kebijakan Pengembalian Dana
         </h1>
         <p class="text-lg md:text-xl font-medium text-black max-w-2xl mx-auto">
-            Kami berkomitmen untuk melindungi privasi dan keamanan data pribadi Anda.
+            Berikut adalah kebijakan kami terkait pengembalian dana untuk layanan berbayar di Sejenak.
         </p>
     </section>
 
@@ -22,35 +22,30 @@
     <section id="terms-content" class="w-full flex justify-center py-20 px-4 sm:px-8 lg:px-20 bg-gray-50">
         <div class="max-w-4xl w-full text-black text-base md:text-lg leading-relaxed space-y-8">
 
-            <p class="italic">Dengan menggunakan Layanan kami, Anda menyetujui pengumpulan dan penggunaan informasi sesuai dengan kebijakan ini.</p>
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 border-b-2 border-black pb-2">1. Prinsip Umum</h2>
+            <p>
+                Karena sifat layanan digital yang kami tawarkan, pada umumnya semua pembayaran yang telah dilakukan untuk layanan yang telah atau akan diberikan bersifat <strong>final dan tidak dapat dikembalikan (non-refundable)</strong>, kecuali dinyatakan lain dalam kebijakan ini.
+            </p>
 
-            <h2 class="text-2xl md:text-3xl font-bold mb-4 border-b-2 border-black pb-2">1. Informasi yang Kami Kumpulkan</h2>
-            <p>Kami mengumpulkan beberapa jenis informasi untuk menyediakan dan meningkatkan Layanan kami, meliputi:</p>
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 border-b-2 border-black pb-2">2. Sesi Konsultasi Online</h2>
+            <p>Aturan pengembalian dana untuk sesi konsultasi adalah sebagai berikut:</p>
             <ul class="list-disc list-inside space-y-2 pl-4">
-                <li><b>Data Pendaftaran:</b> Nama, alamat email, dan kata sandi.</li>
-                <li><b>Informasi Sensitif:</b> Entri jurnal, catatan emosi, dan riwayat konsultasi yang Anda hasilkan di dalam aplikasi.</li>
-                <li><b>Data Teknis:</b> Informasi perangkat, sistem operasi, dan data penggunaan aplikasi secara anonim.</li>
+                <li><b>Layanan Telah Diberikan:</b> Biaya untuk sesi konsultasi yang telah selesai dilaksanakan tidak dapat dikembalikan.</li>
+                <li><b>Pembatalan oleh Pengguna:</b> Jika Anda membatalkan lebih dari 24 jam sebelum sesi, Anda berhak mendapat pengembalian dana penuh atau menjadwal ulang. Jika kurang dari 24 jam atau tidak hadir, pembayaran akan hangus.</li>
+                <li><b>Pembatalan oleh Mitra Profesional:</b> Jika Mitra Profesional membatalkan, Anda akan menerima pengembalian dana penuh atau opsi penjadwalan ulang.</li>
+                <li><b>Masalah Teknis:</b> Jika sesi gagal karena masalah teknis dari platform Sejenak, kami akan menawarkan penjadwalan ulang sesi tanpa biaya.</li>
             </ul>
 
-            <h2 class="text-2xl md:text-3xl font-bold mb-4 border-b-2 border-black pb-2">2. Bagaimana Kami Menggunakan Informasi Anda</h2>
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 border-b-2 border-black pb-2">3. Paket Langganan</h2>
             <p>
-                Kami menggunakan informasi Anda untuk menyediakan layanan, mengelola akun, mempersonalisasi pengalaman, serta memantau dan menganalisis penggunaan layanan untuk peningkatan kualitas. Data untuk analisis bersifat agregat dan anonim.
+                Pembayaran untuk periode langganan yang sudah berjalan tidak dapat dikembalikan. Anda dapat membatalkan langganan kapan saja, dan pembatalan akan berlaku efektif pada akhir periode penagihan yang sedang berjalan.
             </p>
 
-            <h2 class="text-2xl md:text-3xl font-bold mb-4 border-b-2 border-black pb-2">3. Dengan Siapa Kami Membagikan Informasi Anda</h2>
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 border-b-2 border-black pb-2">4. Proses Permintaan</h2>
             <p>
-                Privasi Anda adalah prioritas. Kami tidak menjual data pribadi Anda. Kami hanya membagikan informasi Anda kepada Mitra Profesional pilihan Anda untuk tujuan konsultasi, atau kepada penyedia layanan pihak ketiga (seperti hosting) yang terikat oleh kewajiban kerahasiaan.
+                Untuk kasus-kasus yang memenuhi syarat, silakan hubungi tim dukungan kami melalui email di <strong>dukungan@sejenak.id</strong> dengan menyertakan bukti pembelian dan penjelasan rinci mengenai permintaan Anda.
             </p>
 
-            <h2 class="text-2xl md:text-3xl font-bold mb-4 border-b-2 border-black pb-2">4. Keamanan Data</h2>
-            <p>
-                Kami menerapkan langkah-langkah keamanan teknis yang kuat, termasuk enkripsi data saat transit dan saat disimpan (at-rest) serta kontrol akses yang ketat untuk melindungi data Anda dari akses tidak sah.
-            </p>
-
-            <h2 class="text-2xl md:text-3xl font-bold mb-4 border-b-2 border-black pb-2">5. Hak Anda</h2>
-            <p>
-                Anda memiliki hak untuk mengakses, memperbaiki, atau meminta penghapusan data pribadi Anda. Anda dapat mengelola sebagian informasi Anda melalui pengaturan akun atau dengan menghubungi tim dukungan kami.
-            </p>
         </div>
     </section>
 
@@ -62,13 +57,13 @@
     <section id="cta-section" class="w-full flex-1 flex justify-center py-20 bg-primary">
         <div class="w-full md:w-[70%] text-center p-8">
             <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-black mb-4">
-                Ada pertanyaan lain?
+                Butuh Bantuan?
             </h2>
             <p class="text-base md:text-lg text-black font-medium mb-8 max-w-xl mx-auto">
-                Jika ada yang ingin ditanyakan mengenai privasi data Anda, jangan ragu untuk menghubungi kami.
+                Tim kami siap membantu jika Anda memiliki pertanyaan seputar pembayaran atau pengembalian dana.
             </p>
             <a href="mailto:support@sejenak.miomidev.com" target="_blank" class="nav-btn py-3 px-8 rounded-full text-white font-bold bg-accent border-2 border-black cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-[5px_5px_0_#080330] hover:bg-secondary">
-                Hubungi Kami
+                Hubungi Dukungan
             </a>
         </div>
     </section>

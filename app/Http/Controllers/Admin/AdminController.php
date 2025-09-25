@@ -36,7 +36,7 @@ class AdminController extends Controller
             'total_sessions' => Session::count(),
             'ongoing_sessions' => Session::where('status', 'ongoing')->count(),
             'total_posts' => Post::count(),
-            'total_transactions' => Transaction::sum('amount'),
+            'total_transactions' => Transaction::sum('price'),
             'pending_proposals' => Proposal::where('status', 'pending')->count(),
             'total_audios' => Audio::count(),
         ];
@@ -299,7 +299,7 @@ class AdminController extends Controller
         }
 
         $transactions = $query->latest()->paginate(20);
-        $totalAmount = $query->sum('amount');
+        $totalAmount = $query->sum('price');
 
         return view('admin.transactions.index', compact('transactions', 'totalAmount'));
     }

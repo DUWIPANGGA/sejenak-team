@@ -299,57 +299,56 @@
             <div class="min-h-[50px] -mx-[3px] w-[calc(100%+5px)] h-[30px] bg-transparent 
                 rounded-t-[24px] border-t-[3px] border-x-[3px] border-black 
                 shadow-[0_-20px_0_20px_white]"></div>
-        </div>
-        <div class="container h-full relative top-[-100px] z-1">
-            <div class="main-content container w-full h-[100%]">
-                @yield('content')
             </div>
-        </div>
-    </main>
-    <section id="foot" class="w-full bg-white z-12 p-8 flex flex-col md:flex-row justify-evenly gap-5 mt-8 text-xl">
+            <div class="container h-full relative top-[-100px] z-1">
+                <div class="main-content container  w-full h-[100%]">
+                    @yield('content')
+                </div>
+            </div>
+        </main>
+        <section id="foot"
+            class="w-full bg-white z-12 p-8 flex flex-col md:flex-row justify-evenly gap-8 mt-8 border-t">
+            
+            <div class="company">
+                <h3 class="font-bold text-lg mb-3">Perusahaan</h3>
+                <ul class="list-none space-y-2 text-gray-600">
+                    <li><a href="/tentang-kami" class="hover:text-black hover:underline">Tentang Kami</a></li>
+                    <li><a href="/karir" class="hover:text-black hover:underline">Karir</a></li>
+                    <li><a href="/keamanan" class="hover:text-black hover:underline">Keamanan</a></li>
+                </ul>
+            </div>
 
-        <div class="company">
-            <li class="font-bold list-none">Company</li>
-            <ul class="list-none space-y-1">
-                <li><a href="">About us</a></li>
-                <li><a href="">Careers</a></li>
-                <li><a href="">Security</a></li>
-                <li><a href="">Status</a></li>
-                <li><a href="">Term & Privacy</a></li>
-            </ul>
-        </div>
+            <div class="legal">
+                <h3 class="font-bold text-lg mb-3">Legal</h3>
+                <ul class="list-none space-y-2 text-gray-600">
+                    <li><a href="/syarat-dan-ketentuan" class="hover:text-black hover:underline">Syarat & Ketentuan</a></li>
+                    <li><a href="/kebijakan-privasi" class="hover:text-black hover:underline">Kebijakan Privasi</a></li>
+                    <li><a href="/kebijakan-pengembalian-dana" class="hover:text-black hover:underline">Kebijakan Pengembalian Dana</a></li>
+                </ul>
+            </div>
 
-        <div class="download">
-            <li class="font-bold list-none">Download</li>
-            <ul class="list-none space-y-1">
-                <li><a href="">IOS & Android</a></li>
-                <li><a href="">Mac & Windows</a></li>
-            </ul>
-        </div>
+            <div class="resource">
+                <h3 class="font-bold text-lg mb-3">Bantuan & Sumber Daya</h3>
+                <ul class="list-none space-y-2 text-gray-600">
+                    <li><a href="/pusat-bantuan" class="hover:text-black hover:underline">Pusat Bantuan</a></li>
+                    <li><a href="/blog" class="hover:text-black hover:underline">Blog</a></li>
+                    <li><a href="/komunitas" class="hover:text-black hover:underline">Komunitas</a></li>
+                </ul>
+            </div>
 
-        <div class="resource">
-            <li class="font-bold list-none">Resource</li>
-            <ul class="list-none space-y-1">
-                <li><a href="">Help & center</a></li>
-                <li><a href="">Pricing</a></li>
-                <li><a href="">Blog</a></li>
-                <li><a href="">Community</a></li>
-                <li><a href="">Affiliates</a></li>
-            </ul>
-        </div>
+            <div class="download">
+                <h3 class="font-bold text-lg mb-3">Download Aplikasi</h3>
+                <ul class="list-none space-y-2 text-gray-600">
+                    <li><a href="#" class="hover:text-black hover:underline">iOS & Android</a></li>
+                    <li><a href="#" class="hover:text-black hover:underline">Mac & Windows</a></li>
+                </ul>
+            </div>
 
-        <div class="help-us">
-            <li class="font-bold list-none">Help Us</li>
-            <ul class="list-none space-y-1">
-                <li><a href="">Donate</a></li>
-            </ul>
-        </div>
+            <div id="foot-picture" class="relative w-48 h-48 flex items-center justify-center">
+                <img class="w-full" src="{{ asset('assets/component/sejenak_icon_transparent.svg') }}" alt="Logo Aplikasi Sejenak">
+            </div>
 
-        <div id="foot-picture" class="relative w-64 h-64 rounded-md">
-            <img class="w-full" src="{{ asset('assets/component/sejenak_icon_transparent.svg') }}" alt="">
-        </div>
-    </section>
-
+        </section>
 
     <script>
         // Mobile menu toggle functionality

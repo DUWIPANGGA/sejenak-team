@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Edit Profil')
+
 @section('content')
 <div id="main-profile-page" class="w-full flex items-center justify-center p-4 min-h-screen">
     <div class="bg-background w-full max-w-4xl p-0 md:p-6 lg:p-8">

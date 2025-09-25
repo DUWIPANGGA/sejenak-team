@@ -45,7 +45,7 @@
                         <span class="text-dark font-semibold"><i class="fas fa-coins text-primary mr-2"></i> Saldo Token</span>
                         <span class="font-bold text-dark">{{ number_format(Auth::user()->tokens_balance) }}</span>
                     </div>
-                    <a href="#" class="w-full px-4 py-2 bg-primary text-white font-bold text-center rounded-playful-sm border-2 border-dark shadow-border-offset hover:bg-green-600 transition-all duration-200">
+                    <a href="{{ route('user.token') }}" class="w-full px-4 py-2 bg-primary text-white font-bold text-center rounded-playful-sm border-2 border-dark shadow-border-offset hover:bg-green-600 transition-all duration-200">
                         <i class="fas fa-cart-plus mr-2"></i> Beli Token
                     </a>
                     <div class="flex justify-between items-center py-2 border-b border-gray-200 last:border-b-0">

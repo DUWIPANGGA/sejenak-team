@@ -17,6 +17,7 @@ use App\Http\Controllers\KonselingController;
 use App\Http\Controllers\MeditationController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Konselor\KonselorController;
+use App\Http\Controllers\TransactionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,8 +25,14 @@ Route::get('/', function () {
 Route::get('/dev', function () {
     return view('developer');
 });
-Route::get('/term-of-service', function () {
+Route::get('/syarat-dan-ketentuan', function () {
     return view('terms-of-service');
+});
+Route::get('/kebijakan-privasi', function () {
+    return view('privacy-policy');
+});
+Route::get('/kebijakan-pengembalian-dana', function () {
+    return view('refund-policy');
 });
 
 Route::middleware([
@@ -57,12 +64,14 @@ Route::middleware([
     Route::get('/profile', [DashboardController::class,'index'])->name('user.profile');
     Route::get('/exercise', [DashboardController::class,'index'])->name('user.exercise');
     Route::get('/setting', [DashboardController::class,'index'])->name('user.setting');
-    Route::get('/token',function(){
-        return view('transactions.token');
-    })->name('user.token');
+    Route::get('/token', [TransactionController::class, 'showTokenPage'])->name('user.token');
     Route::get('/challenges',function(){
         return view('challenges.user');
     })->name('user.challenges');
+    Route::post('/checkout', [TransactionController::class, 'checkout'])->name('checkout');
+    Route::get('/payment/success', [TransactionController::class, 'success'])->name('payment.success');
+    Route::get('/payment/pending', [TransactionController::class, 'pending'])->name('payment.pending');
+    Route::get('/payment/failed', [TransactionController::class, 'failed'])->name('payment.failed');
     Route::get('/profile', [ProfileController::class,'show'])->name('user.profiles');
     Route::get('/profile/edit/{name}', [ProfileController::class,'edit'])->name('user.profiles.edit');
     Route::patch('/profile/edit', [ProfileController::class,'update'])->name('user.profiles.update');
@@ -174,6 +183,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,super_ad
 // // Konselor Routes
 Route::prefix('konselor')->name('konselor.')->middleware(['auth', 'role:konselor'])->group(function () {
     Route::get('/dashboard', [KonselorController::class, 'dashboard'])->name('dashboard');
+
+    // Audio Management
+    Route::get('/audios', [KonselorController::class, 'audios'])->name('audios');
+    Route::get('/audios/create', [KonselorController::class, 'createAudio'])->name('audios.create');
+    Route::post('/audios', [KonselorController::class, 'storeAudio'])->name('audios.store');
+    Route::get('/audios/{audio}/edit', [KonselorController::class, 'editAudio'])->name('audios.edit');
+    Route::put('/audios/{audio}', [KonselorController::class, 'updateAudio'])->name('audios.update');
+    Route::delete('/audios/{audio}', [KonselorController::class, 'deleteAudio'])->name('audios.delete');
 });
 
 // Rute ini akan menghasilkan error 404

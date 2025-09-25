@@ -10,10 +10,13 @@ class Transaction extends Model
     use HasFactory;
 
     protected $fillable = [
+        'order_id',
         'user_id',
-        'amount',
-        'type',
-        'description'
+        'package_name',
+        'token_amount',
+        'price',
+        'status',
+        'snap_token',
     ];
 
     protected $casts = [

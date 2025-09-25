@@ -1,4 +1,7 @@
 @extends('layouts.app')
+
+@section('title', 'Dashboard')
+
 @section('style')
 <script src="//unpkg.com/alpinejs" defer></script>
 <style>
