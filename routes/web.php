@@ -18,10 +18,33 @@ use App\Http\Controllers\MeditationController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Konselor\KonselorController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\Auth\VerificationController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+// ==========================================================
+// PERUBAHAN DI SINI: GANTI MIDDLEWARE 'guest' MENJADI 'auth'
+// ==========================================================
+// Rute ini harus bisa diakses oleh user yang sudah login tapi belum terverifikasi
+Route::get('/verify-code', [VerificationController::class, 'show'])
+    ->middleware('auth') // Diubah dari 'guest'
+    ->name('verification.notice');
+
+// Rute ini juga untuk user yang sudah login
+Route::post('/verify-code', [VerificationController::class, 'verify'])
+    ->middleware(['auth', 'throttle:6,1']) // Diubah dari 'guest'
+    ->name('verification.verify');
+
+// Rute ini juga untuk user yang sudah login
+Route::post('/resend-code', [VerificationController::class, 'resend'])
+    ->middleware(['auth', 'throttle:6,1']) // Diubah dari 'guest'
+    ->name('verification.resend');
+// ==========================================================
+// AKHIR DARI PERUBAHAN
+// ==========================================================
+
 Route::get('/dev', function () {
     return view('developer');
 });

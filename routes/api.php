@@ -20,8 +20,13 @@ use App\Http\Controllers\Api\MeditationController;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+
 Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
+
+Route::post('/verify-code', [AuthController::class, 'verify']);
+Route::post('/resend-verification', [AuthController::class, 'resendVerification']);
+
 Route::post('/midtrans/callback', [TransactionController::class, 'callback']);
 Route::middleware('auth:api')->group(function () {
     Route::get('profile', [AuthController::class, 'profile']);

@@ -14,31 +14,44 @@
                 <i class="fas fa-history text-secondary"></i>
             </div>
         </div>
-
+        
+        {{-- ======================================================= --}}
+        {{-- PENGECEKAN DITAMBAHKAN DI SINI UNTUK MENCEGAH ERROR --}}
+        {{-- ======================================================= --}}
+        @if($dailySong)
         <div class="w-full max-w-xl p-6 bg-white border-2 border-dark rounded-playful-sm shadow-border-offset-lg transition-all duration-300 transform hover:-translate-y-1">
-    <h3 class="text-h5 text-dark font-bold mb-4">Putar Meditasi Harian</h3>
-    <div class="flex items-center justify-between">
-        <div class="flex items-center gap-4">
-            <button id="play-pause-btn" class="w-12 h-12 rounded-full bg-primary text-dark flex items-center justify-center border-2 border-dark shadow-border-offset-accent transition-all duration-200 hover:scale-110 active:shadow-none active:translate-x-1 active:translate-y-1">
-                <i id="play-pause-icon" class="fas fa-play text-xl"></i>
-            </button>
-            <div>
-                <p class="font-bold text-dark">{{ $dailySong->title }}</p>
-                <p class="text-xs text-gray-500">{{ $dailySong->category }}</p>
+            <h3 class="text-h5 text-dark font-bold mb-4">Putar Meditasi Harian</h3>
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button id="play-pause-btn" class="w-12 h-12 rounded-full bg-primary text-dark flex items-center justify-center border-2 border-dark shadow-border-offset-accent transition-all duration-200 hover:scale-110 active:shadow-none active:translate-x-1 active:translate-y-1">
+                        <i id="play-pause-icon" class="fas fa-play text-xl"></i>
+                    </button>
+                    <div>
+                        <p class="font-bold text-dark">{{ $dailySong->title }}</p>
+                        <p class="text-xs text-gray-500">{{ $dailySong->category }}</p>
+                    </div>
+                </div>
+                <div class="text-sm font-semibold text-gray-600">
+                    <span id="current-time">0:00</span> / <span id="duration-time">0:00</span>
+                </div>
             </div>
-        </div>
-        <div class="text-sm font-semibold text-gray-600">
-            <span id="current-time">0:00</span> / <span id="duration-time">0:00</span>
-        </div>
-    </div>
 
-    <input type="range" id="meditation-progress" value="0" max="100" class="w-full h-2 mt-4 rounded-full accent-primary appearance-none bg-gray-200">
+            <input type="range" id="meditation-progress" value="0" max="100" class="w-full h-2 mt-4 rounded-full accent-primary appearance-none bg-gray-200">
 
-    <audio id="meditation-audio">
-        <source src="{{ asset('storage/' . $dailySong->file_path) }}" type="audio/mpeg">
-        Browser Anda tidak mendukung elemen audio.
-    </audio>
-</div>
+            <audio id="meditation-audio">
+                <source src="{{ asset('storage/' . $dailySong->file_path) }}" type="audio/mpeg">
+                Browser Anda tidak mendukung elemen audio.
+            </audio>
+        </div>
+        @else
+        {{-- ======================================================= --}}
+        {{-- BAGIAN ELSE JIKA TIDAK ADA LAGU HARIAN --}}
+        {{-- ======================================================= --}}
+        <div class="w-full max-w-xl p-6 bg-white border-2 border-dark rounded-playful-sm shadow-border-offset-lg">
+             <h3 class="text-h5 text-dark font-bold mb-2">Putar Meditasi Harian</h3>
+             <p class="text-gray-600 text-sm">Maaf, meditasi harian tidak tersedia saat ini. Silakan coba lagi nanti.</p>
+        </div>
+        @endif
 
 
         <div class="w-full p-4 grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -101,48 +114,51 @@
     const currentTimeEl = document.getElementById('current-time');
     const durationTimeEl = document.getElementById('duration-time');
 
-    // Format detik ke menit:detik
-    const formatTime = (time) => {
-        if (isNaN(time)) return '0:00';
-        const minutes = Math.floor(time / 60);
-        const seconds = Math.floor(time % 60);
-        return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-    };
+    // Cek jika elemen audio player ada
+    if(audio && playPauseBtn) {
+        // Format detik ke menit:detik
+        const formatTime = (time) => {
+            if (isNaN(time)) return '0:00';
+            const minutes = Math.floor(time / 60);
+            const seconds = Math.floor(time % 60);
+            return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        };
 
-    // Play / Pause toggle
-    playPauseBtn.addEventListener('click', () => {
-        if (audio.paused) {
-            audio.play();
-            playPauseIcon.classList.replace('fa-play', 'fa-pause');
-        } else {
-            audio.pause();
+        // Play / Pause toggle
+        playPauseBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                playPauseIcon.classList.replace('fa-play', 'fa-pause');
+            } else {
+                audio.pause();
+                playPauseIcon.classList.replace('fa-pause', 'fa-play');
+            }
+        });
+
+        // Update progress + waktu berjalan
+        audio.addEventListener('timeupdate', () => {
+            progress.value = audio.currentTime;
+            currentTimeEl.textContent = formatTime(audio.currentTime);
+        });
+
+        // Seek audio
+        progress.addEventListener('input', () => {
+            audio.currentTime = progress.value;
+        });
+
+        // Set durasi saat metadata loaded
+        audio.addEventListener('loadedmetadata', () => {
+            progress.max = Math.floor(audio.duration);
+            durationTimeEl.textContent = formatTime(audio.duration);
+        });
+
+        // Reset ketika selesai
+        audio.addEventListener('ended', () => {
             playPauseIcon.classList.replace('fa-pause', 'fa-play');
-        }
-    });
-
-    // Update progress + waktu berjalan
-    audio.addEventListener('timeupdate', () => {
-        progress.value = audio.currentTime;
-        currentTimeEl.textContent = formatTime(audio.currentTime);
-    });
-
-    // Seek audio
-    progress.addEventListener('input', () => {
-        audio.currentTime = progress.value;
-    });
-
-    // Set durasi saat metadata loaded
-    audio.addEventListener('loadedmetadata', () => {
-        progress.max = Math.floor(audio.duration);
-        durationTimeEl.textContent = formatTime(audio.duration);
-    });
-
-    // Reset ketika selesai
-    audio.addEventListener('ended', () => {
-        playPauseIcon.classList.replace('fa-pause', 'fa-play');
-        progress.value = 0;
-        currentTimeEl.textContent = '0:00';
-    });
+            progress.value = 0;
+            currentTimeEl.textContent = '0:00';
+        });
+    }
 
     // ====== Bagian Tambahan ======
     // Placeholder last activity
