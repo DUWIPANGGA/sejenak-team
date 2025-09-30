@@ -123,6 +123,19 @@
                     </div>
                 </form>
 
+                <!-- ====== PEMISAH DAN TOMBOL GOOGLE ====== -->
+                <div class="my-6 flex items-center">
+                    <div class="flex-grow border-t-2 border-gray-300"></div>
+                    <span class="flex-shrink mx-4 text-sm text-gray-500">ATAU</span>
+                    <div class="flex-grow border-t-2 border-gray-300"></div>
+                </div>
+
+                <a href="{{ route('google.redirect') }}" class="w-full flex items-center justify-center px-4 py-2 font-bold text-dark bg-white rounded-playful border-2 border-dark shadow-offset-dark transition-all duration-200 hover:bg-gray-100 hover:shadow-[3px_4px_0_#080330]">
+                    <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo" class="w-5 h-5 mr-3">
+                    Login dengan Google
+                </a>
+                <!-- ====== AKHIR BAGIAN GOOGLE ====== -->
+
                 <div class="text-center mt-6 text-sm">
                     <p>Tidak punya akun?
                         @if (Route::has('register'))
