@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\UserSession;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,6 +16,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'username',
         'avatar',
         'bio',
         'role_id',
@@ -122,5 +124,18 @@ class User extends Authenticatable
     public function getAvatar()
     {
         return $this->avatar ? asset('storage/' . $this->avatar) : asset('images/user-avatar.png');
+    }
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+    public function getJWTSession()
+    {
+        return $this->hasMany(UserSession::class);
     }
 }

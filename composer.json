@@ -12,12 +12,10 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
         "livewire/livewire": "^3.6.4",
-<<<<<<< HEAD
+        "midtrans/midtrans-php": "^2.6",
         "munafio/chatify": "^1.6",
-        "pusher/pusher-php-server": "^7.2"
-=======
-        "midtrans/midtrans-php": "^2.6"
->>>>>>> 75a4102430419af96c672a493a10601f273dda28
+        "pusher/pusher-php-server": "^7.2",
+        "tymon/jwt-auth": "^2.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

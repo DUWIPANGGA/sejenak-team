@@ -19,6 +19,7 @@ class UsersTableSeeder extends Seeder
         $users = [
             [
                 'name' => 'Admin User',
+                'username' => 'Admin User',
                 'email' => 'admin@example.com',
                 'password' => Hash::make('password123'),
                 'role_id' => $adminRoleId,
@@ -31,6 +32,7 @@ class UsersTableSeeder extends Seeder
             ],
             [
                 'name' => 'Professional Counselor',
+                'username' => 'Professional Counselor',
                 'email' => 'konselor@example.com',
                 'password' => Hash::make('password123'),
                 'role_id' => $konselorRoleId,
@@ -43,6 +45,7 @@ class UsersTableSeeder extends Seeder
             ],
             [
                 'name' => 'Regular User',
+                'username' => 'Regular User',
                 'email' => 'user@example.com',
                 'password' => Hash::make('password123'),
                 'role_id' => $userRoleId,
@@ -55,6 +58,7 @@ class UsersTableSeeder extends Seeder
             ],
             [
                 'name' => 'Test User 2',
+                'username' => 'Test User 2',
                 'email' => 'user2@example.com',
                 'password' => Hash::make('password123'),
                 'role_id' => $userRoleId,
@@ -68,6 +72,7 @@ class UsersTableSeeder extends Seeder
             // Add a super admin user if needed
             [
                 'name' => 'Super Admin',
+                'username' => 'Super Admin',
                 'email' => 'superadmin@example.com',
                 'password' => Hash::make('password123'),
                 'role_id' => $superAdminRoleId,
