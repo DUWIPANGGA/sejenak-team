@@ -31,11 +31,18 @@ class GoogleAuthController extends Controller
             // Ambil data user dari Google
             $googleUser = Socialite::driver('google')->user();
 
+            // Ambil URL avatar dari Google
+            $avatarUrl = $googleUser->getAvatar();
+
             // 1. Cari user berdasarkan google_id
             $user = User::where('google_id', $googleUser->id)->first();
 
             if ($user) {
-                // Jika user sudah ada, langsung login
+                // Jika user sudah ada, update avatarnya jika berbeda & langsung login
+                if ($user->avatar !== $avatarUrl) {
+                    $user->update(['avatar' => $avatarUrl]);
+                }
+                
                 Auth::login($user);
                 return redirect()->intended('/dashboard');
             }
@@ -44,20 +51,25 @@ class GoogleAuthController extends Controller
             $user = User::where('email', $googleUser->email)->first();
 
             if ($user) {
-                // Jika user ada tapi belum terhubung dengan Google, update google_id-nya
-                $user->update(['google_id' => $googleUser->id]);
+                // Jika user ada, tautkan akunnya dengan google_id dan update juga avatarnya
+                $user->update([
+                    'google_id' => $googleUser->id,
+                    'avatar' => $avatarUrl
+                ]);
+                
                 Auth::login($user);
                 return redirect()->intended('/dashboard');
             }
 
-            // 3. Jika user benar-benar baru, buat akun baru
+            // 3. Jika user benar-benar baru, buat akun baru dengan avatarnya
             $newUser = User::create([
                 'name' => $googleUser->name,
                 'email' => $googleUser->email,
-                'username' => strstr($googleUser->email, '@', true), // Ambil username dari email
+                'username' => strstr($googleUser->email, '@', true),
                 'google_id' => $googleUser->id,
-                'password' => Hash::make(uniqid()), // Buat password acak karena tidak dibutuhkan
-                'role_id' => 1, // Atur role default untuk user baru
+                'avatar' => $avatarUrl,
+                'password' => Hash::make(uniqid()),
+                'role_id' => 1,
             ]);
             
             // Tandai email sebagai terverifikasi karena berasal dari Google

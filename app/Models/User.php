@@ -19,6 +19,7 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
         'username',
         'email',
         'password',
+        'google_id',
         'verification_code',
         'verification_code_expires_at',
         'verification_requests_count',
@@ -127,9 +128,18 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
     {
         return Cache::has('user-is-online-' . $this->id);
     }
-    public function getAvatar()
+    public function getAvatarUrlAttribute()
     {
-        return $this->avatar ? asset('storage/' . $this->avatar) : asset('images/user-avatar.png');
+        if ($this->avatar) {
+            // Cek jika avatar adalah URL eksternal
+            if (str_starts_with($this->avatar, 'http')) {
+                return $this->avatar;
+            }
+            // Jika bukan, ini adalah file lokal
+            return asset('storage/' . $this->avatar);
+        }
+        // Jika tidak ada avatar sama sekali, bisa kembalikan null atau URL default
+        return null;
     }
     public function getJWTIdentifier()
     {

@@ -290,7 +290,7 @@
                 <div class="flex items-center gap-4">
                     @if ($user->avatar)
                         <img 
-                            src="{{ asset('storage/' . $user->avatar) }}" 
+                            src="{{ Auth::user()->avatar_url }}" 
                             alt="{{ $user->name }}" 
                             class="w-10 h-10 rounded-full border-2 border-dark shadow-border-offset object-cover">
                     @else

@@ -30,7 +30,7 @@
                     <!-- Avatar Section -->
                     <div class="flex flex-col items-center justify-center gap-6 mb-6">
                         <div class="relative w-32 h-32 md:w-40 md:h-40 rounded-full border-2 border-dark overflow-hidden shadow-border-offset transition-transform duration-300 hover:scale-110">
-                            <img id="avatar-preview" src="{{ $user->avatar ? asset('storage/' . $user->avatar) : 'https://placehold.co/160x160/FFB340/080330?text=Avatar' }}" alt="Avatar Pengguna" class="w-full h-full object-cover">
+                            <img id="avatar-preview" src="{{ $user->avatar_url ?? 'https://placehold.co/160x160/FFB340/080330?text=Avatar' }}" alt="Avatar Pengguna" class="w-full h-full object-cover">
                             <label for="avatar-input" class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center cursor-pointer opacity-0 hover:opacity-100 transition-opacity duration-300">
                                 <i class="fas fa-camera text-white text-2xl"></i>
                             </label>
