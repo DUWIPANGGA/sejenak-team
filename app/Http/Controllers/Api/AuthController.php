@@ -19,7 +19,7 @@ class AuthController extends Controller
         $userRoleId = DB::table('roles')->where('name', 'user')->value('id');
         $request->validate([
             'name' => 'required|string|max:255',
-            'username' => 'required|string|unique:users,username|max:255',
+            'username' => 'required|string|unique:users,username|max:10',
             'email' => 'required|string|email|unique:users,email|max:255',
             'password' => 'required|string|min:8|confirmed',
         ]);
@@ -29,7 +29,7 @@ class AuthController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password), 
-            'role_id' => $userRoleI
+            'role_id' => $userRoleId
         ]);
 
         return $this->createSessionAndRespond($user, $request);

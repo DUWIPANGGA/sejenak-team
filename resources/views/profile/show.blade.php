@@ -10,7 +10,7 @@
                 <h2 class="text-h4 md:text-h3 font-bold text-dark mb-4 text-center">Profil Saya</h2>
                 <div class="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-primary shadow-lg mb-4">
                     @if (Auth::user()->avatar)
-                        <img src="{{ asset(Auth::user()->avatar) }}" alt="Foto Profil" class="object-cover w-full h-full">
+                        <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="Foto Profil" class="object-cover w-full h-full">
                     @else
                         <div class="w-full h-full bg-gray-200 flex items-center justify-center text-dark text-4xl font-bold">
                             <span>{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</span>

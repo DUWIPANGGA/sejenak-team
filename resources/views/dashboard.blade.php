@@ -29,8 +29,6 @@
 @endsection
 @section('content')
 <div class="w-full h-full flex flex-col md:flex-row gap-6 overflow-y-none px-8 justify-center align-middle">
-    <!-- Left Column -->
-
     <div class="w-full md:w-1/2 lg:w-1/3 flex flex-col gap-2 py-4">
         <div class="flex flex-row px-0 py-4 gap-4">
             <div id="timeBox" class="flex-1 border border-dark rounded-playful-lg bg-primary flex items-center justify-center p-3">
@@ -43,8 +41,7 @@
         <div class="bg-primary p-2 rounded-3xl border-2 border-black shadow-lg">
             <div class="bg-white p-4 rounded-3xl border-2 ">
                 <div id="calendarBody" class="grid grid-cols-7 gap-2">
-                    <!-- Kalender akan diisi oleh JavaScript -->
-                </div>
+                    </div>
             </div>
         </div>
         <div class="md:flex flex-row py-4 px-0 h-full hidden gap-4 w-full">
@@ -59,18 +56,15 @@
             </div>
 
             <div class="w-1/2">
-                <!-- Trigger Button -->
                 <button id="mood-record" class="h-full w-full border border-dark rounded-playful-lg bg-secondary flex flex-col items-center justify-center p-1">
                     <img src="{{ asset('assets/component/emote/face.svg') }}" alt="">
                     <b>Bagaimana mood anda hari ini?</b>
                 </button>
 
-                <!-- Modal -->
                 <div id="mood-modal" class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-50 z-50">
                     <div class="bg-white rounded-playful-lg p-6 w-11/12 max-w-md shadow-border-offset-lg border-2 border-dark">
                         <h2 class="text-xl font-bold mb-4 text-dark">🌈 Catat Mood Anda</h2>
 
-                        <!-- Dropdown mood -->
                         <label for="mood" class="block font-medium text-dark">Mood</label>
                         <select id="mood-select" class="w-full border-2 border-dark rounded-playful-sm p-2 mb-3 focus:outline-none focus:ring-2 focus:ring-primary">
                             <option value="">-- Pilih mood --</option>
@@ -88,7 +82,6 @@
                         <label for="note" class="block font-medium text-dark">Catatan</label>
                         <textarea id="mood-note" class="w-full border-2 border-dark rounded-playful-sm p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Tambahkan catatan (opsional)" rows="3"></textarea>
 
-                        <!-- Action Buttons -->
                         <div class="flex justify-end gap-3">
                             <button id="cancel-mood" class="px-4 py-2 rounded-playful-sm bg-gray-300 text-dark border-2 border-dark shadow-border-offset-sm hover:bg-gray-400 transition-colors">❌ Batal</button>
                             <button id="save-mood" class="px-4 py-2 rounded-playful-sm bg-primary text-white border-2 border-dark shadow-border-offset-sm hover:bg-green-600 transition-colors">✅ Simpan</button>
@@ -99,16 +92,14 @@
         </div>
     </div>
 
-    <!-- Middle Column -->
     <div class="w-full md:w-1/3 flex flex-col gap-6 py-4">
-        <!-- Riwayat Jurnal -->
         <div class="flex-1 border-2 border-dark rounded-playful-lg bg-primary shadow-border-offset p-3 h-1/2 overflow-y-hidden">
             <h3 class="text-lg font-bold text-white mb-3">Riwayat Jurnal</h3>
             <div class="flex flex-row overflow-y-hidden h-3/4 rounded-playful-lg border-dark border-2 ">
                 <div class="flex-1 space-y-3 overflow-y-scroll pr-2 p-1 m-0 scrollbar-none">
                     @foreach ($user->journals as $item)
                     <div data-id="{{ $item['id'] }}" class="p-3 bg-gray-100 border-2 border-dark rounded-playful-md flex justify-between items-start cursor-pointer shadow-border-offset hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all
-        {{ $item['active'] ? 'history-item-active' : '' }}">
+                {{ $item['active'] ? 'history-item-active' : '' }}">
 
                         <div class="flex flex-col">
                             <p class="text-sm font-bold text-dark">{{ $item['title'] }}</p>
@@ -128,9 +119,7 @@
         </div>
 
         <div class="w-full max-w-2xl h-1/2">
-            <!-- Grafik Mood dengan Playful UI -->
             <div class="border-2 border-dark rounded-playful-lg  bg-secondary shadow-border-offset p-5 overflow-hidden relative h-full">
-                <!-- Dekorasi -->
                 <div class="absolute -top-2 -right-2 w-20 h-20 rounded-full bg-pink-400 opacity-20"></div>
                 <div class="absolute -bottom-4 -left-4 w-16 h-16 rounded-full bg-indigo-400 opacity-20"></div>
 
@@ -149,7 +138,6 @@
                     <canvas id="moodChart"></canvas>
                 </div>
 
-                <!-- Legend dengan Emoji -->
                 <div class="flex justify-center mt-4 space-x-6">
                     <div class="flex flex-col items-center">
                         <span class="mood-emoji text-2xl">😢</span>
@@ -179,63 +167,72 @@
                     $colors = ['bg-red-400','bg-blue-400','bg-green-400','bg-yellow-400','bg-purple-400','bg-pink-400','bg-orange-400','bg-grey-400'];
                     $randomColor = $colors[array_rand($colors)];
                     @endphp
-    <!-- Right Column -->
     <div class="w-full md:w-1/3 p-4 flex flex-col gap-6">
-        <!-- Postingan Tunggal -->
-        <a href="" class="border-2 border-dark rounded-playful-lg bg-primary shadow-border-offset p-4 flex flex-col gap-3 h-2/3">
-            <!-- Header Postingan -->
-            <div class="flex justify-between items-center">
-                @if($topPost->is_anonymous)
-                {{-- Skenario 1: Postingan anonim --}}
-                <div class="w-10 h-10 flex items-center justify-center rounded-full border-2 border-dark shadow-border-offset mr-3 font-bold text-white {{ $randomColor }}">
-                    <img src="{{ asset('assets/component/emote/anonymous.svg') }}" alt="Anonymous" class="w-10 h-10 rounded-full border-2 border-dark shadow-border-offset object-cover">
-                </div>
-                <div class="flex-1">
-                    <h3 class="font-bold font-lexend text-dark text-lg">Anonymous</h3>
-                    <p class="text-sm text-black font-lexend">@anonymous • {{ $topPost->created_at->diffForHumans() }}</p>
-                </div>
-                @else
-                {{-- Skenario 2: Postingan pengguna (dengan atau tanpa avatar) --}}
-                @if($topPost->user->avatar)
-                <img src="{{ asset($topPost->user->avatar) }}" alt="{{ $topPost->user->name }}" class="w-10 h-10 rounded-full border-2 border-dark shadow-border-offset mr-3 object-cover">
-                @else
-                <div class="w-10 h-10 flex items-center justify-center rounded-full border-2 border-dark shadow-border-offset mr-3 font-bold text-white {{ $randomColor }}">
-                    {{ strtoupper(substr($topPost->user->name, 0, 1)) }}
-                </div>
-                @endif
-                <div class="flex-1">
-                    <h3 class="font-bold font-lexend text-dark text-lg">{{ $topPost->user->name }}</h3>
-                    <p class="text-sm text-gray-500 font-lexend">{{ strtolower($topPost->user->name) }} • {{ $topPost->created_at->diffForHumans() }}</p>
-                </div>
-                @endif
-                <span class="text-xs text-gray-500"></span>
-            </div>
-            <div class="w-full  rounded-playful-lg mb-4 border-2 border-dark overflow-hidden shadow-border-offset min-h-2/3 h-3/4">
-                @if($topPost->image)
-                <div class="w-full h-auto rounded-playful-lg mb-4 border-2 border-dark overflow-hidden shadow-border-offset">
-                    <img src="{{ asset('storage/' . $topPost->image) }}" alt="Post Image" class="w-full h-full object-cover">
-                </div>
-                @endif </div>
-            <!-- Konten Postingan -->
-            <div class="text-sm text-gray-700">
-                <p class="font-medium font-lexend text-dark mb-4">{{ $topPost->content }}</p>
-            </div>
-        </a>
 
-        <!-- Kata-kata Mutiara -->
+        {{-- ======================================================= --}}
+        {{-- PENGECEKAN DITAMBAHKAN DI SINI UNTUK MENCEGAH ERROR --}}
+        {{-- ======================================================= --}}
+        @if($topPost)
+            <a href="" class="border-2 border-dark rounded-playful-lg bg-primary shadow-border-offset p-4 flex flex-col gap-3 h-2/3">
+                <div class="flex justify-between items-center">
+                    @if($topPost->is_anonymous)
+                    {{-- Skenario 1: Postingan anonim --}}
+                    <div class="w-10 h-10 flex items-center justify-center rounded-full border-2 border-dark shadow-border-offset mr-3 font-bold text-white {{ $randomColor }}">
+                        <img src="{{ asset('assets/component/emote/anonymous.svg') }}" alt="Anonymous" class="w-10 h-10 rounded-full border-2 border-dark shadow-border-offset object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold font-lexend text-dark text-lg">Anonymous</h3>
+                        <p class="text-sm text-black font-lexend">@anonymous • {{ $topPost->created_at->diffForHumans() }}</p>
+                    </div>
+                    @else
+                    {{-- Skenario 2: Postingan pengguna (dengan atau tanpa avatar) --}}
+                    @if($topPost->user->avatar)
+                    <img src="{{ asset($topPost->user->avatar) }}" alt="{{ $topPost->user->name }}" class="w-10 h-10 rounded-full border-2 border-dark shadow-border-offset mr-3 object-cover">
+                    @else
+                    <div class="w-10 h-10 flex items-center justify-center rounded-full border-2 border-dark shadow-border-offset mr-3 font-bold text-white {{ $randomColor }}">
+                        {{ strtoupper(substr($topPost->user->name, 0, 1)) }}
+                    </div>
+                    @endif
+                    <div class="flex-1">
+                        <h3 class="font-bold font-lexend text-dark text-lg">{{ $topPost->user->name }}</h3>
+                        <p class="text-sm text-gray-500 font-lexend">{{ strtolower($topPost->user->name) }} • {{ $topPost->created_at->diffForHumans() }}</p>
+                    </div>
+                    @endif
+                    <span class="text-xs text-gray-500"></span>
+                </div>
+                <div class="w-full  rounded-playful-lg mb-4 border-2 border-dark overflow-hidden shadow-border-offset min-h-2/3 h-3/4">
+                    @if($topPost->image)
+                    <div class="w-full h-auto rounded-playful-lg mb-4 border-2 border-dark overflow-hidden shadow-border-offset">
+                        <img src="{{ asset('storage/' . $topPost->image) }}" alt="Post Image" class="w-full h-full object-cover">
+                    </div>
+                    @endif </div>
+                <div class="text-sm text-gray-700">
+                    <p class="font-medium font-lexend text-dark mb-4">{{ $topPost->content }}</p>
+                </div>
+            </a>
+        @else
+            {{-- ======================================================= --}}
+            {{-- BAGIAN ELSE UNTUK KONDISI TIDAK ADA POST --}}
+            {{-- ======================================================= --}}
+            <div class="border-2 border-dark rounded-playful-lg bg-gray-100 shadow-border-offset p-4 flex flex-col justify-center items-center h-2/3">
+                 <p class="text-dark font-lexend text-center">Belum ada postingan untuk ditampilkan saat ini. 😢</p>
+            </div>
+        @endif
+
+
         <div class="flex-1 border-2 border-dark rounded-playful-lg bg-primary shadow-border-offset p-3 flex flex-col justify-center items-center text-center h-1/3">
 
-    @if($quote)
-        <p id="quote" class="text-sm italic font-bold text-gray-700">
-            "{{ $quote['quote'] }}"
-        </p>
-        <span class="mt-2 text-xs text-gray-600">- {{ $quote['author'] }}</span>
-    @else
-        <p id="quote" class="text-sm italic text-gray-700">
-            "Tidak ada kata-kata mutiara hari ini."
-        </p>
-    @endif
-</div>
+            @if($quote)
+                <p id="quote" class="text-sm italic font-bold text-gray-700">
+                    "{{ $quote['quote'] }}"
+                </p>
+                <span class="mt-2 text-xs text-gray-600">- {{ $quote['author'] }}</span>
+            @else
+                <p id="quote" class="text-sm italic text-gray-700">
+                    "Tidak ada kata-kata mutiara hari ini."
+                </p>
+            @endif
+        </div>
 
     </div>
 
@@ -439,7 +436,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('DOMContentLoaded', function() {
         const ctx = document.getElementById('moodChart').getContext('2d');
 
-         const moodLabels = @json($labels);
+          const moodLabels = @json($labels);
     const moodData = @json($data);
         const days = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
 
