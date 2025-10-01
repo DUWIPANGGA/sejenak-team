@@ -10,14 +10,9 @@ use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\VerificationCodeMail;
-use Illuminate\Support\Str;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use Carbon\Carbon;
-use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
