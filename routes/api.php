@@ -21,11 +21,13 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 Route::post('/register',[AuthController::class,'register']);
+Route::post('/refresh',[AuthController::class,'refresh']);
+Route::post('/logout',[AuthController::class,'logout']);
 Route::post('/login',[AuthController::class,'login']);
 Route::post('/midtrans/callback', [TransactionController::class, 'callback']);
 Route::middleware('auth:api')->group(function () {
     Route::get('profile', [AuthController::class, 'profile']);
-        Route::prefix('audios')->group(function () {
+    Route::prefix('audios')->group(function () {
         Route::get('/', [AudioController::class, 'index']);
         Route::post('/', [AudioController::class, 'store']);
         Route::get('/category/{category}', [AudioController::class, 'byCategory']);

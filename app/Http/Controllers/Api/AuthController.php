@@ -1,15 +1,16 @@
 <?php
 namespace App\Http\Controllers\api;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\UserSession;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use Carbon\Carbon;
-use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
@@ -29,7 +30,7 @@ class AuthController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password), 
-            'role_id' => $userRoleI
+            'role_id' => $userRoleId
         ]);
 
         return $this->createSessionAndRespond($user, $request);
