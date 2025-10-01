@@ -6,18 +6,24 @@ use App\Models\UserSession;
 use Illuminate\Support\Facades\Cache;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements MustVerifyEmail, JWTSubject
 {
     use HasFactory, Notifiable;
 
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
-        'username',
+        'google_id',
+        'verification_code',
+        'verification_code_expires_at',
+        'verification_requests_count',
+        'last_verification_request_at',
         'avatar',
         'bio',
         'role_id',
@@ -101,30 +107,39 @@ class User extends Authenticatable implements JWTSubject
     public function challenges()
     {
         return $this->belongsToMany(Challenge::class, 'challenge_user')
-                    ->withPivot('status')
-                    ->withTimestamps();
+                        ->withPivot('status')
+                        ->withTimestamps();
     }
 
     public function circles()
     {
         return $this->belongsToMany(Circle::class, 'circle_user')
-                    ->withPivot('role')
-                    ->withTimestamps();
+                        ->withPivot('role')
+                        ->withTimestamps();
     }
 
     public function exercises()
     {
         return $this->belongsToMany(Exercise::class, 'exercise_user')
-                    ->withPivot('status')
-                    ->withTimestamps();
+                        ->withPivot('status')
+                        ->withTimestamps();
     }
     public function isOnline()
     {
         return Cache::has('user-is-online-' . $this->id);
     }
-    public function getAvatar()
+    public function getAvatarUrlAttribute()
     {
-        return $this->avatar ? asset('storage/' . $this->avatar) : asset('images/user-avatar.png');
+        if ($this->avatar) {
+            // Cek jika avatar adalah URL eksternal
+            if (str_starts_with($this->avatar, 'http')) {
+                return $this->avatar;
+            }
+            // Jika bukan, ini adalah file lokal
+            return asset('storage/' . $this->avatar);
+        }
+        // Jika tidak ada avatar sama sekali, bisa kembalikan null atau URL default
+        return null;
     }
     public function getJWTIdentifier()
     {
@@ -138,5 +153,19 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTSession()
     {
         return $this->hasMany(UserSession::class);
+    }
+
+    /**
+     * Kirim notifikasi verifikasi email.
+     * Method ini sengaja dikosongkan (di-override) untuk mencegah Laravel
+     * mengirim email verifikasi bawaannya yang berisi tombol/link.
+     * Logika pengiriman kode kustom kita sudah ditangani di tempat lain
+     * (CreateNewUser & VerificationController).
+     *
+     * @return void
+     */
+    public function sendEmailVerificationNotification()
+    {
+        // Sengaja dibiarkan kosong.
     }
 }

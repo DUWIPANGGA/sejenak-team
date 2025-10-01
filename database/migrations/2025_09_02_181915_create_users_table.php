@@ -22,7 +22,12 @@ return new class extends Migration
     $table->string('email')->unique();
     $table->string('username')->unique();
     $table->timestamp('email_verified_at')->nullable();
-    $table->string('password');
+    $table->string('password')->nullable();
+    $table->string('google_id')->nullable()->unique();
+    $table->string('verification_code')->nullable();
+    $table->timestamp('verification_code_expires_at')->nullable();
+    $table->integer('verification_requests_count')->default(0);
+    $table->date('last_verification_request_at')->nullable();
     $table->string('avatar')->nullable();
     $table->text('bio')->nullable();
 

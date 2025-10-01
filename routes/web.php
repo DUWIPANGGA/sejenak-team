@@ -18,10 +18,32 @@ use App\Http\Controllers\MeditationController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Konselor\KonselorController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\GoogleAuthController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Rute ini harus bisa diakses oleh user yang sudah login tapi belum terverifikasi
+Route::get('/verify-code', [VerificationController::class, 'show'])
+    ->middleware('auth') // Diubah dari 'guest'
+    ->name('verification.notice');
+
+// Rute ini juga untuk user yang sudah login
+Route::post('/verify-code', [VerificationController::class, 'verify'])
+    ->middleware(['auth', 'throttle:6,1']) // Diubah dari 'guest'
+    ->name('verification.verify');
+
+// Rute ini juga untuk user yang sudah login
+Route::post('/resend-code', [VerificationController::class, 'resend'])
+    ->middleware(['auth', 'throttle:6,1']) // Diubah dari 'guest'
+    ->name('verification.resend');
+
+// Rute untuk Login dengan Google
+Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect'])->name('google.redirect');
+Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])->name('google.callback');
+
 Route::get('/dev', function () {
     return view('developer');
 });

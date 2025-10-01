@@ -1,4 +1,7 @@
     @extends('layouts.app')
+    
+    @section('title', 'Comunity')
+
     @section('style')
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&family=Lexend:wght@300;400;500;600;700&display=swap');
@@ -287,7 +290,7 @@
                 <div class="flex items-center gap-4">
                     @if ($user->avatar)
                         <img 
-                            src="{{ $user->avatar }}" 
+                            src="{{ Auth::user()->avatar_url }}" 
                             alt="{{ $user->name }}" 
                             class="w-10 h-10 rounded-full border-2 border-dark shadow-border-offset object-cover">
                     @else

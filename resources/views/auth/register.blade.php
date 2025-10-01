@@ -92,6 +92,11 @@
                     </div>
 
                     <div class="mb-4">
+                        <label for="username" class="block text-sm font-medium text-dark mb-1">Username</label>
+                        <input id="username" class="block w-full rounded-playful border-2 border-dark shadow-offset-dark p-2 bg-logininput placeholder-placeholder focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" type="text" name="username" :value="old('username')" required autocomplete="username" placeholder="Masukkan Username Anda" />
+                    </div>
+
+                    <div class="mb-4">
                         <label for="email" class="block text-sm font-medium text-dark mb-1">Email</label>
                         <input id="email" class="block w-full rounded-playful border-2 border-dark shadow-offset-dark p-2 bg-logininput placeholder-placeholder focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" type="email" name="email" :value="old('email')" required autocomplete="username" placeholder="Masukkan Email Anda" />
                     </div>

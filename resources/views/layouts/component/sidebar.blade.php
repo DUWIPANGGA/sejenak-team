@@ -3,7 +3,7 @@
         <div class="flex flex-col items-center gap-4 mb-0 w-full">
             <a href="{{ route('user.profiles') }}" class="w-16 h-16 rounded-full overflow-hidden border-2 border-primary transition-transform duration-200 hover:scale-110 flex items-center justify-center bg-gray-200 text-dark font-bold text-xl">
                 @if (Auth::user()->avatar)
-                <img src="{{ asset(Auth::user()->avatar) }}" alt="Foto Profil" class="object-cover w-full h-full">
+                <img src="{{ Auth::user()->avatar_url }}" alt="Foto Profil" class="object-cover w-full h-full">
                 @else
                 <span>
                     {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
