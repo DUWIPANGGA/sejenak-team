@@ -89,31 +89,35 @@ class LikeController extends Controller
     }
 
     public function toggleLike(Request $request)
-    {
-        $validated = $request->validate([
-            'post_id'    => 'nullable|exists:posts,id',
-            'comment_id' => 'nullable|exists:comments,id',
-        ]);
+{
+    $validated = $request->validate([
+        'post_id'    => 'nullable|exists:posts,id',
+        'comment_id' => 'nullable|exists:comments,id',
+    ]);
 
-        $validated['user_id'] = Auth::id();
+    $validated['user_id'] = Auth::id();
 
-        $like = Like::where('user_id', $validated['user_id'])
-            ->where('post_id', $validated['post_id'])
-            ->where('comment_id', $validated['comment_id'])
-            ->first();
+    $postId = $validated['post_id'] ?? null;
+    $commentId = $validated['comment_id'] ?? null;
 
-        if ($like) {
-            $like->delete();
-            $message = 'Like removed successfully.';
-        } else {
-            $like = Like::create($validated);
-            $message = 'Like added successfully.';
-        }
+    $like = Like::where('user_id', $validated['user_id'])
+        ->when($postId, fn($q) => $q->where('post_id', $postId))
+        ->when($commentId, fn($q) => $q->where('comment_id', $commentId))
+        ->first();
 
-        return response()->json([
-            'success' => true,
-            'message' => $message,
-            'data' => $like
-        ]);
+    if ($like) {
+        $like->delete();
+        $message = 'Like removed successfully.';
+    } else {
+        $like = Like::create($validated);
+        $message = 'Like added successfully.';
     }
+
+    return response()->json([
+        'success' => true,
+        'message' => $message,
+        'data'    => $like
+    ]);
+}
+
 }
