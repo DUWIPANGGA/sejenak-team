@@ -12,6 +12,7 @@ class PostsTableSeeder extends Seeder
         $posts = [
             [
                 'user_id' => 3,
+                'title' => 'Today I practiced',
                 'content' => 'Today I practiced mindfulness for 20 minutes. Feeling much more centered and peaceful!',
                 'image' => 'posts/mindfulness.jpg',
                 'is_anonymous' => false,
@@ -21,6 +22,7 @@ class PostsTableSeeder extends Seeder
             ],
             [
                 'user_id' => 4,
+                'title' => 'Struggling with anxiety today.',
                 'content' => 'Struggling with anxiety today. Any tips for managing overwhelming thoughts?',
                 'image' => null,
                 'is_anonymous' => true,
@@ -30,6 +32,7 @@ class PostsTableSeeder extends Seeder
             ],
             [
                 'user_id' => 2,
+                'title' => 'I recommend practicing deep breathing exercises when feeling anxious.',
                 'content' => 'As a counselor, I recommend practicing deep breathing exercises when feeling anxious. Remember: this too shall pass.',
                 'image' => 'posts/breathing.jpg',
                 'is_anonymous' => false,
@@ -39,6 +42,7 @@ class PostsTableSeeder extends Seeder
             ],
             [
                 'user_id' => 3,
+                'title'=>'Just completed the 7-day',
                 'content' => 'Just completed the 7-day gratitude challenge! Highly recommend it to everyone.',
                 'image' => 'posts/gratitude.jpg',
                 'is_anonymous' => false,
