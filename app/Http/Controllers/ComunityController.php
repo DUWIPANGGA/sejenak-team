@@ -11,11 +11,11 @@ class ComunityController extends Controller
     public function user()
     {
         $posts = Post::with([
-            'user',
+            'user:id,name,username,avatar',
             'likes',
-            'comments.user',
+            'comments.user:id,name,username,avatar',
             'comments.likes',
-            'comments.replies.user'
+            'comments.replies.user:id,name,username,avatar'
         ])->notBanned()
           ->latest()
           ->take(100)
