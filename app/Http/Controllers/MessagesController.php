@@ -9,12 +9,40 @@ use App\Events\ChatMessageSent;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Mail\Events\MessageSent;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Client\Http;
 
 class MessagesController extends Controller
 {
     public function index()
     {
         return view('messages.chat');
+    }
+
+    public function proxyToGemini()
+    {
+        $apiKey = env('GEMINI_API_KEY');
+
+        if (!$apiKey) {
+            Log::error('GEMINI_API_KEY not set in .env file.');
+            return response()->json(['error' => 'Konfigurasi server tidak lengkap.'], 500);
+        }
+
+        $apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={$apiKey}";
+
+        $response = Http::timeout(60)->post($apiUrl, [
+            'contents' => $request->input('contents'),
+        ]);
+
+        if ($response->failed()) {
+            Log::error('Gemini API request failed', [
+                'status' => $response->status(),
+                'body' => $response->body()
+            ]);
+            return response()->json(['error' => 'Gagal menghubungi layanan AI.'], 502);
+        }
+
+        return $response->json();
     }
 
     public function show($id)

@@ -25,19 +25,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Rute ini harus bisa diakses oleh user yang sudah login tapi belum terverifikasi
 Route::get('/verify-code', [VerificationController::class, 'show'])
-    ->middleware('auth') // Diubah dari 'guest'
+    ->middleware('auth')
     ->name('verification.notice');
 
 // Rute ini juga untuk user yang sudah login
 Route::post('/verify-code', [VerificationController::class, 'verify'])
-    ->middleware(['auth', 'throttle:6,1']) // Diubah dari 'guest'
+    ->middleware(['auth', 'throttle:6,1'])
     ->name('verification.verify');
 
 // Rute ini juga untuk user yang sudah login
 Route::post('/resend-code', [VerificationController::class, 'resend'])
-    ->middleware(['auth', 'throttle:6,1']) // Diubah dari 'guest'
+    ->middleware(['auth', 'throttle:6,1'])
     ->name('verification.resend');
 
 // Rute untuk Login dengan Google
@@ -81,8 +80,9 @@ Route::middleware([
     Route::get('/history', [HistoryController::class,'user'])->name('user.history');
     Route::get('/meditation', [MeditationController::class,'user'])->name('user.meditation');
     Route::get('/meditation/white-noise', [MeditationController::class,'meditasi'])->name('user.meditation.meditasi');
-    Route::get('/konseling',[MessagesController::class, 'index'])->name('user.konseling');
-    Route::get('/konseling/bot',[KonselingController::class, 'user'])->name('user.konseling.bot');
+    Route::get('/chat',[MessagesController::class, 'index'])->name('chat');
+    Route::get('/chat/bot',[KonselingController::class, 'user'])->name('chat.bot');
+    Route::post('/chat/gemini', [MessagesController::class, 'proxyToGemini'])->name('chat.gemini');
     Route::get('/profile', [DashboardController::class,'index'])->name('user.profile');
     Route::get('/exercise', [DashboardController::class,'index'])->name('user.exercise');
     Route::get('/setting', [DashboardController::class,'index'])->name('user.setting');

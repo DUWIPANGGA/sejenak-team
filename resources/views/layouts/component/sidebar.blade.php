@@ -31,12 +31,12 @@
         </a>
 
         {{-- Konseling / Chat --}}
-        <a href="{{ route('user.konseling') }}" 
+        <a href="{{ route('chat.bot') }}" 
            class="flex flex-col items-center justify-center w-12 h-12 transition-transform duration-200 hover:scale-110 bg-cover bg-center bg-no-repeat"
-           style="background-image: url('{{ request()->routeIs('user.konseling') 
+           style="background-image: url('{{ request()->routeIs('chat.bot') 
                ? asset('assets/icon_active/chat.svg') 
                : asset('assets/icon/chat.svg') }}'); background-size: 90%">
-            <p class="mt-14 text-xs font-normal {{ request()->routeIs('user.konseling') ? 'text-primary' : 'text-secondary' }} tracking-wider">Chat</p>
+            <p class="mt-14 text-xs font-normal {{ request()->routeIs('chat.bot') ? 'text-primary' : 'text-secondary' }} tracking-wider">Chat</p>
         </a>
 
         {{-- History --}}

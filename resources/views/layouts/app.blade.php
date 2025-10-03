@@ -211,12 +211,6 @@
                 right: auto;
             }
 
-            /* #chat-bubble {
-                bottom: 70px;
-                left: 0;
-                right: auto;
-            } */
-
             #chat-bubble::after {
                 bottom: -10px;
                 right: 20px;
@@ -343,7 +337,7 @@
     <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-10 hidden"></div>
 
     @include('layouts.component.sidebar')
-    <main class="flex-1">
+    <main class="flex-1 flex flex-col">
         <header class="bg-primary text-white p-4 flex items-center justify-between align-middle md:hidden ">
             <button id="menu-toggle" class="text-white focus:outline-none">
                 <i class="fas fa-bars text-xl"></i>

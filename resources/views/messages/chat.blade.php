@@ -1,10 +1,10 @@
 @extends('layouts.app')
-@section('title', 'chat')
+@section('title', 'Chat with Ahli')
 
 @section('content')
 <div class="flex-1 flex w-full h-full p-4 md:p-2 gap-6">
     <!-- Sidebar Daftar Pengguna -->
-    <div class="w-full md:w-1/3 bg-white border-2 border-dark rounded-playful-lg flex flex-col overflow-hidden shadow-border-offset-lg mt-4 md:mt-0 z-10">
+    <div id="chat-list-panel" class="w-full md:w-1/3 bg-white border-2 border-dark rounded-playful-lg flex flex-col overflow-hidden shadow-border-offset-lg mt-4 md:mt-0 z-10">
         <div class="p-4 border-b-2 border-dark flex items-center bg-white">
             <h2 class="text-xl font-bold font-exo2">Chat</h2>
             <input type="text" id="search-users" placeholder="Cari pengguna..." class="ml-3 flex-1 rounded-full py-1 px-3 bg-gray-100 border-2 border-dark focus:outline-none focus:border-primary text-sm">
@@ -12,12 +12,12 @@
         <div id="users-list" class="flex flex-col p-2 overflow-y-auto space-y-2">
             <!-- Daftar pengguna akan dimuat di sini oleh JavaScript -->
             
-            <a href="{{ route('user.konseling.bot') }}" class="user-list-item flex items-center p-3 rounded-playful-sm bg-primary border-2 border-dark shadow-border-offset">
+            <a href="{{ route('chat.bot') }}" class="user-list-item flex items-center p-3 rounded-playful-sm bg-primary border-2 border-dark shadow-border-offset">
                 <div class="w-10 h-10 rounded-full bg-dark flex items-center justify-center text-white mr-3">
                     <i class="fas fa-robot text-lg"></i>
                 </div>
                 <div class="flex-1">
-                    <h3 class="font-bold text-dark font-exo2">Curhat dengan AI</h3>
+                    <h3 class="font-bold text-dark font-exo2">Curhat dengan NEMO</h3>
                     <p class="text-xs text-dark">Temen untuk curhat anda</p>
                 </div>
             </a>
@@ -25,7 +25,7 @@
     </div>
 
     <!-- Area Chat Utama -->
-    <div class="flex-1 hidden md:flex flex-col bg-white border-2 border-dark rounded-playful-lg ml-[-12px] shadow-border-offset-lg mt-4 md:mt-0 p-4 relative">
+    <div id="chat-window-panel" class="flex-1 hidden md:flex flex-col bg-white border-2 border-dark rounded-playful-lg ml-[-12px] shadow-border-offset-lg mt-4 md:mt-0 p-4 relative">
         <!-- Header Chat -->
         <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-2 flex items-center z-20 ">
             <div id="current-chat-info" class="min-w-[150px] ">
@@ -144,243 +144,243 @@
 
 <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize chat application
-        window.ChatApp = {
-            currentUser: {{ Auth::id() }},
-            currentChat: null,
-            pusher: null,
-            channel: null,
-            
-            init: function() {
-                this.loadUsers();
-                this.setupEventListeners();
-                this.initPusher();
-            },
-            
-            initPusher: function() {
-                // Initialize Pusher
-                this.pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
-                    cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
-                    encrypted: true
-                });
-                
-                // Subscribe to user's channel
-                this.channel = this.pusher.subscribe('user.' + this.currentUser);
-                
-                // Listen for new messages
-                this.channel.bind('ChatMessageSent', (data) => {
-                    this.handleNewMessage(data);
-                });
-            },
-            
-            loadUsers: function() {
-                fetch('{{ route("chat.users") }}')
-                    .then(response => response.json())
-                    .then(users => {
-                        this.renderUsers(users);
-                    });
-            },
-            
-            renderUsers: function(users) {
-                const usersList = document.getElementById('users-list');
-                // usersList.innerHTML = '';
-                
-                users.forEach(user => {
-                    const userElement = document.createElement('div');
-                    userElement.className = 'user-list-item';
-                    userElement.dataset.userId = user.id;
-                    userElement.innerHTML = `
-                        <div class="d-flex align-items-center">
-                            <img src="${user.avatar || '/images/user-avatar.png'}" 
-                                 class="rounded-circle mr-3" width="40" height="40">
-                            <div class="flex-grow-1">
-                                <h6 class="mb-0">${user.name}</h6>
-                                <small class="text-muted">
-                                    <span class="user-status" id="status-${user.id}">
-                                        ${user.is_online ? '<span class="online-status"></span> Online' : '<span class="offline-status"></span> Offline'}
-                                    </span>
-                                </small>
-                            </div>
-                            <span class="badge badge-primary badge-pill unread-count" 
-                                  id="unread-${user.id}" style="display: none;">0</span>
-                        </div>
-                    `;
-                    
-                    userElement.addEventListener('click', () => {
-                        this.selectUser(user);
-                    });
-                    
-                    usersList.appendChild(userElement);
-                });
-            },
-            
-            selectUser: function(user) {
-                this.currentChat = user;
-                
-                // Update UI
-                document.querySelectorAll('.user-list-item').forEach(item => {
-                    item.classList.remove('active');
-                });
-                document.querySelector(`[data-user-id="${user.id}"]`).classList.add('active');
-                
-                // Update chat header
-                document.getElementById('current-chat-info').innerHTML = `
-    <div class="flex items-center p-2 bg-white rounded-md border-2 border-dark shadow-md z-20">
-        <!-- Avatar -->
-        <div class="current-contact-avatar w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white mr-2 border-2 border-dark overflow-hidden">
-            ${
-                user.avatar 
-                ? `<img src="${user.avatar}" class="w-full h-full object-cover rounded-full">`
-                : `<i class="fas fa-user text-sm"></i>`
-            }
-        </div>
+document.addEventListener('DOMContentLoaded', function() {
+    const chatListPanel = document.getElementById('chat-list-panel');
+    const chatWindowPanel = document.getElementById('chat-window-panel');
 
-        <!-- Info -->
-        <div class="current-contact-info">
-            <h3 class="font-bold text-base text-dark m-0">${user.name}</h3>
-            <p class="text-xs text-gray-600" id="current-user-status">
-                ${document.getElementById(`status-${user.id}`).innerHTML}
-            </p>
-        </div>
+    window.ChatApp = {
+        currentUser: {{ Auth::id() }},
+        currentChat: null,
+        pusher: null,
+        channel: null,
 
-        <!-- Toggle menu button -->
-        <button id="menuToggle" class="ml-4 text-dark md:hidden">
-            <i class="fas fa-bars"></i>
-        </button>
-    </div>
-`;
-
-                
-                // Show message input
-                document.getElementById('message-input-container').style.display = 'block';
-                
-                // Load messages
-                this.loadMessages(user.id);
-            },
-            
-            loadMessages: function(userId) {
-                fetch(`/chat/messages/${userId}`)
-                    .then(response => response.json())
-                    .then(messages => {
-                        this.renderMessages(messages);
-                        this.markAsRead(userId);
-                    });
-            },
-            
-            renderMessages: function(messages) {
-                const container = document.getElementById('messages-container');
-                container.innerHTML = '';
-                
-                if (messages.length === 0) {
-                    container.innerHTML = '<div class="flex justify-center items-center h-full"><p class="text-gray-500">Mulai percakapan dengan mengirim pesan</p></div>';
-                    return;
-                }
-                
-                messages.forEach(message => {
-                    const messageElement = document.createElement('div');
-                    messageElement.className = `message ${message.sender_id === this.currentUser ? 'sent' : 'received'}`;
-                    
-                    messageElement.innerHTML = `
-                        <div class="message-content">
-                            <div class="message-text">${message.body}</div>
-                            <div class="message-time">
-                                ${new Date(message.created_at).toLocaleTimeString()}
-                            </div>
-                        </div>
-                    `;
-                    
-                    container.appendChild(messageElement);
-                });
-                
-                // Scroll to bottom
-                container.scrollTop = container.scrollHeight;
-            },
-            
-            setupEventListeners: function() {
-                // Message form submission
-                document.getElementById('message-form').addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    this.sendMessage();
-                });
-                
-                // Search users
-                document.getElementById('search-users').addEventListener('input', (e) => {
-                    this.searchUsers(e.target.value);
-                });
-            },
-            
-            sendMessage: function() {
-                const messageInput = document.getElementById('message-input');
-                const message = messageInput.value.trim();
-                
-                if (!message || !this.currentChat) return;
-                
-                fetch('{{ route("chat.send") }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({
-                        receiver_id: this.currentChat.id,
-                        message: message
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        messageInput.value = '';
-                        this.loadMessages(this.currentChat.id);
-                    }
-                });
-            },
-            
-            handleNewMessage: function(data) {
-                if (this.currentChat && data.sender_id === this.currentChat.id) {
-                    // If currently chatting with this user, add the message
-                    this.loadMessages(this.currentChat.id);
-                } else {
-                    // Update unread count
-                    this.updateUnreadCount(data.sender_id);
-                }
-            },
-            
-            updateUnreadCount: function(userId) {
-                const unreadElement = document.getElementById(`unread-${userId}`);
-                if (unreadElement) {
-                    const currentCount = parseInt(unreadElement.textContent) || 0;
-                    unreadElement.textContent = currentCount + 1;
-                    unreadElement.style.display = 'inline-block';
-                }
-            },
-            
-            markAsRead: function(userId) {
-                fetch(`/chat/mark-read/${userId}`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    }
-                });
-                
-                // Reset unread count
-                const unreadElement = document.getElementById(`unread-${userId}`);
-                if (unreadElement) {
-                    unreadElement.style.display = 'none';
-                    unreadElement.textContent = '0';
-                }
-            },
-            
-            searchUsers: function(query) {
-                fetch(`/chat/search-users?search=${encodeURIComponent(query)}`)
-                    .then(response => response.json())
-                    .then(users => {
-                        this.renderUsers(users);
-                    });
-            }
-        };
+        isMobile: function() {
+            return window.innerWidth < 768;
+        },
         
-        ChatApp.init();
-    });
+        init: function() {
+            this.loadUsers();
+            this.setupEventListeners();
+            this.initPusher();
+        },
+        
+        initPusher: function() {
+            this.pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
+                cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
+                encrypted: true
+            });
+            this.channel = this.pusher.subscribe('user.' + this.currentUser);
+            this.channel.bind('ChatMessageSent', (data) => {
+                this.handleNewMessage(data);
+            });
+        },
+        
+        loadUsers: function() {
+            fetch('{{ route("chat.users") }}')
+                .then(response => response.json())
+                .then(users => {
+                    this.renderUsers(users);
+                });
+        },
+        
+        renderUsers: function(users) {
+            const usersList = document.getElementById('users-list');
+            
+            users.forEach(user => {
+                const userElement = document.createElement('div');
+                userElement.className = 'user-list-item';
+                userElement.dataset.userId = user.id;
+                userElement.innerHTML = `
+                    <div class="flex items-center w-full">
+                        <img src="${user.avatar || 'https://ui-avatars.com/api/?name=' + user.name}" 
+                             class="rounded-full mr-3" width="40" height="40">
+                        <div class="flex-1">
+                            <h6 class="font-bold mb-0">${user.name}</h6>
+                            <small class="text-muted" id="status-${user.id}">
+                                ${user.is_online ? '<span class="online-status"></span> Online' : '<span class="offline-status"></span> Offline'}
+                            </small>
+                        </div>
+                        <span class="unread-count text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full" 
+                              id="unread-${user.id}" style="display: none;">0</span>
+                    </div>
+                `;
+                
+                userElement.addEventListener('click', () => {
+                    this.selectUser(user);
+                });
+                
+                usersList.appendChild(userElement);
+            });
+        },
+        
+        selectUser: function(user) {
+            this.currentChat = user;
+            
+            if (this.isMobile()) {
+                chatListPanel.classList.add('hidden');
+                chatWindowPanel.classList.remove('hidden');
+                chatWindowPanel.classList.add('flex');
+            }
+            
+            document.querySelectorAll('.user-list-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`[data-user-id="${user.id}"]`).classList.add('active');
+            
+            document.getElementById('current-chat-info').innerHTML = `
+                <div class="flex items-center p-2 bg-white rounded-md border-2 border-dark shadow-md z-20 w-full">
+                    <button id="back-to-list-button" class="text-dark mr-3 md:hidden">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    
+                    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white mr-2 border-2 border-dark overflow-hidden">
+                        ${ user.avatar 
+                           ? `<img src="${user.avatar}" class="w-full h-full object-cover">`
+                           : `<i class="fas fa-user text-sm"></i>` }
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-base text-dark m-0">${user.name}</h3>
+                        <p class="text-xs text-gray-600" id="current-user-status">
+                            ${document.getElementById(`status-${user.id}`).innerHTML}
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('back-to-list-button').addEventListener('click', () => {
+                chatWindowPanel.classList.add('hidden');
+                chatWindowPanel.classList.remove('flex');
+                chatListPanel.classList.remove('hidden');
+                this.currentChat = null;
+            });
+            
+            document.getElementById('message-input-container').style.display = 'block';
+            this.loadMessages(user.id);
+        },
+        
+        loadMessages: function(userId) {
+            fetch(`/chat/messages/${userId}`)
+                .then(response => response.json())
+                .then(messages => {
+                    this.renderMessages(messages);
+                    this.markAsRead(userId);
+                });
+        },
+        
+        renderMessages: function(messages) {
+            const container = document.getElementById('messages-container');
+            container.innerHTML = '';
+            
+            if (messages.length === 0) {
+                container.innerHTML = '<div class="flex justify-center items-center h-full"><p class="text-gray-500">Mulai percakapan dengan mengirim pesan</p></div>';
+                return;
+            }
+            
+            messages.forEach(message => {
+                const messageElement = document.createElement('div');
+                messageElement.className = `message ${message.sender_id === this.currentUser ? 'sent' : 'received'}`;
+                
+                messageElement.innerHTML = `
+                    <div class="message-content">
+                        <div class="message-text">${message.body}</div>
+                        <div class="message-time">
+                            ${new Date(message.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(messageElement);
+            });
+            
+            container.scrollTop = container.scrollHeight;
+        },
+        
+        setupEventListeners: function() {
+            document.getElementById('message-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.sendMessage();
+            });
+            
+            document.getElementById('search-users').addEventListener('input', (e) => {
+                this.searchUsers(e.target.value);
+            });
+        },
+        
+        sendMessage: function() {
+            const messageInput = document.getElementById('message-input');
+            const message = messageInput.value.trim();
+            
+            if (!message || !this.currentChat) return;
+            
+            fetch('{{ route("chat.send") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    receiver_id: this.currentChat.id,
+                    message: message
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    messageInput.value = '';
+                    // Optimistic UI update can be added here
+                    this.loadMessages(this.currentChat.id);
+                }
+            });
+        },
+        
+        handleNewMessage: function(data) {
+            if (this.currentChat && data.message.sender_id === this.currentChat.id) {
+                this.loadMessages(this.currentChat.id);
+            } else {
+                this.updateUnreadCount(data.message.sender_id);
+            }
+        },
+        
+        updateUnreadCount: function(userId) {
+            const unreadElement = document.getElementById(`unread-${userId}`);
+            if (unreadElement) {
+                const currentCount = parseInt(unreadElement.textContent) || 0;
+                unreadElement.textContent = currentCount + 1;
+                unreadElement.style.display = 'flex';
+            }
+        },
+        
+        markAsRead: function(userId) {
+            fetch(`/chat/mark-read/${userId}`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            });
+            
+            const unreadElement = document.getElementById(`unread-${userId}`);
+            if (unreadElement) {
+                unreadElement.style.display = 'none';
+                unreadElement.textContent = '0';
+            }
+        },
+        
+        searchUsers: function(query) {
+            const usersList = document.getElementById('users-list');
+            const originalItems = usersList.querySelectorAll('.user-list-item');
+            
+            originalItems.forEach(item => {
+                const userName = item.querySelector('h6').textContent.toLowerCase();
+                if (userName.includes(query.toLowerCase())) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    };
+    
+    ChatApp.init();
+});
 </script>
 @endsection
