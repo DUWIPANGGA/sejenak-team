@@ -3,8 +3,7 @@
 @section('title', 'Profil Pengguna')
 
 @section('content')
-    <div class="flex flex-col md:flex-row items-center md:items-stretch justify-center px-6 py-0 w-full h-full gap-6 md:overflow-hidden overflow-scroll">
-
+    <div class="flex flex-col md:flex-row items-center md:items-stretch justify-center px-6 py-0 w-full h-full gap-6 md:overflow-hidden">
         <div class="w-full md:w-1/3 flex flex-col gap-6 h-full">
             <div class="flex flex-col  items-center justify-start p-4 bg-white rounded-playful-sm border-2 border-dark shadow-border-offset">
                 <h2 class="text-h4 md:text-h3 font-bold text-dark mb-4 text-center">Profil Saya</h2>

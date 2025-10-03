@@ -211,11 +211,11 @@
                 right: auto;
             }
 
-            #chat-bubble {
+            /* #chat-bubble {
                 bottom: 70px;
-                right: -20px;
-                left: auto;
-            }
+                left: 0;
+                right: auto;
+            } */
 
             #chat-bubble::after {
                 bottom: -10px;
@@ -354,7 +354,8 @@
             <div class="w-6"></div>
         </header>
 
-        <div class="dot-background md:m-5 md:ml-1 md:rounded-[40px] border-2 border-dark md:shadow-[5px_7px_0px_#080330] p-2 md:py-6 px-0 flex flex-col md:flex-row justify-center align-middle items-center max-w-[100vw] md:max-w-[95vw] h-[94vh] max-h-[94vh] overflow-hidden">
+        <!-- <div class="dot-background md:m-5 md:ml-1 md:rounded-[40px] border-2 border-dark md:shadow-[5px_7px_0px_#080330] p-2 md:py-6 px-0 flex flex-col md:flex-row justify-center align-middle items-center max-w-[100vw] md:max-w-[95vw] h-[94vh] max-h-[94vh] overflow-hidden"> -->
+        <div class="dot-background md:m-5 md:ml-1 md:rounded-[40px] border-2 border-dark md:shadow-[5px_7px_0px_#080330] p-2 md:py-6 px-0 flex flex-col md:flex-row justify-center align-middle items-center max-w-[100vw] md:max-w-[95vw] md:h-[94vh] md:max-h-[94vh] overflow-y-auto md:overflow-hidden">
             <!-- Error Notification -->
             @if(session('error') || $errors->any())
             <div x-data="{ show: true }" x-show="show" x-transition class="fixed top-20 md:top-10 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4">
@@ -471,8 +472,8 @@
                 if (isMobile()) {
                     floatingChatContainer.classList.remove('desktop');
                     floatingChatContainer.classList.add('mobile');
-                    chatBubble.style.right = '0';
-                    chatBubble.style.left = 'auto';
+                    chatBubble.style.left = '0';
+                    chatBubble.style.right = 'auto';
                 } else {
                     floatingChatContainer.classList.remove('mobile');
                     floatingChatContainer.classList.add('desktop');
