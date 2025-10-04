@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-{{-- @section('title', 'Journaling') --}}
+@section('title', 'Journaling')
+
 @section('style')
 <style>
     /* Tambahan styling untuk memoles detail seperti pada gambar */
@@ -180,7 +181,7 @@
 @endsection
 @section('content')
 
-<div class="flex flex-col md:flex-row w-full h-full gap-2 md:gap-4 p-2 md:p-4 rounded-playful-lg overflow-scroll md:overflow-hidden">
+<div class="flex flex-col md:flex-row w-full h-full gap-2 md:gap-4 p-2 md:p-4 pb-20 md:pb-0 rounded-playful-lg overflow-scroll md:overflow-hidden">
 
     <div class="flex flex-col w-full md:w-[350px] min-w-[280px] h-full gap-4">
 

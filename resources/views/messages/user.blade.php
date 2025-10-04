@@ -326,6 +326,32 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // Fungsi untuk mendapatkan informasi waktu
+    function getCurrentDateTimeInfo() {
+        const now = new Date();
+        const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        
+        const dayName = days[now.getDay()];
+        const date = now.getDate();
+        const monthName = months[now.getMonth()];
+        const year = now.getFullYear();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        
+        return {
+            dayName: dayName,
+            date: date,
+            monthName: monthName,
+            year: year,
+            hours: hours,
+            minutes: minutes,
+            timezone: 'WIB',
+            fullDate: `${dayName}, ${date} ${monthName} ${year}`,
+            fullDateTime: `${dayName}, ${date} ${monthName} ${year} pukul ${hours}:${minutes} WIB`
+        };
+    }
+
     // --- Fungsi API Gemini ---
     async function sendMessageToGemini(userMessage, conversationHistory) {
         const GEMINI_API_KEY = "AIzaSyBLma6UUgkYmEIj9Rhvgog_GG5DBgq9ERg";
@@ -333,25 +359,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
         try {
             const config = psychologistConfigs[currentModel];
+            const currentDateTime = getCurrentDateTimeInfo();
             
-            // Build conversation history for prompt
-            let historyText = "";
-            conversationHistory.forEach(msg => {
-                const speaker = msg.role === 'user' ? 'User' : config.name;
-                historyText += `${speaker}: ${msg.content}\n`;
-            });
-
             const prompt = `
                 ${config.promptContext}
 
+                [INFORMASI WAKTU SAAT INI: ${currentDateTime.fullDateTime}]
+                [HARI INI: ${currentDateTime.dayName}]
+                [TANGGAL: ${currentDateTime.date} ${currentDateTime.monthName} ${currentDateTime.year}]
+                [JAM: ${currentDateTime.hours}:${currentDateTime.minutes} WIB]
+
                 Riwayat percakapan:
                 ${conversationHistory.map(msg =>
-                                    `${msg.role === 'user' ? 'Klien' : config.name}: ${msg.content}`
-                                ).join('\n')}
+                    `${msg.role === 'user' ? 'Klien' : config.name}: ${msg.content}`
+                ).join('\n')}
 
-                Pesan terbaru dari klien: "${userMessage}"
+                Pesan user: "${userMessage}"
 
-                Berikan respons sebagai ${config.specialty} dalam bahasa Indonesia maksimal 3 paragraf.`;
+                INSTRUKSI:
+                - Hanya gunakan informasi waktu jika user secara spesifik menanyakan tentang hari, tanggal, atau jam
+                - Jika user tidak menanyakan waktu, jangan sebutkan informasi tanggal/jam
+                - Tetap berperan sebagai Nemo yang friendly dan supportif
+                - Respons maksimal 2-3 kalimat, bahasa Indonesia santai`;
 
             const response = await fetch(GEMINI_API_URL, {
                 method: 'POST',

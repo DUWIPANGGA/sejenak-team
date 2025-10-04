@@ -352,7 +352,7 @@
         <header class="bg-primary text-white px-4 py-3 flex items-center justify-center shadow-border-offset border-b-2 border-dark md:hidden sticky top-0 z-40">
             <div class="flex items-center space-x-2 hover-gentle-bounce">
                 <div class="w-9 h-9 rounded-playful-sm flex items-center justify-center">
-                    <img src="{{ asset('assets/icon/sejenak-header.svg') }}" alt="Sejenak" class="w-full h-full">
+                    <img src="{{ asset('assets/icon/sejenak-header.svg') }}" alt="Sejenak Logo" class="w-full h-full">
                 </div>
                 <h1 class="text-lg font-bold font-exo2 text-dark">Sejenak</h1>
             </div>
@@ -363,7 +363,7 @@
             <div class="flex justify-around items-center py-2">
                 <!-- Dashboard -->
                 <a href="{{ route('user.dashboard') }}" class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
-                    <div class="w-10 h-10 rounded-playful-sm flex items-center justify-center">
+                    <div class="w-9 h-9 rounded-playful-sm flex items-center justify-center">
                         <img src="{{ asset('assets/icon/nav-dashboard.svg') }}" alt="Dashboard">
                     </div>
                     <span class="text-xs font-medium text-dark">Dashboard</span>
@@ -444,7 +444,7 @@
         </div>
     </main>
 
-    <div id="floating-chat-container" class="desktop">
+    <!-- <div id="floating-chat-container" class="desktop">
         <div id="chat-bubble">
             <div id="chat-bubble-content">
                 <p class="chat-message-ai">Hai! Aku adalah Sejenak AI. Ada yang bisa saya bantu?</p>
@@ -456,10 +456,10 @@
                 </button>
             </div>
         </div>
-        <!-- <div id="floating-chat-avatar-btn" class="bg-none">
+        <div id="floating-chat-avatar-btn" class="bg-none">
             <img src="{{ asset('assets/component/lady_icon.svg') }}" alt="AI Avatar" class="bg-transparent">
-        </div> -->
-    </div>
+        </div>
+    </div> -->
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

@@ -3,7 +3,8 @@
 @section('title', 'Meditasi')
 
 @section('content')
-<div id="main-meditation-page" class="w-full h-full flex flex-col lg:flex-row bg-background p-4 md:px-8 lg:px-12 font-main pb-28">
+<div id="main-meditation-page" class="w-full h-full flex flex-col lg:flex-row bg-background p-4 md:px-8 lg:px-12 font-main">
+
     <div class="flex-1 p-0 md:p-4 flex flex-col items-center justify-start gap-6">
 
         <div class="w-full max-w-xl p-6 bg-white border-2 border-dark rounded-playful-sm shadow-border-offset transition-all duration-300 transform hover:scale-105">
