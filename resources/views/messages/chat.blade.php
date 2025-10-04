@@ -2,16 +2,15 @@
 @section('title', 'Chat with Ahli')
 
 @section('content')
-<div class="flex-1 flex w-full h-full p-4 md:p-2 gap-6">
+<div class="flex-1 flex w-full h-full p-4 md:p-2 gap-6 pb-20 md:pb-0">
     <!-- Sidebar Daftar Pengguna -->
-    <div id="chat-list-panel" class="w-full md:w-1/3 bg-white border-2 border-dark rounded-playful-lg flex flex-col overflow-hidden shadow-border-offset-lg mt-4 md:mt-0 z-10">
+    <div id="chat-list-panel" class="w-full md:w-1/3 bg-white border-2 border-dark rounded-playful-lg flex flex-col overflow-hidden shadow-border-offset-lg mt-1 md:mt-0 z-10">
         <div class="p-4 border-b-2 border-dark flex items-center bg-white">
             <h2 class="text-xl font-bold font-exo2">Chat</h2>
             <input type="text" id="search-users" placeholder="Cari pengguna..." class="ml-3 flex-1 rounded-full py-1 px-3 bg-gray-100 border-2 border-dark focus:outline-none focus:border-primary text-sm">
         </div>
         <div id="users-list" class="flex flex-col p-2 overflow-y-auto space-y-2">
             <!-- Daftar pengguna akan dimuat di sini oleh JavaScript -->
-            
             <a href="{{ route('chat.bot') }}" class="user-list-item flex items-center p-3 rounded-playful-sm bg-primary border-2 border-dark shadow-border-offset">
                 <div class="w-10 h-10 rounded-full bg-dark flex items-center justify-center text-white mr-3">
                     <i class="fas fa-robot text-lg"></i>

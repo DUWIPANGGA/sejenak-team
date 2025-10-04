@@ -3,8 +3,7 @@
 @section('title', 'Meditasi')
 
 @section('content')
-<div id="main-meditation-page" class="w-full h-full flex flex-col lg:flex-row bg-background p-4 md:px-8 lg:px-12 font-main gap-">
-
+<div id="main-meditation-page" class="w-full h-full flex flex-col lg:flex-row bg-background p-4 md:px-8 lg:px-12 font-main pb-28">
     <div class="flex-1 p-0 md:p-4 flex flex-col items-center justify-start gap-6">
 
         <div class="w-full max-w-xl p-6 bg-white border-2 border-dark rounded-playful-sm shadow-border-offset transition-all duration-300 transform hover:scale-105">
@@ -14,10 +13,7 @@
                 <i class="fas fa-history text-secondary"></i>
             </div>
         </div>
-        
-        {{-- ======================================================= --}}
-        {{-- PENGECEKAN DITAMBAHKAN DI SINI UNTUK MENCEGAH ERROR --}}
-        {{-- ======================================================= --}}
+
         @if($dailySong)
         <div class="w-full max-w-xl p-6 bg-white border-2 border-dark rounded-playful-sm shadow-border-offset-lg transition-all duration-300 transform hover:-translate-y-1">
             <h3 class="text-h5 text-dark font-bold mb-4">Putar Meditasi Harian</h3>
@@ -44,9 +40,6 @@
             </audio>
         </div>
         @else
-        {{-- ======================================================= --}}
-        {{-- BAGIAN ELSE JIKA TIDAK ADA LAGU HARIAN --}}
-        {{-- ======================================================= --}}
         <div class="w-full max-w-xl p-6 bg-white border-2 border-dark rounded-playful-sm shadow-border-offset-lg">
              <h3 class="text-h5 text-dark font-bold mb-2">Putar Meditasi Harian</h3>
              <p class="text-gray-600 text-sm">Maaf, meditasi harian tidak tersedia saat ini. Silakan coba lagi nanti.</p>
