@@ -28,7 +28,7 @@
 </style>
 @endsection
 @section('content')
-<div class="w-full h-full grid grid-cols-1 md:grid-cols-3 gap-6 px-8 py-4">
+<div class="w-full h-full grid grid-cols-1 md:grid-cols-3 gap-6 px-8 py-4 pb-24">
 
     <div class="flex flex-col gap-4">
         <div class="flex flex-row gap-4">

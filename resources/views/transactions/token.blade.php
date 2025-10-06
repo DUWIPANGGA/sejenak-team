@@ -10,7 +10,7 @@
 
 
 @section('content')
-<div class="flex flex-col items-center w-full h-full p-4 md:p-0 overflow-y-auto m-0">
+<div class="flex flex-col items-center w-full h-full p-4 pb-24 md:p-0 overflow-y-auto m-0">
     <div class="text-center my-8 md:my-12">
         <h1 class="text-4xl md:text-5xl font-bold font-exo2 text-dark text-shadow-h1">Pilih Paket Token</h1>
         <p class="text-lg md:text-xl text-gray-600 mt-2 font-poppins text-shadow-soft">Temukan paket yang paling cocok untuk kebutuhan curhatmu!</p>

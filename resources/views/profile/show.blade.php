@@ -3,17 +3,7 @@
 @section('title', 'Profil Pengguna')
 
 @section('content')
-    {{-- 
-        =====================================================================
-        PERBAIKAN FINAL:
-        =====================================================================
-        1. 'overflow-y-auto' DIHAPUS dari div ini untuk menghilangkan scrollbar ganda.
-        2. 'gap-6' DIKEMBALIKAN untuk memperbaiki jarak antar kolom di desktop.
-        3. 'pt-16' & 'pb-24' DIPERTAHANKAN dan sekarang akan berfungsi dengan benar untuk 
-           mengatasi masalah header & navigasi di mobile.
-    --}}
-    <div class="flex flex-col md:flex-row items-start md:items-stretch justify-start p-6 pt-16 pb-24 md:p-4 w-full h-full gap-6">
-        
+    <div class="flex flex-col md:flex-row items-start md:items-stretch justify-start p-6 pt-6 pb-24 md:p-4 w-full h-full gap-6">
         <div class="w-full md:w-1/3 flex flex-col gap-6">
             <div class="flex flex-col items-center justify-start p-4 bg-white rounded-playful-lg border-2 border-dark shadow-border-offset">
                 <h2 class="text-h4 md:text-h3 font-bold text-dark mb-4 text-center">Profil Saya</h2>
