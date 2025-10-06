@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class PostApiController extends Controller
+class PostController extends Controller
 {
     /**
      * Ambil semua postingan
