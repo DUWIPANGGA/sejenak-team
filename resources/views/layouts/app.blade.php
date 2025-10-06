@@ -392,6 +392,14 @@
                     </div>
                     <span class="text-xs font-medium text-dark">Journal</span>
                 </a>
+
+                <!-- Profil -->
+                <a href="{{ route('user.profiles') }}" class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
+                    <div class="w-9 h-9 rounded-playful-sm flex items-center justify-center">
+                        <img src="{{ asset('assets/icon/nav-profile.svg') }}" alt="Profil">
+                    </div>
+                    <span class="text-xs font-medium text-dark">Profil</span>
+                </a>
             </div>
         </nav>
 
