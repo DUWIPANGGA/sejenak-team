@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\MoodController;
@@ -65,11 +66,18 @@ Route::middleware('auth:api')->group(function () {
             Route::post('/toggle', [LikeController::class, 'toggleLike']); 
         });
         
+        Route::prefix('posts')->group(function () {
+            Route::get('/', [PostController::class, 'index']);
+            Route::post('/', [PostController::class, 'store']);
+            Route::get('/{id}', [PostController::class, 'show']);
+            Route::put('/{id}', [PostController::class, 'update']);
+            Route::delete('/{id}', [PostController::class, 'destroy']);
+        });
         Route::prefix('comments')->group(function () {
             Route::get('/', [CommentController::class, 'index']);
             Route::post('/', [CommentController::class, 'store']);
             Route::get('/{comment}', [CommentController::class, 'show']);
-Route::get('/post/{postId}', [CommentController::class, 'getByPost']);            Route::put('/{comment}', [CommentController::class, 'update']);
+            Route::get('/post/{postId}', [CommentController::class, 'getByPost']);            Route::put('/{comment}', [CommentController::class, 'update']);
             Route::delete('/{comment}', [CommentController::class, 'destroy']);
         });
         Route::prefix('replies')->group(function () {

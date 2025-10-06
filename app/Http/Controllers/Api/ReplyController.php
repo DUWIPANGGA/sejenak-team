@@ -14,10 +14,8 @@ class ReplyController extends Controller
         $user = Auth::user();
 
         if ($user->role_id === 1) {
-            // admin → semua reply
             $replies = Reply::with(['comment.post', 'user'])->latest()->paginate(15);
         } else {
-            // user → hanya reply miliknya
             $replies = Reply::with(['comment.post', 'user'])
                 ->where('user_id', $user->id)
                 ->latest()
