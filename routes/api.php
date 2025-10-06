@@ -69,7 +69,7 @@ Route::middleware('auth:api')->group(function () {
             Route::get('/', [CommentController::class, 'index']);
             Route::post('/', [CommentController::class, 'store']);
             Route::get('/{comment}', [CommentController::class, 'show']);
-            Route::put('/{comment}', [CommentController::class, 'update']);
+Route::get('/post/{postId}', [CommentController::class, 'getByPost']);            Route::put('/{comment}', [CommentController::class, 'update']);
             Route::delete('/{comment}', [CommentController::class, 'destroy']);
         });
         Route::prefix('replies')->group(function () {
