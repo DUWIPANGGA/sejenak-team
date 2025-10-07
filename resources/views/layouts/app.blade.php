@@ -154,17 +154,6 @@
             border-bottom-right-radius: 0;
         }
 
-        .full-height-container {
-            min-height: 90.5dvh;
-            height: 90.5dvh;
-            max-height: 90.5dvh;
-        }
-        
-        .chat-container-adjust {
-            height: calc(100vh - 2rem);
-            max-height: none !important;
-        }
-
         #chat-input-area {
             display: flex;
             border-top: 1px solid #ccc;
@@ -221,6 +210,12 @@
                 top: auto;
                 right: auto;
             }
+
+            /* #chat-bubble {
+                bottom: 70px;
+                left: 0;
+                right: auto;
+            } */
 
             #chat-bubble::after {
                 bottom: -10px;
@@ -367,12 +362,15 @@
             @yield('page-header')
         </div>
         
-        <div class="dot-background md:m-5 md:ml-1 md:rounded-[40px] border-2 border-dark md:shadow-[5px_7px_0px_#080330] p-2 md:py-6 px-0 flex flex-col md:flex-row justify-center align-middle items-center max-w-[100vw] md:max-w-[95vw] flex-1 overflow-y-auto md:overflow-hidden">
+        {{-- <div class="dot-background md:m-5 md:ml-1 md:rounded-[40px] border-2 border-dark md:shadow-[5px_7px_0px_#080330] p-2 md:py-6 px-0 flex flex-col md:flex-row justify-center align-middle items-center max-w-[100vw] md:max-w-[95vw] flex-1 overflow-y-auto md:overflow-hidden"> --}}
+        <div class="dot-background md:m-5 md:ml-1 md:rounded-[40px] border-2 border-dark md:shadow-[5px_7px_0px_#080330] p-2 md:py-6 px-0 flex flex-col md:flex-row justify-center align-middle items-center max-w-[100vw] md:max-w-[95vw] md:h-[94vh] md:max-h-[94vh] overflow-y-auto md:overflow-hidden">
             <!-- Error Notification -->
             @if(session('error') || $errors->any())
             <div x-data="{ show: true }" x-show="show" x-transition class="fixed top-20 md:top-10 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4">
                 <div class="bg-red-500 text-white px-4 py-3 rounded-lg shadow-lg flex items-start space-x-3 w-full">
                     <!-- Icon -->
+
+
                     <div class="flex-1">
                         <p class="font-semibold">Terjadi Kesalahan</p>
 
@@ -400,6 +398,7 @@
             <div x-data="{ show: true }" x-show="show" x-transition class="fixed top-20 md:top-10 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4">
                 <div class="bg-green-500 text-white px-4 py-3 rounded-lg shadow-lg flex items-start space-x-3 w-full">
                     <!-- Icon -->
+
                     <div class="flex-1">
                         <p class="font-semibold">Berhasil</p>
                         <p class="text-sm">{{ session('success') }}</p>
@@ -550,7 +549,7 @@
                 addMessage('Thinking...', false);
 
                 const API_KEY = 'AIzaSyBLma6UUgkYmEIj9Rhvgog_GG5DBgq9ERg'; // WARNING: This is INSECURE!
-                const API_URL = https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY};
+                const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
 
 
                 try {
@@ -582,7 +581,7 @@
                     });
 
                     if (!response.ok) {
-                        throw new Error(API response error: ${response.status} ${response.statusText});
+                        throw new Error(`API response error: ${response.status} ${response.statusText}`);
                     }
 
                     const data = await response.json();
