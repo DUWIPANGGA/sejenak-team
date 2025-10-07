@@ -345,13 +345,17 @@
     </script>
 </head>
 <body class="bg-gray-100 min-h-screen flex lexend">
-    <header class="fixed top-0 left-0 right-0 bg-primary text-white px-4 py-3 flex items-center justify-center shadow-border-offset border-b-2 border-dark md:hidden z-40">
+    <header class="fixed top-0 left-0 right-0 bg-primary px-4 py-3 flex items-center justify-between shadow-border-offset border-b-2 border-dark md:hidden z-40">
         <div class="flex items-center space-x-2 hover-gentle-bounce">
             <div class="w-9 h-9 rounded-playful-sm flex items-center justify-center">
                 <img src="{{ asset('assets/icon/sejenak-header.svg') }}" alt="Sejenak Logo" class="w-full h-full">
             </div>
             <h1 class="text-lg font-bold font-exo2 text-dark">Sejenak</h1>
         </div>
+    
+        <a href="{{ route('user.profiles') }}">
+            <img src="{{ asset('assets/icon/nav-profile.svg') }}" alt="User Profile" class="w-8 h-8">
+        </a>
     </header>
 
     <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-10 hidden"></div>
@@ -437,6 +441,12 @@
                 </div>
                 <span class="text-xs font-medium text-dark">Dashboard</span>
             </a>
+            <a href="{{ route('user.comunity') }}" class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
+                <div class="w-10 h-10 rounded-playful-sm flex items-center justify-center">
+                    <img src="{{ asset('assets/icon/nav-post.svg') }}" alt="Postingan">
+                </div>
+                <span class="text-xs font-medium text-dark">Postingan</span>
+            </a>
             <a href="{{ route('user.meditation') }}" class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
                 <div class="w-10 h-10 rounded-playful-sm flex items-center justify-center">
                     <img src="{{ asset('assets/icon/nav-meditasi.svg') }}" alt="Meditasi">
@@ -454,12 +464,6 @@
                     <img src="{{ asset('assets/icon/nav-journal.svg') }}" alt="Journal">
                 </div>
                 <span class="text-xs font-medium text-dark">Journal</span>
-            </a>
-            <a href="{{ route('user.profiles') }}" class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
-                <div class="w-9 h-9 rounded-playful-sm flex items-center justify-center">
-                    <img src="{{ asset('assets/icon/nav-profile.svg') }}" alt="Profil">
-                </div>
-                <span class="text-xs font-medium text-dark">Profil</span>
             </a>
         </div>
     </nav>
@@ -546,7 +550,7 @@
                 addMessage('Thinking...', false);
 
                 const API_KEY = 'AIzaSyBLma6UUgkYmEIj9Rhvgog_GG5DBgq9ERg'; // WARNING: This is INSECURE!
-                const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+                const API_URL = https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY};
 
 
                 try {
@@ -578,7 +582,7 @@
                     });
 
                     if (!response.ok) {
-                        throw new Error(`API response error: ${response.status} ${response.statusText}`);
+                        throw new Error(API response error: ${response.status} ${response.statusText});
                     }
 
                     const data = await response.json();
