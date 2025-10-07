@@ -67,9 +67,6 @@ Route::patch('/{id}', [JournalController::class, 'update']);
             Route::delete('/{id}', [LikeController::class, 'destroy']);
             Route::post('/toggle', [LikeController::class, 'toggleLike']);
         });
-<<<<<<< HEAD
-
-=======
         
         Route::prefix('posts')->group(function () {
             Route::get('/', [PostController::class, 'index']);
@@ -78,7 +75,6 @@ Route::patch('/{id}', [JournalController::class, 'update']);
             Route::put('/{id}', [PostController::class, 'update']);
             Route::delete('/{id}', [PostController::class, 'destroy']);
         });
->>>>>>> b1af03ba5fb1ba535198779403c15f0789a82b46
         Route::prefix('comments')->group(function () {
             Route::get('/', [CommentController::class, 'index']);
             Route::post('/', [CommentController::class, 'store']);
