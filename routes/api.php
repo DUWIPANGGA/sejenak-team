@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\MoodController;
@@ -66,12 +67,23 @@ Route::patch('/{id}', [JournalController::class, 'update']);
             Route::delete('/{id}', [LikeController::class, 'destroy']);
             Route::post('/toggle', [LikeController::class, 'toggleLike']);
         });
+<<<<<<< HEAD
 
+=======
+        
+        Route::prefix('posts')->group(function () {
+            Route::get('/', [PostController::class, 'index']);
+            Route::post('/', [PostController::class, 'store']);
+            Route::get('/{id}', [PostController::class, 'show']);
+            Route::put('/{id}', [PostController::class, 'update']);
+            Route::delete('/{id}', [PostController::class, 'destroy']);
+        });
+>>>>>>> b1af03ba5fb1ba535198779403c15f0789a82b46
         Route::prefix('comments')->group(function () {
             Route::get('/', [CommentController::class, 'index']);
             Route::post('/', [CommentController::class, 'store']);
             Route::get('/{comment}', [CommentController::class, 'show']);
-            Route::put('/{comment}', [CommentController::class, 'update']);
+            Route::get('/post/{postId}', [CommentController::class, 'getByPost']);            Route::put('/{comment}', [CommentController::class, 'update']);
             Route::delete('/{comment}', [CommentController::class, 'destroy']);
         });
         Route::prefix('replies')->group(function () {

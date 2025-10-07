@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Meditasi White Noise')
+
 @section('content')
 <div id="meditationPage" class="w-full  bg-background font-main p-4 md:p-8">
 

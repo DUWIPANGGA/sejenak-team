@@ -27,6 +27,7 @@
 
 </style>
 @endsection
+
 @section('content')
 <div class="w-full h-full grid grid-cols-1 md:grid-cols-3 gap-6 px-8 py-4">
 
