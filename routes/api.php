@@ -63,14 +63,20 @@ Route::middleware('auth:api')->group(function () {
     });
     Route::prefix('comunity')->group(function () {
         Route::get('/', [ComunityController::class, 'index']);
-        Route::get('/my-posts', [PostController::class, 'getAllMyPost']);
         Route::prefix('likes')->group(function () {
             Route::get('/', [LikeController::class, 'index']);
             Route::post('/', [LikeController::class, 'store']);
             Route::delete('/{id}', [LikeController::class, 'destroy']);
             Route::post('/toggle', [LikeController::class, 'toggleLike']);
         });
-
+        Route::prefix('posts')->group(function () {
+            Route::get('/my-posts', [PostController::class, 'getAllMyPost']);
+            Route::get('/', [PostController::class, 'index']);
+            Route::post('/', [PostController::class, 'store']);
+            Route::get('/{id}', [PostController::class, 'show']);
+            Route::put('/{id}', [PostController::class, 'update']);
+            Route::delete('/{id}', [PostController::class, 'destroy']);
+            });
         Route::prefix('comments')->group(function () {
             Route::get('/', [CommentController::class, 'index']);
             Route::post('/', [CommentController::class, 'store']);
