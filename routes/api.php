@@ -16,6 +16,7 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\Api\ComunityController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\MeditationController;
+use App\Http\Controllers\Api\UserDailyChallengeController;
 
 
 Route::get('/user', function (Request $request) {
@@ -59,28 +60,27 @@ Route::patch('/{id}', [JournalController::class, 'update']);
         Route::delete('/{id}', [MoodController::class, 'destroy']);
         Route::get('/statistics', [MoodController::class, 'statistics']);
     });
-    Route::prefix('comunity')->group(function () {
-        Route::get('/', [ComunityController::class, 'index']);
-        Route::prefix('likes')->group(function () {
-            Route::get('/', [LikeController::class, 'index']);
-            Route::post('/', [LikeController::class, 'store']);
-            Route::delete('/{id}', [LikeController::class, 'destroy']);
-            Route::post('/toggle', [LikeController::class, 'toggleLike']);
-        });
-        
-        Route::prefix('posts')->group(function () {
-            Route::get('/', [PostController::class, 'index']);
-            Route::post('/', [PostController::class, 'store']);
-            Route::get('/{id}', [PostController::class, 'show']);
-            Route::put('/{id}', [PostController::class, 'update']);
-            Route::delete('/{id}', [PostController::class, 'destroy']);
-        });
-        Route::prefix('comments')->group(function () {
-            Route::get('/', [CommentController::class, 'index']);
-            Route::post('/', [CommentController::class, 'store']);
-            Route::get('/{comment}', [CommentController::class, 'show']);
-            Route::get('/post/{postId}', [CommentController::class, 'getByPost']);            Route::put('/{comment}', [CommentController::class, 'update']);
-            Route::delete('/{comment}', [CommentController::class, 'destroy']);
+        Route::prefix('comunity')->group(function () {
+            Route::get('/', [ComunityController::class, 'index']);
+            Route::prefix('likes')->group(function () {
+                Route::get('/', [LikeController::class, 'index']);
+                Route::post('/', [LikeController::class, 'store']);
+                Route::delete('/{id}', [LikeController::class, 'destroy']);
+                Route::post('/toggle', [LikeController::class, 'toggleLike']);
+            });
+            Route::prefix('posts')->group(function () {
+                Route::get('/', [PostController::class, 'index']);
+                Route::post('/', [PostController::class, 'store']);
+                Route::get('/{id}', [PostController::class, 'show']);
+                Route::put('/{id}', [PostController::class, 'update']);
+                Route::delete('/{id}', [PostController::class, 'destroy']);
+            });
+            Route::prefix('comments')->group(function () {
+                Route::get('/', [CommentController::class, 'index']);
+                Route::post('/', [CommentController::class, 'store']);
+                Route::get('/{comment}', [CommentController::class, 'show']);
+                Route::get('/post/{postId}', [CommentController::class, 'getByPost']);
+                Route::put('/{comment}', [CommentController::class, 'update']);
         });
         Route::prefix('replies')->group(function () {
             Route::get('/', [ReplyController::class, 'index']);
