@@ -20,6 +20,25 @@ class CommentController extends Controller
             'data' => $comments,
         ]);
     }
+public function getByPost($postId)
+{
+    $comments = Comment::with(['user', 'replies.user', 'likes'])
+        ->where('post_id', $postId)
+        ->orderBy('created_at', 'asc')
+        ->get();
+
+    if ($comments->isEmpty()) {
+        return response()->json([
+            'success' => false,
+            'message' => 'No comments found for this post.',
+        ], 404);
+    }
+
+    return response()->json([
+        'success' => true,
+        'data' => $comments,
+    ]);
+}
 
     public function store(Request $request)
     {
