@@ -2,7 +2,7 @@
 @section('title', 'Chat with Ahli')
 
 @section('content')
-<div class="flex-1 flex w-full h-full p-4 md:p-2 gap-6 md:pb-0">
+<div class="flex flex w-full h-[84vh] p-3 md:p-2 gap-4 pt-2 md:pb-0">
     <!-- Sidebar Daftar Pengguna -->
     <div id="chat-list-panel" class="w-full md:w-1/3 bg-white border-2 border-dark rounded-playful-lg flex flex-col overflow-hidden shadow-border-offset-lg mt-1 md:mt-0 z-10">
         <div class="p-4 border-b-2 border-dark flex items-center bg-white">
