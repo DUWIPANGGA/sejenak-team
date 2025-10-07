@@ -189,11 +189,21 @@ private function createSessionAndRespond(User $user, Request $request, $accessTo
 
     $userId = $user->id;
 
+    // Hitung statistik
     $totalPost = Post::where('user_id', $userId)->count();
     $totalJournal = Journal::where('user_id', $userId)->count();
     $totalLike = Like::whereHas('post', function ($query) use ($userId) {
         $query->where('user_id', $userId);
     })->count();
+
+    // Hitung journal bulan ini
+    $startOfMonth = Carbon::now()->startOfMonth(); // Tanggal 1 bulan ini 00:00:00
+    $now = Carbon::now(); // Tanggal dan waktu sekarang
+
+    $journalThisMonth = Journal::where('user_id', $userId)
+        ->whereDate('created_at', '>=', $startOfMonth)
+        ->whereDate('created_at', '<=', $now)
+        ->count();
 
     $journalStreak = $this->calculateStreak(Journal::class, $userId);
     $postStreak = $this->calculateStreak(Post::class, $userId);
@@ -209,6 +219,7 @@ private function createSessionAndRespond(User $user, Request $request, $accessTo
         'total_post' => $totalPost,
         'total_journal' => $totalJournal,
         'total_like' => $totalLike,
+        'journal_this_month' => $journalThisMonth,
         'journal_streak' => $journalStreak,
         'post_streak' => $postStreak,
     ]);

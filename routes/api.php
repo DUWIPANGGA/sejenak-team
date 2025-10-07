@@ -1,21 +1,23 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\PostController;
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\LikeController;
-use App\Http\Controllers\Api\MoodController;
-use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\Api\AudioController;
-use App\Http\Controllers\Api\ReplyController;
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CommentController;
-use App\Http\Controllers\Api\JournalController;
-use App\Http\Controllers\Api\ProfileController;
-use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\Api\ComunityController;
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\JournalController;
+use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\MeditationController;
+use App\Http\Controllers\Api\MoodController;
+use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\ReplyController;
+use App\Http\Controllers\ProposalController;
+use App\Http\Controllers\TransactionController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
+
 
 
 Route::get('/user', function (Request $request) {
@@ -46,7 +48,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/', [JournalController::class, 'index']);
         Route::post('/', [JournalController::class, 'store']);
         Route::put('/{id}', [JournalController::class, 'update']); // PUT method
-Route::patch('/{id}', [JournalController::class, 'update']);
+        Route::patch('/{id}', [JournalController::class, 'update']);
         Route::get('/{id}', [JournalController::class, 'show']);
         Route::delete('/{id}', [JournalController::class, 'destroy']);
         Route::get('/search', [JournalController::class, 'search']);
@@ -61,29 +63,19 @@ Route::patch('/{id}', [JournalController::class, 'update']);
     });
     Route::prefix('comunity')->group(function () {
         Route::get('/', [ComunityController::class, 'index']);
+        Route::get('/my-posts', [PostController::class, 'getAllMyPost']);
         Route::prefix('likes')->group(function () {
             Route::get('/', [LikeController::class, 'index']);
             Route::post('/', [LikeController::class, 'store']);
             Route::delete('/{id}', [LikeController::class, 'destroy']);
             Route::post('/toggle', [LikeController::class, 'toggleLike']);
         });
-<<<<<<< HEAD
 
-=======
-        
-        Route::prefix('posts')->group(function () {
-            Route::get('/', [PostController::class, 'index']);
-            Route::post('/', [PostController::class, 'store']);
-            Route::get('/{id}', [PostController::class, 'show']);
-            Route::put('/{id}', [PostController::class, 'update']);
-            Route::delete('/{id}', [PostController::class, 'destroy']);
-        });
->>>>>>> b1af03ba5fb1ba535198779403c15f0789a82b46
         Route::prefix('comments')->group(function () {
             Route::get('/', [CommentController::class, 'index']);
             Route::post('/', [CommentController::class, 'store']);
             Route::get('/{comment}', [CommentController::class, 'show']);
-            Route::get('/post/{postId}', [CommentController::class, 'getByPost']);            Route::put('/{comment}', [CommentController::class, 'update']);
+            Route::put('/{comment}', [CommentController::class, 'update']);
             Route::delete('/{comment}', [CommentController::class, 'destroy']);
         });
         Route::prefix('replies')->group(function () {
