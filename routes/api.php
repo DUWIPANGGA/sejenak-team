@@ -37,23 +37,25 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/', [AudioController::class, 'store']);
         Route::get('/category/{category}', [AudioController::class, 'byCategory']);
         Route::get('/{audio}', [AudioController::class, 'show']);
-        Route::put('/{audio}', [AudioController::class, 'update']); 
+        Route::put('/{audio}', [AudioController::class, 'update']);
         Route::delete('/{audio}', [AudioController::class, 'destroy']);
         Route::get('/{audio}/play', [AudioController::class, 'play']);
     });
     Route::prefix('journal')->group(function () {
-        Route::get('/', [JournalController::class, 'index']); 
-        Route::post('/', [JournalController::class, 'store']);        
-        Route::get('/{id}', [JournalController::class, 'show']);         
+        Route::get('/', [JournalController::class, 'index']);
+        Route::post('/', [JournalController::class, 'store']);
+        Route::put('/{id}', [JournalController::class, 'update']); // PUT method
+Route::patch('/{id}', [JournalController::class, 'update']);
+        Route::get('/{id}', [JournalController::class, 'show']);
         Route::delete('/{id}', [JournalController::class, 'destroy']);
         Route::get('/search', [JournalController::class, 'search']);
         Route::get('/stats', [JournalController::class, 'stats']);
     });
     Route::prefix('moods')->group(function () {
-        Route::get('/', [MoodController::class, 'index']);    
+        Route::get('/', [MoodController::class, 'index']);
         Route::post('/', [MoodController::class, 'store']);
-        Route::get('/{id}', [MoodController::class, 'show']);    
-        Route::delete('/{id}', [MoodController::class, 'destroy']);    
+        Route::get('/{id}', [MoodController::class, 'show']);
+        Route::delete('/{id}', [MoodController::class, 'destroy']);
         Route::get('/statistics', [MoodController::class, 'statistics']);
     });
     Route::prefix('comunity')->group(function () {
@@ -62,9 +64,9 @@ Route::middleware('auth:api')->group(function () {
             Route::get('/', [LikeController::class, 'index']);
             Route::post('/', [LikeController::class, 'store']);
             Route::delete('/{id}', [LikeController::class, 'destroy']);
-            Route::post('/toggle', [LikeController::class, 'toggleLike']); 
+            Route::post('/toggle', [LikeController::class, 'toggleLike']);
         });
-        
+
         Route::prefix('comments')->group(function () {
             Route::get('/', [CommentController::class, 'index']);
             Route::post('/', [CommentController::class, 'store']);
@@ -89,6 +91,12 @@ Route::middleware('auth:api')->group(function () {
 
         Route::post('/{proposal}/approve', [ProposalController::class, 'approve']);
         Route::post('/{proposal}/reject', [ProposalController::class, 'reject']);
+    });
+    Route::prefix('daily-challenges')->group(function () {
+        Route::get('/', [UserDailyChallengeController::class, 'listChallenges']);
+        Route::post('/choose', [UserDailyChallengeController::class, 'chooseChallenge']);
+        Route::put('/{id}/complete', [UserDailyChallengeController::class, 'completeChallenge']);
+        Route::get('/my', [UserDailyChallengeController::class, 'myChallenges']);
     });
     Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::get('/meditation/daily', [MeditationController::class, 'daily']);

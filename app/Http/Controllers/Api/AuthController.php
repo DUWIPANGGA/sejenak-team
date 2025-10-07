@@ -1,19 +1,21 @@
 <?php
 namespace App\Http\Controllers\api;
 
-use Carbon\Carbon;
+use App\Http\Controllers\Controller;
+use App\Mail\VerificationCodeMail;
+use App\Models\Journal;
+use App\Models\Like;
+use App\Models\Post;
 use App\Models\User;
 use App\Models\UserSession;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\VerificationCodeMail;
-
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Carbon\Carbon;
 class AuthController extends Controller
 {
 
@@ -166,31 +168,72 @@ class AuthController extends Controller
         return response()->json(['code' => 200, 'status' => 'success', 'message' => 'Kode verifikasi baru telah dikirim ke email Anda.']);
     }
 
-    private function createSessionAndRespond(User $user, Request $request, $accessToken = null)
-    {
-        if (!$accessToken) {
-            $accessToken = JWTAuth::fromUser($user);
-        }
-        $refreshToken = Str::random(64);
-        UserSession::create([
-            'user_id' => $user->id,
-            'token' => hash('sha256', $accessToken),
-            'refresh_token' => hash('sha256', $refreshToken),
-            'expires_at' => Carbon::now()->addMinutes(config('jwt.ttl', 60)),
-            'last_used_at' => now(),
-            'device_name' => $request->header('User-Agent'),
-            'ip_address' => $request->ip(),
-        ]);
-        return response()->json([
-            'code' => 200,
-            'status' => 'success',
-            'access_token' => $accessToken,
-            'expires_in' => auth('api')->factory()->getTTL() * 60,
-            'refresh_token' => $refreshToken,
-            'refresh_expires_in' => 60 * 60 * 24 * 7,
-            'user' => $user->only(['id', 'name', 'email', 'username']),
-        ]);
+private function createSessionAndRespond(User $user, Request $request, $accessToken = null)
+{
+    if (!$accessToken) {
+        $accessToken = JWTAuth::fromUser($user);
     }
+
+    $refreshToken = Str::random(64);
+
+    UserSession::create([
+        'user_id' => $user->id,
+        'token' => hash('sha256', $accessToken),
+        'refresh_token' => hash('sha256', $refreshToken),
+        'expires_at' => Carbon::now()->addMinutes(config('jwt.ttl', 60)),
+        'last_used_at' => now(),
+        'device_name' => $request->header('User-Agent'),
+        'ip_address' => $request->ip(),
+    ]);
+
+    $userId = $user->id;
+
+    $totalPost = Post::where('user_id', $userId)->count();
+    $totalJournal = Journal::where('user_id', $userId)->count();
+    $totalLike = Like::whereHas('post', function ($query) use ($userId) {
+        $query->where('user_id', $userId);
+    })->count();
+
+    $journalStreak = $this->calculateStreak(Journal::class, $userId);
+    $postStreak = $this->calculateStreak(Post::class, $userId);
+
+    return response()->json([
+        'code' => 200,
+        'status' => 'success',
+        'access_token' => $accessToken,
+        'expires_in' => auth('api')->factory()->getTTL() * 60,
+        'refresh_token' => $refreshToken,
+        'refresh_expires_in' => 60 * 60 * 24 * 7,
+        'user' => $user->only(['id', 'name', 'email', 'username']),
+        'total_post' => $totalPost,
+        'total_journal' => $totalJournal,
+        'total_like' => $totalLike,
+        'journal_streak' => $journalStreak,
+        'post_streak' => $postStreak,
+    ]);
+}
+
+
+private function calculateStreak(string $modelClass, int $userId): int
+{
+    $today = Carbon::today();
+    $streak = 0;
+
+    while (true) {
+        $dateToCheck = $today->copy()->subDays($streak);
+        $count = $modelClass::where('user_id', $userId)
+            ->whereDate('created_at', $dateToCheck)
+            ->count();
+
+        if ($count > 0) {
+            $streak++;
+        } else {
+            break;
+        }
+    }
+
+    return $streak;
+}
 
     public function refresh(Request $request)
     {
