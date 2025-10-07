@@ -33,6 +33,30 @@ class PostController extends Controller
     }
 
     /**
+     * Ambil semua postingan milik user yang login
+     */
+    public function getAllMyPost()
+    {
+        $userId = Auth::id();
+
+        $posts = Post::with([
+            'user',
+            'likes',
+            'comments.user',
+            'comments.likes',
+            'comments.replies.user'
+        ])
+        ->where('user_id', $userId)
+        ->latest()
+        ->paginate(10);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $posts
+        ]);
+    }
+
+    /**
      * Simpan postingan baru
      */
     public function store(Request $request)
@@ -135,6 +159,4 @@ class PostController extends Controller
             'message' => 'Post berhasil dihapus'
         ]);
     }
-
-    
 }
