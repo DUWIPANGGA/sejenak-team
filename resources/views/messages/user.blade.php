@@ -15,7 +15,7 @@
                     <i class="fas fa-user text-lg"></i>
                 </div>
                 <div class="flex-1">
-                    <h3 class="font-bold text-dark font-exo2">Konseling dengan ahli (Coming Soon!)</h3>
+                    <h3 class="font-bold text-dark font-exo2">Konseling (Coming Soon!)</h3>
                     <p class="text-xs text-dark">Curahkan semua masalah mu ke ahli</p>
                 </div>
             </a>
