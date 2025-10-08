@@ -458,6 +458,12 @@
                 </div>
                 <span class="text-xs font-medium text-dark">Journal</span>
             </a>
+            <a href="{{ route('user.blog') }}" class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
+                <div class="w-9 h-9 rounded-playful-sm flex items-center justify-center">
+                    <img src="{{ asset('assets/icon/nav-journal.svg') }}" alt="Blog">
+                </div>
+                <span class="text-xs font-medium text-dark">Blog</span>
+            </a>
         </div>
     </nav>
 

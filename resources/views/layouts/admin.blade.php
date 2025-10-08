@@ -87,7 +87,7 @@
 
     <aside id="sidebar" class="bg-dark text-white w-64 min-h-screen flex-shrink-0 p-4 flex flex-col fixed md:static transform -translate-x-full md:translate-x-0 transition-transform duration-300 z-40">
         <div class="flex items-center justify-center pb-4 border-b border-gray-700 mb-6">
-            <img src="{{ asset('assets/icon/logo.svg') }}" class="w-10 h-10 mr-2 filter invert">
+            <img src="{{ asset('assets/icon/sejenak-header.svg') }}" class="w-10 h-10 mr-2 filter invert">
             <span class="text-xl font-bold">Admin Sejenak</span>
         </div>
 
@@ -129,6 +129,10 @@
             <a href="{{ route('admin.audios') }}" class="flex items-center mt-3 px-4 py-3 rounded-playful-sm transition-colors duration-200 hover:bg-secondary {{ request()->routeIs('admin.audios*') ? 'bg-secondary' : '' }}">
                 <i class="fas fa-music w-6 text-center"></i>
                 <span class="ml-4 font-semibold">Audio</span>
+            </a>
+            <a href="{{ route('admin.blog') }}" class="flex items-center mt-3 px-4 py-3 rounded-playful-sm transition-colors duration-200 hover:bg-secondary {{ request()->routeIs('admin.blog*') ? 'bg-secondary' : '' }}">
+                <i class="fas fa-newspaper w-6 text-center"></i>
+                <span class="ml-4 font-semibold">Blog</span>
             </a>
             <a href="#" class="flex items-center mt-3 px-4 py-3 rounded-playful-sm transition-colors duration-200 hover:bg-secondary">
                 <i class="fas fa-chart-line w-6 text-center"></i>
