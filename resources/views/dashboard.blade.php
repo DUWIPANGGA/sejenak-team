@@ -288,113 +288,106 @@
     });
 
 </script>
+
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Data contoh aktivitas dari Laravel
-    const riwayatJournal = @json($riwayatJournal); // contoh: [18,18]
-    const riwayatMeditasi = @json($riwayatMeditasi); // contoh: [18]
-
-    const monthShortNames = ["JAN", "FEB", "MAR", "APR", "MEI", "JUN", "JUL", "AGT", "SEP", "OKT", "NOV", "DES"];
-
-    let currentDate = new Date();
-    let currentMonth = currentDate.getMonth();
-    let currentYear = currentDate.getFullYear();
-
-    // Fungsi update jam real-time
-    function updateTime() {
-        const now = new Date();
-        let hours = now.getHours();
-        let minutes = now.getMinutes();
-        let ampm = hours >= 12 ? 'PM' : 'AM';
-
-        hours = hours % 12;
-        hours = hours ? hours : 12;
-        minutes = minutes < 10 ? '0' + minutes : minutes;
-
-        const timeStr = `${hours}:${minutes} ${ampm}`;
-        const timeBox = document.getElementById('currentTime');
-        if (timeBox) {
-            timeBox.textContent = timeStr;
+    document.addEventListener('DOMContentLoaded', function() {
+        // Data aktivitas dari Laravel (gunakan '?? []' untuk fallback jika variabel tidak ada)
+        const riwayatJournal = @json($riwayatJournal ?? []);
+        const riwayatMeditasi = @json($riwayatMeditasi ?? []);
+    
+        const monthShortNames = ["JAN", "FEB", "MAR", "APR", "MEI", "JUN", "JUL", "AGT", "SEP", "OKT", "NOV", "DES"];
+        let currentDate = new Date();
+    
+        // Fungsi update jam real-time
+        function updateTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // Jam 0 harus jadi 12
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            const timeStr = `${hours}:${minutes} ${ampm}`;
+            document.getElementById('currentTime').textContent = timeStr;
         }
-    }
-
-    // Update singkatan bulan
-    function updateMonthShort(month) {
-        const monthBox = document.getElementById('currentMonthShort');
-        if (monthBox) {
-            monthBox.textContent = monthShortNames[month];
+    
+        // Update singkatan bulan
+        function updateMonthShort(month) {
+            document.getElementById('currentMonthShort').textContent = monthShortNames[month];
         }
-    }
-
-    // Fungsi render kalender bulan ini saja
-    function renderCalendar(month, year) {
-        const firstDay = new Date(year, month, 1).getDay();
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-        // Minggu mulai Senin
-        let startingDay = firstDay === 0 ? 6 : firstDay - 1;
-
-        const calendarBody = document.getElementById('calendarBody');
-        calendarBody.innerHTML = '';
-
-        // Sel kosong sebelum tanggal 1
-        for (let i = 0; i < startingDay; i++) {
-            const emptyCell = document.createElement('div');
-            calendarBody.appendChild(emptyCell);
-        }
-
-        const today = new Date();
-
-        for (let day = 1; day <= daysInMonth; day++) {
-            const cell = document.createElement('div');
-            cell.classList.add('text-center', 'p-2', 'relative', 'content-calendar');
-
-            const dayDiv = document.createElement('div');
-            dayDiv.classList.add(
-                'inline-block', 'w-full', 'rounded', 'relative', 
-                'cursor-pointer', 'hover:bg-gray-200'
-            );
-
-            if (day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
-                cell.classList.add('bg-primary');
-                dayDiv.classList.add('font-bold');
+    
+        // Fungsi render kalender
+        function renderCalendar(month, year) {
+            const calendarBody = document.getElementById('calendarBody');
+            if (!calendarBody) return; // Jaga-jaga jika elemen tidak ditemukan
+            
+            calendarBody.innerHTML = ''; // Kosongkan kalender sebelum mengisi
+    
+            const firstDayOfMonth = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            // Sesuaikan hari pertama (karena getDay()=Minggu=0, kita mau Senin=0)
+            let startingDay = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
+    
+            // Buat sel kosong untuk hari sebelum tanggal 1
+            for (let i = 0; i < startingDay; i++) {
+                const emptyCell = document.createElement('div');
+                calendarBody.appendChild(emptyCell);
             }
-
-            dayDiv.textContent = day;
-
-            // Tanda Journal (bulat oranye kiri bawah)
-            if (riwayatJournal.includes(day)) {
-                const journalIndicator = document.createElement('span');
-                journalIndicator.classList.add(
-                    'absolute', 'bottom-1', 'left-1',
-                    'w-3', 'h-3', 'rounded-full',
-                    'bg-orange-500', 'z-10'
-                );
-                dayDiv.appendChild(journalIndicator);
+    
+            const today = new Date();
+            const isCurrentMonthAndYear = month === today.getMonth() && year === today.getFullYear();
+    
+            // Buat sel untuk setiap tanggal dalam sebulan
+            for (let day = 1; day <= daysInMonth; day++) {
+                const cell = document.createElement('div');
+                cell.className = 'text-center p-1 relative flex items-center justify-center';
+    
+                const dayDiv = document.createElement('div');
+                dayDiv.className = 'w-8 h-8 flex items-center justify-center rounded-full relative cursor-pointer hover:bg-gray-200 transition-colors';
+                dayDiv.textContent = day;
+    
+                const isToday = isCurrentMonthAndYear && day === today.getDate();
+    
+                // KODE BARU DIMULAI: Logika pewarnaan akhir pekan
+                const weekDay = (startingDay + day - 1) % 7; // 0=Senin, 5=Sabtu, 6=Minggu
+                
+                if (isToday) {
+                    // Jika hari ini, prioritaskan style 'today'
+                    dayDiv.classList.add('bg-primary', 'text-white', 'font-bold');
+                } else {
+                    // Jika bukan hari ini, baru warnai akhir pekan
+                    if (weekDay === 5) { // Sabtu
+                        dayDiv.classList.add('text-indigo-600', 'font-semibold');
+                    } else if (weekDay === 6) { // Minggu
+                        dayDiv.classList.add('text-red-600', 'font-semibold');
+                    }
+                }
+                // KODE BARU SELESAI
+    
+                // Tambahkan indikator jika ada riwayat
+                if (riwayatJournal.includes(day)) {
+                    const indicator = document.createElement('span');
+                    indicator.className = 'absolute bottom-0 left-0 w-2 h-2 rounded-full bg-orange-500';
+                    dayDiv.appendChild(indicator);
+                }
+                if (riwayatMeditasi.includes(day)) {
+                    const indicator = document.createElement('span');
+                    indicator.className = 'absolute bottom-0 right-0 w-2 h-2 rounded-full bg-purple-600';
+                    dayDiv.appendChild(indicator);
+                }
+    
+                cell.appendChild(dayDiv);
+                calendarBody.appendChild(cell);
             }
-
-            // Tanda Meditasi (bulat ungu kanan bawah)
-            if (riwayatMeditasi.includes(day)) {
-                const meditationIndicator = document.createElement('span');
-                meditationIndicator.classList.add(
-                    'absolute', 'bottom-1', 'right-1',
-                    'w-3', 'h-3', 'rounded-full',
-                    'bg-purple-600', 'z-10'
-                );
-                dayDiv.appendChild(meditationIndicator);
-            }
-
-            cell.appendChild(dayDiv);
-            calendarBody.appendChild(cell);
         }
-    }
-
-    // Render kalender dan update bulan singkat & jam
-    updateMonthShort(currentMonth);
-    renderCalendar(currentMonth, currentYear);
-    updateTime();
-    setInterval(updateTime, 1000);
-});
+    
+        // Panggil semua fungsi saat halaman pertama kali dimuat
+        updateMonthShort(currentDate.getMonth());
+        renderCalendar(currentDate.getMonth(), currentDate.getFullYear());
+        updateTime();
+        setInterval(updateTime, 1000); // Update jam setiap detik
+    });
 </script>
 
 <script>
