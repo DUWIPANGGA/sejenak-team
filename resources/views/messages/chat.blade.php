@@ -147,239 +147,239 @@ document.addEventListener('DOMContentLoaded', function() {
     const chatListPanel = document.getElementById('chat-list-panel');
     const chatWindowPanel = document.getElementById('chat-window-panel');
 
-    window.ChatApp = {
-        currentUser: {{ Auth::id() }},
-        currentChat: null,
-        pusher: null,
-        channel: null,
+    // window.ChatApp = {
+    //     currentUser: {{ Auth::id() }},
+    //     currentChat: null,
+    //     pusher: null,
+    //     channel: null,
 
-        isMobile: function() {
-            return window.innerWidth < 768;
-        },
+    //     isMobile: function() {
+    //         return window.innerWidth < 768;
+    //     },
         
-        init: function() {
-            this.loadUsers();
-            this.setupEventListeners();
-            this.initPusher();
-        },
+    //     init: function() {
+    //         this.loadUsers();
+    //         this.setupEventListeners();
+    //         this.initPusher();
+    //     },
         
-        initPusher: function() {
-            this.pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
-                cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
-                encrypted: true
-            });
-            this.channel = this.pusher.subscribe('user.' + this.currentUser);
-            this.channel.bind('ChatMessageSent', (data) => {
-                this.handleNewMessage(data);
-            });
-        },
+    //     initPusher: function() {
+    //         this.pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
+    //             cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
+    //             encrypted: true
+    //         });
+    //         this.channel = this.pusher.subscribe('user.' + this.currentUser);
+    //         this.channel.bind('ChatMessageSent', (data) => {
+    //             this.handleNewMessage(data);
+    //         });
+    //     },
         
-        loadUsers: function() {
-            fetch('{{ route("chat.users") }}')
-                .then(response => response.json())
-                .then(users => {
-                    this.renderUsers(users);
-                });
-        },
+    //     loadUsers: function() {
+    //         fetch('{{ route("chat.users") }}')
+    //             .then(response => response.json())
+    //             .then(users => {
+    //                 this.renderUsers(users);
+    //             });
+    //     },
         
-        renderUsers: function(users) {
-            const usersList = document.getElementById('users-list');
+    //     renderUsers: function(users) {
+    //         const usersList = document.getElementById('users-list');
             
-            users.forEach(user => {
-                const userElement = document.createElement('div');
-                userElement.className = 'user-list-item';
-                userElement.dataset.userId = user.id;
-                userElement.innerHTML = `
-                    <div class="flex items-center w-full">
-                        <img src="${user.avatar || 'https://ui-avatars.com/api/?name=' + user.name}" 
-                             class="rounded-full mr-3" width="40" height="40">
-                        <div class="flex-1">
-                            <h6 class="font-bold mb-0">${user.name}</h6>
-                            <small class="text-muted" id="status-${user.id}">
-                                ${user.is_online ? '<span class="online-status"></span> Online' : '<span class="offline-status"></span> Offline'}
-                            </small>
-                        </div>
-                        <span class="unread-count text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full" 
-                              id="unread-${user.id}" style="display: none;">0</span>
-                    </div>
-                `;
+    //         users.forEach(user => {
+    //             const userElement = document.createElement('div');
+    //             userElement.className = 'user-list-item';
+    //             userElement.dataset.userId = user.id;
+    //             userElement.innerHTML = `
+    //                 <div class="flex items-center w-full">
+    //                     <img src="${user.avatar || 'https://ui-avatars.com/api/?name=' + user.name}" 
+    //                          class="rounded-full mr-3" width="40" height="40">
+    //                     <div class="flex-1">
+    //                         <h6 class="font-bold mb-0">${user.name}</h6>
+    //                         <small class="text-muted" id="status-${user.id}">
+    //                             ${user.is_online ? '<span class="online-status"></span> Online' : '<span class="offline-status"></span> Offline'}
+    //                         </small>
+    //                     </div>
+    //                     <span class="unread-count text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full" 
+    //                           id="unread-${user.id}" style="display: none;">0</span>
+    //                 </div>
+    //             `;
                 
-                userElement.addEventListener('click', () => {
-                    this.selectUser(user);
-                });
+    //             userElement.addEventListener('click', () => {
+    //                 this.selectUser(user);
+    //             });
                 
-                usersList.appendChild(userElement);
-            });
-        },
+    //             usersList.appendChild(userElement);
+    //         });
+    //     },
         
-        selectUser: function(user) {
-            this.currentChat = user;
+    //     selectUser: function(user) {
+    //         this.currentChat = user;
             
-            if (this.isMobile()) {
-                chatListPanel.classList.add('hidden');
-                chatWindowPanel.classList.remove('hidden');
-                chatWindowPanel.classList.add('flex');
-            }
+    //         if (this.isMobile()) {
+    //             chatListPanel.classList.add('hidden');
+    //             chatWindowPanel.classList.remove('hidden');
+    //             chatWindowPanel.classList.add('flex');
+    //         }
             
-            document.querySelectorAll('.user-list-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            document.querySelector(`[data-user-id="${user.id}"]`).classList.add('active');
+    //         document.querySelectorAll('.user-list-item').forEach(item => {
+    //             item.classList.remove('active');
+    //         });
+    //         document.querySelector(`[data-user-id="${user.id}"]`).classList.add('active');
             
-            document.getElementById('current-chat-info').innerHTML = `
-                <div class="flex items-center p-2 bg-white rounded-md border-2 border-dark shadow-md z-20 w-full">
-                    <button id="back-to-list-button" class="text-dark mr-3 md:hidden">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
+    //         document.getElementById('current-chat-info').innerHTML = `
+    //             <div class="flex items-center p-2 bg-white rounded-md border-2 border-dark shadow-md z-20 w-full">
+    //                 <button id="back-to-list-button" class="text-dark mr-3 md:hidden">
+    //                     <i class="fas fa-arrow-left"></i>
+    //                 </button>
                     
-                    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white mr-2 border-2 border-dark overflow-hidden">
-                        ${ user.avatar 
-                           ? `<img src="${user.avatar}" class="w-full h-full object-cover">`
-                           : `<i class="fas fa-user text-sm"></i>` }
-                    </div>
-                    <div class="flex-1">
-                        <h3 class="font-bold text-base text-dark m-0">${user.name}</h3>
-                        <p class="text-xs text-gray-600" id="current-user-status">
-                            ${document.getElementById(`status-${user.id}`).innerHTML}
-                        </p>
-                    </div>
-                </div>
-            `;
+    //                 <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white mr-2 border-2 border-dark overflow-hidden">
+    //                     ${ user.avatar 
+    //                        ? `<img src="${user.avatar}" class="w-full h-full object-cover">`
+    //                        : `<i class="fas fa-user text-sm"></i>` }
+    //                 </div>
+    //                 <div class="flex-1">
+    //                     <h3 class="font-bold text-base text-dark m-0">${user.name}</h3>
+    //                     <p class="text-xs text-gray-600" id="current-user-status">
+    //                         ${document.getElementById(`status-${user.id}`).innerHTML}
+    //                     </p>
+    //                 </div>
+    //             </div>
+    //         `;
 
-            document.getElementById('back-to-list-button').addEventListener('click', () => {
-                chatWindowPanel.classList.add('hidden');
-                chatWindowPanel.classList.remove('flex');
-                chatListPanel.classList.remove('hidden');
-                this.currentChat = null;
-            });
+    //         document.getElementById('back-to-list-button').addEventListener('click', () => {
+    //             chatWindowPanel.classList.add('hidden');
+    //             chatWindowPanel.classList.remove('flex');
+    //             chatListPanel.classList.remove('hidden');
+    //             this.currentChat = null;
+    //         });
             
-            document.getElementById('message-input-container').style.display = 'block';
-            this.loadMessages(user.id);
-        },
+    //         document.getElementById('message-input-container').style.display = 'block';
+    //         this.loadMessages(user.id);
+    //     },
         
-        loadMessages: function(userId) {
-            fetch(`/chat/messages/${userId}`)
-                .then(response => response.json())
-                .then(messages => {
-                    this.renderMessages(messages);
-                    this.markAsRead(userId);
-                });
-        },
+    //     loadMessages: function(userId) {
+    //         fetch(`/chat/messages/${userId}`)
+    //             .then(response => response.json())
+    //             .then(messages => {
+    //                 this.renderMessages(messages);
+    //                 this.markAsRead(userId);
+    //             });
+    //     },
         
-        renderMessages: function(messages) {
-            const container = document.getElementById('messages-container');
-            container.innerHTML = '';
+    //     renderMessages: function(messages) {
+    //         const container = document.getElementById('messages-container');
+    //         container.innerHTML = '';
             
-            if (messages.length === 0) {
-                container.innerHTML = '<div class="flex justify-center items-center h-full"><p class="text-gray-500">Mulai percakapan dengan mengirim pesan</p></div>';
-                return;
-            }
+    //         if (messages.length === 0) {
+    //             container.innerHTML = '<div class="flex justify-center items-center h-full"><p class="text-gray-500">Mulai percakapan dengan mengirim pesan</p></div>';
+    //             return;
+    //         }
             
-            messages.forEach(message => {
-                const messageElement = document.createElement('div');
-                messageElement.className = `message ${message.sender_id === this.currentUser ? 'sent' : 'received'}`;
+    //         messages.forEach(message => {
+    //             const messageElement = document.createElement('div');
+    //             messageElement.className = `message ${message.sender_id === this.currentUser ? 'sent' : 'received'}`;
                 
-                messageElement.innerHTML = `
-                    <div class="message-content">
-                        <div class="message-text">${message.body}</div>
-                        <div class="message-time">
-                            ${new Date(message.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                        </div>
-                    </div>
-                `;
+    //             messageElement.innerHTML = `
+    //                 <div class="message-content">
+    //                     <div class="message-text">${message.body}</div>
+    //                     <div class="message-time">
+    //                         ${new Date(message.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+    //                     </div>
+    //                 </div>
+    //             `;
                 
-                container.appendChild(messageElement);
-            });
+    //             container.appendChild(messageElement);
+    //         });
             
-            container.scrollTop = container.scrollHeight;
-        },
+    //         container.scrollTop = container.scrollHeight;
+    //     },
         
-        setupEventListeners: function() {
-            document.getElementById('message-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                this.sendMessage();
-            });
+    //     setupEventListeners: function() {
+    //         document.getElementById('message-form').addEventListener('submit', (e) => {
+    //             e.preventDefault();
+    //             this.sendMessage();
+    //         });
             
-            document.getElementById('search-users').addEventListener('input', (e) => {
-                this.searchUsers(e.target.value);
-            });
-        },
+    //         document.getElementById('search-users').addEventListener('input', (e) => {
+    //             this.searchUsers(e.target.value);
+    //         });
+    //     },
         
-        sendMessage: function() {
-            const messageInput = document.getElementById('message-input');
-            const message = messageInput.value.trim();
+    //     sendMessage: function() {
+    //         const messageInput = document.getElementById('message-input');
+    //         const message = messageInput.value.trim();
             
-            if (!message || !this.currentChat) return;
+    //         if (!message || !this.currentChat) return;
             
-            fetch('{{ route("chat.send") }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({
-                    receiver_id: this.currentChat.id,
-                    message: message
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    messageInput.value = '';
-                    // Optimistic UI update can be added here
-                    this.loadMessages(this.currentChat.id);
-                }
-            });
-        },
+    //         fetch('{{ route("chat.send") }}', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    //             },
+    //             body: JSON.stringify({
+    //                 receiver_id: this.currentChat.id,
+    //                 message: message
+    //             })
+    //         })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             if (data.success) {
+    //                 messageInput.value = '';
+    //                 // Optimistic UI update can be added here
+    //                 this.loadMessages(this.currentChat.id);
+    //             }
+    //         });
+    //     },
         
-        handleNewMessage: function(data) {
-            if (this.currentChat && data.message.sender_id === this.currentChat.id) {
-                this.loadMessages(this.currentChat.id);
-            } else {
-                this.updateUnreadCount(data.message.sender_id);
-            }
-        },
+    //     handleNewMessage: function(data) {
+    //         if (this.currentChat && data.message.sender_id === this.currentChat.id) {
+    //             this.loadMessages(this.currentChat.id);
+    //         } else {
+    //             this.updateUnreadCount(data.message.sender_id);
+    //         }
+    //     },
         
-        updateUnreadCount: function(userId) {
-            const unreadElement = document.getElementById(`unread-${userId}`);
-            if (unreadElement) {
-                const currentCount = parseInt(unreadElement.textContent) || 0;
-                unreadElement.textContent = currentCount + 1;
-                unreadElement.style.display = 'flex';
-            }
-        },
+    //     updateUnreadCount: function(userId) {
+    //         const unreadElement = document.getElementById(`unread-${userId}`);
+    //         if (unreadElement) {
+    //             const currentCount = parseInt(unreadElement.textContent) || 0;
+    //             unreadElement.textContent = currentCount + 1;
+    //             unreadElement.style.display = 'flex';
+    //         }
+    //     },
         
-        markAsRead: function(userId) {
-            fetch(`/chat/mark-read/${userId}`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            });
+    //     markAsRead: function(userId) {
+    //         fetch(`/chat/mark-read/${userId}`, {
+    //             method: 'POST',
+    //             headers: {
+    //                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    //             }
+    //         });
             
-            const unreadElement = document.getElementById(`unread-${userId}`);
-            if (unreadElement) {
-                unreadElement.style.display = 'none';
-                unreadElement.textContent = '0';
-            }
-        },
+    //         const unreadElement = document.getElementById(`unread-${userId}`);
+    //         if (unreadElement) {
+    //             unreadElement.style.display = 'none';
+    //             unreadElement.textContent = '0';
+    //         }
+    //     },
         
-        searchUsers: function(query) {
-            const usersList = document.getElementById('users-list');
-            const originalItems = usersList.querySelectorAll('.user-list-item');
+    //     searchUsers: function(query) {
+    //         const usersList = document.getElementById('users-list');
+    //         const originalItems = usersList.querySelectorAll('.user-list-item');
             
-            originalItems.forEach(item => {
-                const userName = item.querySelector('h6').textContent.toLowerCase();
-                if (userName.includes(query.toLowerCase())) {
-                    item.style.display = 'flex';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
-    };
+    //         originalItems.forEach(item => {
+    //             const userName = item.querySelector('h6').textContent.toLowerCase();
+    //             if (userName.includes(query.toLowerCase())) {
+    //                 item.style.display = 'flex';
+    //             } else {
+    //                 item.style.display = 'none';
+    //             }
+    //         });
+    //     }
+    // };
     
-    ChatApp.init();
+    // ChatApp.init();
 });
 </script>
 @endsection
