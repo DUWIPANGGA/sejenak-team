@@ -322,6 +322,14 @@
             if (!calendarBody) return; // Jaga-jaga jika elemen tidak ditemukan
             
             calendarBody.innerHTML = ''; // Kosongkan kalender sebelum mengisi
+
+            const dayNames = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+            dayNames.forEach(day => {
+                const dayCell = document.createElement('div');
+                dayCell.className = 'text-center font-bold text-sm text-gray-500'; // Style untuk nama hari
+                dayCell.textContent = day;
+                calendarBody.appendChild(dayCell);
+            });
     
             const firstDayOfMonth = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
