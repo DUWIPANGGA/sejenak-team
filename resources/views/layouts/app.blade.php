@@ -434,12 +434,12 @@
                 </div>
                 <span class="text-xs font-medium text-dark">Dashboard</span>
             </a>
-            <a href="{{ route('user.comunity') }}" class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
+            <!-- <a href="{{ route('user.comunity') }}" class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
                 <div class="w-10 h-10 rounded-playful-sm flex items-center justify-center">
                     <img src="{{ asset('assets/icon/nav-post.svg') }}" alt="Postingan">
                 </div>
                 <span class="text-xs font-medium text-dark">Postingan</span>
-            </a>
+            </a> -->
             <a href="{{ route('user.meditation') }}" class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
                 <div class="w-10 h-10 rounded-playful-sm flex items-center justify-center">
                     <img src="{{ asset('assets/icon/nav-meditasi.svg') }}" alt="Meditasi">
@@ -458,12 +458,12 @@
                 </div>
                 <span class="text-xs font-medium text-dark">Journal</span>
             </a>
-            <a href="{{ route('user.blog') }}" class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
+            <!-- <a href="{{ route('user.blog') }}" class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
                 <div class="w-9 h-9 rounded-playful-sm flex items-center justify-center">
                     <img src="{{ asset('assets/icon/nav-journal.svg') }}" alt="Blog">
                 </div>
                 <span class="text-xs font-medium text-dark">Blog</span>
-            </a>
+            </a> -->
         </div>
     </nav>
 
