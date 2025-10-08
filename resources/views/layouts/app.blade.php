@@ -154,17 +154,6 @@
             border-bottom-right-radius: 0;
         }
 
-        .full-height-container {
-            min-height: 90.5dvh;
-            height: 90.5dvh;
-            max-height: 90.5dvh;
-        }
-        
-        .chat-container-adjust {
-            height: calc(100vh - 2rem);
-            max-height: none !important;
-        }
-
         #chat-input-area {
             display: flex;
             border-top: 1px solid #ccc;
@@ -345,70 +334,37 @@
     </script>
 </head>
 <body class="bg-gray-100 min-h-screen flex lexend">
+    <header class="fixed top-0 left-0 right-0 bg-primary px-4 py-3 flex items-center justify-between shadow-border-offset border-b-2 border-dark md:hidden z-40">
+        <div class="flex items-center space-x-2 hover-gentle-bounce">
+            <div class="w-9 h-9 rounded-playful-sm flex items-center justify-center">
+                <img src="{{ asset('assets/icon/sejenak-header.svg') }}" alt="Sejenak Logo" class="w-full h-full">
+            </div>
+            <h1 class="text-lg font-bold font-exo2 text-dark">Sejenak</h1>
+        </div>
+    
+        <a href="{{ route('user.profiles') }}">
+            <img src="{{ asset('assets/icon/nav-profile.svg') }}" alt="User Profile" class="w-8 h-8">
+        </a>
+    </header>
+
     <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-10 hidden"></div>
 
     @include('layouts.component.sidebar')
-    <main class="flex-1 flex flex-col">
-        <header class="bg-primary text-white px-4 py-3 flex items-center justify-center shadow-border-offset border-b-2 border-dark md:hidden sticky top-0 z-40">
-            <div class="flex items-center space-x-2 hover-gentle-bounce">
-                <div class="w-9 h-9 rounded-playful-sm flex items-center justify-center">
-                    <img src="{{ asset('assets/icon/sejenak-header.svg') }}" alt="Sejenak Logo" class="w-full h-full">
-                </div>
-                <h1 class="text-lg font-bold font-exo2 text-dark">Sejenak</h1>
-            </div>
-        </header>
 
-        <!-- Bottom Navigation Bar -->
-        <nav class="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-dark shadow-border-offset md:hidden z-40">
-            <div class="flex justify-around items-center py-2">
-                <!-- Dashboard -->
-                <a href="{{ route('user.dashboard') }}" class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
-                    <div class="w-9 h-9 rounded-playful-sm flex items-center justify-center">
-                        <img src="{{ asset('assets/icon/nav-dashboard.svg') }}" alt="Dashboard">
-                    </div>
-                    <span class="text-xs font-medium text-dark">Dashboard</span>
-                </a>
-
-                <!-- Meditasi -->
-                <a href="{{ route('user.meditation') }}" class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
-                    <div class="w-10 h-10 rounded-playful-sm flex items-center justify-center">
-                        <img src="{{ asset('assets/icon/nav-meditasi.svg') }}" alt="Meditasi">
-                    </div>
-                    <span class="text-xs font-medium text-dark">Meditasi</span>
-                </a>
-
-                <!-- Chat -->
-                <a href="{{ route('chat') }}" class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
-                    <div class="w-9 h-9 rounded-playful-sm flex items-center justify-center">
-                        <img src="{{ asset('assets/icon/nav-chat.svg') }}" alt="Chat">
-                    </div>
-                    <span class="text-xs font-medium text-dark">Chat</span>
-                </a>
-
-                <!-- Journal -->
-                <a href="{{ route('user.journal') }}" class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
-                    <div class="w-9 h-9 rounded-playful-sm flex items-center justify-center">
-                        <img src="{{ asset('assets/icon/nav-journal.svg') }}" alt="Journal">
-                    </div>
-                    <span class="text-xs font-medium text-dark">Journal</span>
-                </a>
-
-                <!-- Profil -->
-                <a href="{{ route('user.profiles') }}" class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
-                    <div class="w-9 h-9 rounded-playful-sm flex items-center justify-center">
-                        <img src="{{ asset('assets/icon/nav-profile.svg') }}" alt="Profil">
-                    </div>
-                    <span class="text-xs font-medium text-dark">Profil</span>
-                </a>
-            </div>
-        </nav>
-
-        <div class="dot-background md:m-5 md:ml-1 md:rounded-[40px] border-2 border-dark md:shadow-[5px_7px_0px_#080330] p-2 md:py-6 px-0 flex flex-col md:flex-row justify-center align-middle items-center max-w-[100vw] md:max-w-[95vw] flex-1 overflow-y-auto md:overflow-hidden">
+    <main class="flex-1 flex flex-col pt-16 pb-16 md:pb-0 md:pt-0">
+        <div class="flex-shrink-0">
+            @yield('page-header')
+        </div>
+        
+        {{-- <div class="dot-background md:m-5 md:ml-1 md:rounded-[40px] border-2 border-dark md:shadow-[5px_7px_0px_#080330] p-2 md:py-6 px-0 flex flex-col md:flex-row justify-center align-middle items-center max-w-[100vw] md:max-w-[95vw] flex-1 overflow-y-auto md:overflow-hidden"> --}}
+        <div class="dot-background md:m-5 md:ml-1 md:rounded-[40px] border-2 border-dark md:shadow-[5px_7px_0px_#080330] p-2 md:py-6 px-0 flex flex-col md:flex-row justify-center align-middle items-center max-w-[100vw] md:max-w-[95vw] md:h-[94vh] md:max-h-[94vh] overflow-y-auto md:overflow-hidden">
             <!-- Error Notification -->
             @if(session('error') || $errors->any())
             <div x-data="{ show: true }" x-show="show" x-transition class="fixed top-20 md:top-10 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4">
                 <div class="bg-red-500 text-white px-4 py-3 rounded-lg shadow-lg flex items-start space-x-3 w-full">
                     <!-- Icon -->
+
+
                     <div class="flex-1">
                         <p class="font-semibold">Terjadi Kesalahan</p>
 
@@ -436,6 +392,7 @@
             <div x-data="{ show: true }" x-show="show" x-transition class="fixed top-20 md:top-10 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4">
                 <div class="bg-green-500 text-white px-4 py-3 rounded-lg shadow-lg flex items-start space-x-3 w-full">
                     <!-- Icon -->
+
                     <div class="flex-1">
                         <p class="font-semibold">Berhasil</p>
                         <p class="text-sm">{{ session('success') }}</p>
@@ -468,6 +425,47 @@
             <img src="{{ asset('assets/component/lady_icon.svg') }}" alt="AI Avatar" class="bg-transparent">
         </div>
     </div> --}}
+
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-dark shadow-border-offset md:hidden z-40">
+        <div class="flex justify-around items-center py-2">
+            <a href="{{ route('user.dashboard') }}" class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
+                <div class="w-9 h-9 rounded-playful-sm flex items-center justify-center">
+                    <img src="{{ asset('assets/icon/nav-dashboard.svg') }}" alt="Dashboard">
+                </div>
+                <span class="text-xs font-medium text-dark">Dashboard</span>
+            </a>
+            <!-- <a href="{{ route('user.comunity') }}" class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
+                <div class="w-10 h-10 rounded-playful-sm flex items-center justify-center">
+                    <img src="{{ asset('assets/icon/nav-post.svg') }}" alt="Postingan">
+                </div>
+                <span class="text-xs font-medium text-dark">Postingan</span>
+            </a> -->
+            <a href="{{ route('user.meditation') }}" class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
+                <div class="w-10 h-10 rounded-playful-sm flex items-center justify-center">
+                    <img src="{{ asset('assets/icon/nav-meditasi.svg') }}" alt="Meditasi">
+                </div>
+                <span class="text-xs font-medium text-dark">Meditasi</span>
+            </a>
+            <a href="{{ route('chat') }}" class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
+                <div class="w-9 h-9 rounded-playful-sm flex items-center justify-center">
+                    <img src="{{ asset('assets/icon/nav-chat.svg') }}" alt="Chat">
+                </div>
+                <span class="text-xs font-medium text-dark">Chat</span>
+            </a>
+            <a href="{{ route('user.journal') }}" class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
+                <div class="w-9 h-9 rounded-playful-sm flex items-center justify-center">
+                    <img src="{{ asset('assets/icon/nav-journal.svg') }}" alt="Journal">
+                </div>
+                <span class="text-xs font-medium text-dark">Journal</span>
+            </a>
+            <!-- <a href="{{ route('user.blog') }}" class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
+                <div class="w-9 h-9 rounded-playful-sm flex items-center justify-center">
+                    <img src="{{ asset('assets/icon/nav-journal.svg') }}" alt="Blog">
+                </div>
+                <span class="text-xs font-medium text-dark">Blog</span>
+            </a> -->
+        </div>
+    </nav>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

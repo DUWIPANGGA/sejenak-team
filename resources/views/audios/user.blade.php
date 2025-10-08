@@ -3,7 +3,7 @@
 @section('title', 'Meditasi White Noise')
 
 @section('content')
-<div id="meditationPage" class="w-full  bg-background font-main p-4 pb-24 md:p-8">
+<div id="meditationPage" class="w-full  bg-background font-main p-4 md:p-8">
 
 
     <div class="flex flex-col lg:flex-row gap-6 h-full">

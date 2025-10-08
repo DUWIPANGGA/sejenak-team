@@ -2,7 +2,7 @@
 @section('title', 'Chating')
 
 @section('content')
-<div class="flex-1 flex w-full h-full p-3 md:p-2 gap-4 pt-2 pb-20 md:pb-0">
+<div class="flex flex w-full h-[84vh] p-3 md:p-2 gap-4 pt-2 md:pb-0">
     <!-- Sidebar Kontak -->
     <div id="chat-list-panel" class="w-full md:w-1/3 bg-white border-2 border-dark rounded-playful-lg flex flex-col overflow-hidden shadow-border-offset-lg mt-1 md:mt-0 z-10">
         <div class="p-3 border-b-2 border-dark flex items-center bg-white">
@@ -15,7 +15,7 @@
                     <i class="fas fa-user text-lg"></i>
                 </div>
                 <div class="flex-1">
-                    <h3 class="font-bold text-dark font-exo2">Konseling dengan ahli</h3>
+                    <h3 class="font-bold text-dark font-exo2">Konseling (Coming Soon!)</h3>
                     <p class="text-xs text-dark">Curahkan semua masalah mu ke ahli</p>
                 </div>
             </a>

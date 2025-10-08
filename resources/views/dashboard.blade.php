@@ -27,16 +27,17 @@
 
 </style>
 @endsection
+
 @section('content')
-<div class="w-full h-full grid grid-cols-1 md:grid-cols-3 gap-6 px-8 py-4 pb-24">
+<div class="w-full h-full grid grid-cols-1 md:grid-cols-3 gap-6 px-8 py-4">
 
     <div class="flex flex-col gap-4">
         <div class="flex flex-row gap-4">
             <div id="timeBox" class="flex-1 border border-dark rounded-playful-lg bg-primary flex items-center justify-center p-3">
-                <h2 class="text-h2 text-white text-shadow-h1 font-exo2 text-center" id="currentTime">22:33 PM</h2>
+                <h2 class="text-h2 text-white text-shadow-h1 font-exo2 text-center" id="currentTime"></h2>
             </div>
             <div id="monthBox" class="flex-1 border border-dark rounded-playful-lg bg-primary flex items-center justify-center p-3">
-                <h2 class="text-h2 text-white text-shadow-h1 font-exo2 text-center" id="currentMonthShort">OKT</h2>
+                <h2 class="text-h2 text-white text-shadow-h1 font-exo2 text-center" id="currentMonthShort"></h2>
             </div>
         </div>
 
@@ -287,113 +288,116 @@
     });
 
 </script>
+
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Data contoh aktivitas dari Laravel
-    const riwayatJournal = @json($riwayatJournal); // contoh: [18,18]
-    const riwayatMeditasi = @json($riwayatMeditasi); // contoh: [18]
+    document.addEventListener('DOMContentLoaded', function() {
+        // DIUBAH: Menerima riwayatPostingan dari controller, bukan lagi riwayatMeditasi
+        const riwayatJurnal = @json($riwayatJurnal ?? []);
+        const riwayatPostingan = @json($riwayatPostingan ?? []);
 
-    const monthShortNames = ["JAN", "FEB", "MAR", "APR", "MEI", "JUN", "JUL", "AGT", "SEP", "OKT", "NOV", "DES"];
+        const monthShortNames = ["JAN", "FEB", "MAR", "APR", "MEI", "JUN", "JUL", "AGT", "SEP", "OKT", "NOV", "DES"];
+        let currentDate = new Date();
 
-    let currentDate = new Date();
-    let currentMonth = currentDate.getMonth();
-    let currentYear = currentDate.getFullYear();
-
-    // Fungsi update jam real-time
-    function updateTime() {
-        const now = new Date();
-        let hours = now.getHours();
-        let minutes = now.getMinutes();
-        let ampm = hours >= 12 ? 'PM' : 'AM';
-
-        hours = hours % 12;
-        hours = hours ? hours : 12;
-        minutes = minutes < 10 ? '0' + minutes : minutes;
-
-        const timeStr = `${hours}:${minutes} ${ampm}`;
-        const timeBox = document.getElementById('currentTime');
-        if (timeBox) {
-            timeBox.textContent = timeStr;
-        }
-    }
-
-    // Update singkatan bulan
-    function updateMonthShort(month) {
-        const monthBox = document.getElementById('currentMonthShort');
-        if (monthBox) {
-            monthBox.textContent = monthShortNames[month];
-        }
-    }
-
-    // Fungsi render kalender bulan ini saja
-    function renderCalendar(month, year) {
-        const firstDay = new Date(year, month, 1).getDay();
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-        // Minggu mulai Senin
-        let startingDay = firstDay === 0 ? 6 : firstDay - 1;
-
-        const calendarBody = document.getElementById('calendarBody');
-        calendarBody.innerHTML = '';
-
-        // Sel kosong sebelum tanggal 1
-        for (let i = 0; i < startingDay; i++) {
-            const emptyCell = document.createElement('div');
-            calendarBody.appendChild(emptyCell);
+        // Fungsi update jam (sudah dalam format 24 jam)
+        function updateTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            const timeStr = `${hours}:${minutes}`;
+            document.getElementById('currentTime').textContent = timeStr;
         }
 
-        const today = new Date();
+        // Fungsi update bulan (tidak ada perubahan)
+        function updateMonthShort(month) {
+            document.getElementById('currentMonthShort').textContent = monthShortNames[month];
+        }
 
-        for (let day = 1; day <= daysInMonth; day++) {
-            const cell = document.createElement('div');
-            cell.classList.add('text-center', 'p-2', 'relative', 'content-calendar');
+        function renderCalendar(month, year) {
+            const calendarBody = document.getElementById('calendarBody');
+            if (!calendarBody) return;
 
-            const dayDiv = document.createElement('div');
-            dayDiv.classList.add(
-                'inline-block', 'w-full', 'rounded', 'relative', 
-                'cursor-pointer', 'hover:bg-gray-200'
-            );
+            calendarBody.innerHTML = '';
 
-            if (day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
-                cell.classList.add('bg-primary');
-                dayDiv.classList.add('font-bold');
+            const dayNames = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+            dayNames.forEach(day => {
+                const dayCell = document.createElement('div');
+                dayCell.className = 'text-center font-bold text-sm text-gray-500';
+                dayCell.textContent = day;
+                calendarBody.appendChild(dayCell);
+            });
+
+            const firstDayOfMonth = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            let startingDay = firstDayOfMonth;
+
+            for (let i = 0; i < startingDay; i++) {
+                const emptyCell = document.createElement('div');
+                calendarBody.appendChild(emptyCell);
             }
 
-            dayDiv.textContent = day;
+            const today = new Date();
+            const isCurrentMonthAndYear = month === today.getMonth() && year === today.getFullYear();
 
-            // Tanda Journal (bulat oranye kiri bawah)
-            if (riwayatJournal.includes(day)) {
-                const journalIndicator = document.createElement('span');
-                journalIndicator.classList.add(
-                    'absolute', 'bottom-1', 'left-1',
-                    'w-3', 'h-3', 'rounded-full',
-                    'bg-orange-500', 'z-10'
-                );
-                dayDiv.appendChild(journalIndicator);
+            for (let day = 1; day <= daysInMonth; day++) {
+                const cell = document.createElement('div');
+                cell.className = 'text-center p-1 relative flex items-center justify-center';
+
+                const dayDiv = document.createElement('div');
+                // ==========================================================
+                // PERUBAHAN #1 ADA DI BARIS INI
+                // ==========================================================
+                dayDiv.className = 'w-10 h-10 flex flex-col items-center justify-between py-1 rounded-lg relative cursor-pointer hover:bg-gray-200 transition-colors border-2 border-transparent';
+
+                const dayNumber = document.createElement('span');
+                dayNumber.textContent = day;
+                dayDiv.appendChild(dayNumber);
+
+                const isToday = isCurrentMonthAndYear && day === today.getDate();
+                const weekDay = new Date(year, month, day).getDay();
+
+                if (isToday) {
+                    dayDiv.classList.add('bg-primary', 'text-white', 'font-bold');
+                    dayDiv.classList.remove('border-transparent');
+                    dayDiv.classList.add('border-black');
+                } else {
+                    if (weekDay === 6) { dayNumber.classList.add('text-indigo-600', 'font-semibold'); } 
+                    else if (weekDay === 0) { dayNumber.classList.add('text-red-600', 'font-semibold'); }
+                }
+
+                const indicatorContainer = document.createElement('div');
+                // ==========================================================
+                // PERUBAHAN #2 ADA DI BARIS INI
+                // ==========================================================
+                indicatorContainer.className = 'flex items-center justify-center gap-1';
+
+                if (riwayatJurnal.includes(day)) {
+                    const journalIndicator = document.createElement('span');
+                    journalIndicator.className = 'block w-2 h-2 rounded-full';
+                    journalIndicator.style.backgroundColor = '#DCD489';
+                    indicatorContainer.appendChild(journalIndicator);
+                }
+
+                if (riwayatPostingan.includes(day)) {
+                    const postIndicator = document.createElement('span');
+                    postIndicator.className = 'block w-2 h-2 rounded-full';
+                    postIndicator.style.backgroundColor = '#FF6600';
+                    indicatorContainer.appendChild(postIndicator);
+                }
+                
+                dayDiv.appendChild(indicatorContainer);
+                cell.appendChild(dayDiv);
+                calendarBody.appendChild(cell);
             }
-
-            // Tanda Meditasi (bulat ungu kanan bawah)
-            if (riwayatMeditasi.includes(day)) {
-                const meditationIndicator = document.createElement('span');
-                meditationIndicator.classList.add(
-                    'absolute', 'bottom-1', 'right-1',
-                    'w-3', 'h-3', 'rounded-full',
-                    'bg-purple-600', 'z-10'
-                );
-                dayDiv.appendChild(meditationIndicator);
-            }
-
-            cell.appendChild(dayDiv);
-            calendarBody.appendChild(cell);
         }
-    }
 
-    // Render kalender dan update bulan singkat & jam
-    updateMonthShort(currentMonth);
-    renderCalendar(currentMonth, currentYear);
-    updateTime();
-    setInterval(updateTime, 1000);
-});
+        // Panggil semua fungsi saat halaman pertama kali dimuat (tidak ada perubahan)
+        updateMonthShort(currentDate.getMonth());
+        renderCalendar(currentDate.getMonth(), currentDate.getFullYear());
+        updateTime();
+        setInterval(updateTime, 1000);
+    });
 </script>
 
 <script>

@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\MessageController;
@@ -62,6 +63,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', [DashboardController::class,'index'])->name('user.dashboard');
+    Route::get('/blog', [BlogController::class,'view'])->name('user.blog');
     Route::get('/comunity', [ComunityController::class,'user'])->name('user.comunity');
     Route::post('/comunity', [PostController::class,'store'])->name('user.comunity.store');
     Route::get('/posts/{post}/comments', [PostController::class,'loadComment'])->name('posts.comments');
@@ -197,6 +199,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,super_ad
     // Circle Management (Super Admin only)
     Route::get('/circles', [AdminController::class, 'circles'])->name('circles');
     Route::delete('/circles/{circle}', [AdminController::class, 'deleteCircle'])->name('circles.delete');
+
+    // Blog Management
+    Route::get('/blog', [BlogController::class, 'index'])->name('blog');
     
     // Reports
     Route::get('/reports', [AdminController::class, 'reports'])->name('reports');

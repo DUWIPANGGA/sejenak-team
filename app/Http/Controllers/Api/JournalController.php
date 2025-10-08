@@ -73,6 +73,29 @@ class JournalController extends Controller
         ]);
     }
 
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'title'   => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
+
+        $journal = Journal::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        $journal->update([
+            'title'   => $validated['title'],
+            'content' => $validated['content'],
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Journal updated successfully',
+            'data'    => $journal,
+        ]);
+    }
+
     public function destroy($id)
     {
         $journal = Journal::where('id', $id)

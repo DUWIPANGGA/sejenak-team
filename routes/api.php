@@ -8,14 +8,16 @@ use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\MoodController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\Api\AudioController;
-use App\Http\Controllers\Api\ReplyController;
 use App\Http\Controllers\Api\CommentController;
-use App\Http\Controllers\Api\JournalController;
-use App\Http\Controllers\Api\ProfileController;
-use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\Api\ComunityController;
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\JournalController;
 use App\Http\Controllers\Api\MeditationController;
+use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\ReplyController;
+use App\Http\Controllers\TransactionController;
+
+
 
 
 Route::get('/user', function (Request $request) {
@@ -38,23 +40,25 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/', [AudioController::class, 'store']);
         Route::get('/category/{category}', [AudioController::class, 'byCategory']);
         Route::get('/{audio}', [AudioController::class, 'show']);
-        Route::put('/{audio}', [AudioController::class, 'update']); 
+        Route::put('/{audio}', [AudioController::class, 'update']);
         Route::delete('/{audio}', [AudioController::class, 'destroy']);
         Route::get('/{audio}/play', [AudioController::class, 'play']);
     });
     Route::prefix('journal')->group(function () {
-        Route::get('/', [JournalController::class, 'index']); 
-        Route::post('/', [JournalController::class, 'store']);        
-        Route::get('/{id}', [JournalController::class, 'show']);         
+        Route::get('/', [JournalController::class, 'index']);
+        Route::post('/', [JournalController::class, 'store']);
+        Route::put('/{id}', [JournalController::class, 'update']); // PUT method
+        Route::patch('/{id}', [JournalController::class, 'update']);
+        Route::get('/{id}', [JournalController::class, 'show']);
         Route::delete('/{id}', [JournalController::class, 'destroy']);
         Route::get('/search', [JournalController::class, 'search']);
         Route::get('/stats', [JournalController::class, 'stats']);
     });
     Route::prefix('moods')->group(function () {
-        Route::get('/', [MoodController::class, 'index']);    
+        Route::get('/', [MoodController::class, 'index']);
         Route::post('/', [MoodController::class, 'store']);
-        Route::get('/{id}', [MoodController::class, 'show']);    
-        Route::delete('/{id}', [MoodController::class, 'destroy']);    
+        Route::get('/{id}', [MoodController::class, 'show']);
+        Route::delete('/{id}', [MoodController::class, 'destroy']);
         Route::get('/statistics', [MoodController::class, 'statistics']);
     });
     Route::prefix('comunity')->group(function () {
@@ -63,7 +67,7 @@ Route::middleware('auth:api')->group(function () {
             Route::get('/', [LikeController::class, 'index']);
             Route::post('/', [LikeController::class, 'store']);
             Route::delete('/{id}', [LikeController::class, 'destroy']);
-            Route::post('/toggle', [LikeController::class, 'toggleLike']); 
+            Route::post('/toggle', [LikeController::class, 'toggleLike']);
         });
         
         Route::prefix('posts')->group(function () {
@@ -73,11 +77,23 @@ Route::middleware('auth:api')->group(function () {
             Route::put('/{id}', [PostController::class, 'update']);
             Route::delete('/{id}', [PostController::class, 'destroy']);
         });
+        Route::prefix('posts')->group(function () {
+            Route::get('/my-posts', [PostController::class, 'getAllMyPost']);
+            Route::get('/', [PostController::class, 'index']);
+            Route::post('/', [PostController::class, 'store']);
+            Route::get('/{id}', [PostController::class, 'show']);
+            Route::put('/{id}', [PostController::class, 'update']);
+            Route::delete('/{id}', [PostController::class, 'destroy']);
+            });
         Route::prefix('comments')->group(function () {
             Route::get('/', [CommentController::class, 'index']);
             Route::post('/', [CommentController::class, 'store']);
             Route::get('/{comment}', [CommentController::class, 'show']);
-            Route::get('/post/{postId}', [CommentController::class, 'getByPost']);            Route::put('/{comment}', [CommentController::class, 'update']);
+            Route::get('/post/{postId}', [CommentController::class, 'getByPost']);          
+            Route::put('/{comment}', [CommentController::class, 'update']);
+            Route::get('/{comment}', [CommentController::class, 'getByPost']);
+            Route::get('/post/{postId}', [CommentController::class, 'getByPost']);
+            Route::put('/{comment}', [CommentController::class, 'update']);
             Route::delete('/{comment}', [CommentController::class, 'destroy']);
         });
         Route::prefix('replies')->group(function () {
@@ -97,6 +113,12 @@ Route::middleware('auth:api')->group(function () {
 
         Route::post('/{proposal}/approve', [ProposalController::class, 'approve']);
         Route::post('/{proposal}/reject', [ProposalController::class, 'reject']);
+    });
+    Route::prefix('daily-challenges')->group(function () {
+        Route::get('/', [UserDailyChallengeController::class, 'listChallenges']);
+        Route::post('/choose', [UserDailyChallengeController::class, 'chooseChallenge']);
+        Route::put('/{id}/complete', [UserDailyChallengeController::class, 'completeChallenge']);
+        Route::get('/my', [UserDailyChallengeController::class, 'myChallenges']);
     });
     Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::get('/meditation/daily', [MeditationController::class, 'daily']);
