@@ -319,61 +319,60 @@
         // Fungsi render kalender
         function renderCalendar(month, year) {
             const calendarBody = document.getElementById('calendarBody');
-            if (!calendarBody) return; // Jaga-jaga jika elemen tidak ditemukan
-            
-            calendarBody.innerHTML = ''; // Kosongkan kalender sebelum mengisi
+            if (!calendarBody) return; 
+
+            calendarBody.innerHTML = ''; 
 
             const dayNames = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
             dayNames.forEach(day => {
                 const dayCell = document.createElement('div');
-                dayCell.className = 'text-center font-bold text-sm text-gray-500'; // Style untuk nama hari
+                dayCell.className = 'text-center font-bold text-sm text-gray-500';
                 dayCell.textContent = day;
                 calendarBody.appendChild(dayCell);
             });
-    
+
             const firstDayOfMonth = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             
-            // Sesuaikan hari pertama (karena getDay()=Minggu=0, kita mau Senin=0)
-            let startingDay = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
-    
-            // Buat sel kosong untuk hari sebelum tanggal 1
+            // ==========================================================
+            // PERBAIKAN #1: Logika hari pertama disesuaikan untuk Minggu = 0
+            // ==========================================================
+            let startingDay = firstDayOfMonth;
+
             for (let i = 0; i < startingDay; i++) {
                 const emptyCell = document.createElement('div');
                 calendarBody.appendChild(emptyCell);
             }
-    
+
             const today = new Date();
             const isCurrentMonthAndYear = month === today.getMonth() && year === today.getFullYear();
-    
-            // Buat sel untuk setiap tanggal dalam sebulan
+
             for (let day = 1; day <= daysInMonth; day++) {
                 const cell = document.createElement('div');
                 cell.className = 'text-center p-1 relative flex items-center justify-center';
-    
+
                 const dayDiv = document.createElement('div');
                 dayDiv.className = 'w-8 h-8 flex items-center justify-center rounded-full relative cursor-pointer hover:bg-gray-200 transition-colors';
                 dayDiv.textContent = day;
-    
+
                 const isToday = isCurrentMonthAndYear && day === today.getDate();
-    
-                // KODE BARU DIMULAI: Logika pewarnaan akhir pekan
-                const weekDay = (startingDay + day - 1) % 7; // 0=Senin, 5=Sabtu, 6=Minggu
+
+                // =======================================================================
+                // PERBAIKAN #2: Logika pewarnaan akhir pekan disesuaikan
+                // getDay() lebih akurat: 0 untuk Minggu, 6 untuk Sabtu
+                // =======================================================================
+                const weekDay = new Date(year, month, day).getDay();
                 
                 if (isToday) {
-                    // Jika hari ini, prioritaskan style 'today'
                     dayDiv.classList.add('bg-primary', 'text-white', 'font-bold');
                 } else {
-                    // Jika bukan hari ini, baru warnai akhir pekan
-                    if (weekDay === 5) { // Sabtu
+                    if (weekDay === 6) { // Sabtu
                         dayDiv.classList.add('text-indigo-600', 'font-semibold');
-                    } else if (weekDay === 6) { // Minggu
+                    } else if (weekDay === 0) { // Minggu
                         dayDiv.classList.add('text-red-600', 'font-semibold');
                     }
                 }
-                // KODE BARU SELESAI
-    
-                // Tambahkan indikator jika ada riwayat
+
                 if (riwayatJournal.includes(day)) {
                     const indicator = document.createElement('span');
                     indicator.className = 'absolute bottom-0 left-0 w-2 h-2 rounded-full bg-orange-500';
@@ -384,7 +383,7 @@
                     indicator.className = 'absolute bottom-0 right-0 w-2 h-2 rounded-full bg-purple-600';
                     dayDiv.appendChild(indicator);
                 }
-    
+
                 cell.appendChild(dayDiv);
                 calendarBody.appendChild(cell);
             }
