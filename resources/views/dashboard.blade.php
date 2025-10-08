@@ -34,10 +34,10 @@
     <div class="flex flex-col gap-4">
         <div class="flex flex-row gap-4">
             <div id="timeBox" class="flex-1 border border-dark rounded-playful-lg bg-primary flex items-center justify-center p-3">
-                <h2 class="text-h2 text-white text-shadow-h1 font-exo2 text-center" id="currentTime">22:33 PM</h2>
+                <h2 class="text-h2 text-white text-shadow-h1 font-exo2 text-center" id="currentTime"></h2>
             </div>
             <div id="monthBox" class="flex-1 border border-dark rounded-playful-lg bg-primary flex items-center justify-center p-3">
-                <h2 class="text-h2 text-white text-shadow-h1 font-exo2 text-center" id="currentMonthShort">OKT</h2>
+                <h2 class="text-h2 text-white text-shadow-h1 font-exo2 text-center" id="currentMonthShort"></h2>
             </div>
         </div>
 
@@ -291,37 +291,34 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Data aktivitas dari Laravel (gunakan '?? []' untuk fallback jika variabel tidak ada)
-        const riwayatJournal = @json($riwayatJournal ?? []);
-        const riwayatMeditasi = @json($riwayatMeditasi ?? []);
-    
+        // DIUBAH: Menerima riwayatPostingan dari controller, bukan lagi riwayatMeditasi
+        const riwayatJurnal = @json($riwayatJurnal ?? []);
+        const riwayatPostingan = @json($riwayatPostingan ?? []);
+
         const monthShortNames = ["JAN", "FEB", "MAR", "APR", "MEI", "JUN", "JUL", "AGT", "SEP", "OKT", "NOV", "DES"];
         let currentDate = new Date();
-    
-        // Fungsi update jam real-time
+
+        // Fungsi update jam (sudah dalam format 24 jam)
         function updateTime() {
             const now = new Date();
             let hours = now.getHours();
             let minutes = now.getMinutes();
-            const ampm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12;
-            hours = hours ? hours : 12; // Jam 0 harus jadi 12
+            hours = hours < 10 ? '0' + hours : hours;
             minutes = minutes < 10 ? '0' + minutes : minutes;
-            const timeStr = `${hours}:${minutes} ${ampm}`;
+            const timeStr = `${hours}:${minutes}`;
             document.getElementById('currentTime').textContent = timeStr;
         }
-    
-        // Update singkatan bulan
+
+        // Fungsi update bulan (tidak ada perubahan)
         function updateMonthShort(month) {
             document.getElementById('currentMonthShort').textContent = monthShortNames[month];
         }
-    
-        // Fungsi render kalender
+
         function renderCalendar(month, year) {
             const calendarBody = document.getElementById('calendarBody');
-            if (!calendarBody) return; 
+            if (!calendarBody) return;
 
-            calendarBody.innerHTML = ''; 
+            calendarBody.innerHTML = '';
 
             const dayNames = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
             dayNames.forEach(day => {
@@ -333,10 +330,6 @@
 
             const firstDayOfMonth = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
-            
-            // ==========================================================
-            // PERBAIKAN #1: Logika hari pertama disesuaikan untuk Minggu = 0
-            // ==========================================================
             let startingDay = firstDayOfMonth;
 
             for (let i = 0; i < startingDay; i++) {
@@ -352,48 +345,58 @@
                 cell.className = 'text-center p-1 relative flex items-center justify-center';
 
                 const dayDiv = document.createElement('div');
-                dayDiv.className = 'w-8 h-8 flex items-center justify-center rounded-full relative cursor-pointer hover:bg-gray-200 transition-colors';
-                dayDiv.textContent = day;
+                // ==========================================================
+                // PERUBAHAN #1 ADA DI BARIS INI
+                // ==========================================================
+                dayDiv.className = 'w-10 h-10 flex flex-col items-center justify-between py-1 rounded-lg relative cursor-pointer hover:bg-gray-200 transition-colors border-2 border-transparent';
+
+                const dayNumber = document.createElement('span');
+                dayNumber.textContent = day;
+                dayDiv.appendChild(dayNumber);
 
                 const isToday = isCurrentMonthAndYear && day === today.getDate();
-
-                // =======================================================================
-                // PERBAIKAN #2: Logika pewarnaan akhir pekan disesuaikan
-                // getDay() lebih akurat: 0 untuk Minggu, 6 untuk Sabtu
-                // =======================================================================
                 const weekDay = new Date(year, month, day).getDay();
-                
+
                 if (isToday) {
                     dayDiv.classList.add('bg-primary', 'text-white', 'font-bold');
+                    dayDiv.classList.remove('border-transparent');
+                    dayDiv.classList.add('border-black');
                 } else {
-                    if (weekDay === 6) { // Sabtu
-                        dayDiv.classList.add('text-indigo-600', 'font-semibold');
-                    } else if (weekDay === 0) { // Minggu
-                        dayDiv.classList.add('text-red-600', 'font-semibold');
-                    }
+                    if (weekDay === 6) { dayNumber.classList.add('text-indigo-600', 'font-semibold'); } 
+                    else if (weekDay === 0) { dayNumber.classList.add('text-red-600', 'font-semibold'); }
                 }
 
-                if (riwayatJournal.includes(day)) {
-                    const indicator = document.createElement('span');
-                    indicator.className = 'absolute bottom-0 left-0 w-2 h-2 rounded-full bg-orange-500';
-                    dayDiv.appendChild(indicator);
-                }
-                if (riwayatMeditasi.includes(day)) {
-                    const indicator = document.createElement('span');
-                    indicator.className = 'absolute bottom-0 right-0 w-2 h-2 rounded-full bg-purple-600';
-                    dayDiv.appendChild(indicator);
+                const indicatorContainer = document.createElement('div');
+                // ==========================================================
+                // PERUBAHAN #2 ADA DI BARIS INI
+                // ==========================================================
+                indicatorContainer.className = 'flex items-center justify-center gap-1';
+
+                if (riwayatJurnal.includes(day)) {
+                    const journalIndicator = document.createElement('span');
+                    journalIndicator.className = 'block w-2 h-2 rounded-full';
+                    journalIndicator.style.backgroundColor = '#DCD489';
+                    indicatorContainer.appendChild(journalIndicator);
                 }
 
+                if (riwayatPostingan.includes(day)) {
+                    const postIndicator = document.createElement('span');
+                    postIndicator.className = 'block w-2 h-2 rounded-full';
+                    postIndicator.style.backgroundColor = '#FF6600';
+                    indicatorContainer.appendChild(postIndicator);
+                }
+                
+                dayDiv.appendChild(indicatorContainer);
                 cell.appendChild(dayDiv);
                 calendarBody.appendChild(cell);
             }
         }
-    
-        // Panggil semua fungsi saat halaman pertama kali dimuat
+
+        // Panggil semua fungsi saat halaman pertama kali dimuat (tidak ada perubahan)
         updateMonthShort(currentDate.getMonth());
         renderCalendar(currentDate.getMonth(), currentDate.getFullYear());
         updateTime();
-        setInterval(updateTime, 1000); // Update jam setiap detik
+        setInterval(updateTime, 1000);
     });
 </script>
 

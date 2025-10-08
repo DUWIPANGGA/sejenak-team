@@ -43,30 +43,38 @@ class DashboardController extends Controller
     }
     public function index()
     {
-        $user = Auth::user()->load([
-            'role',
-            'messages',
-            'moods',
-            'journals',
-            'challenges',
-            'exercises'
-        ]);
-
+        $user = Auth::user(); // Mengambil user yang sedang login
         $userId = $user->id;
 
+        // Biarkan ini, karena untuk fitur 'Top Post' yang berbeda
         $topPost = Post::inRandomOrder()->first();
 
-        $riwayatJournal = $user->journals->map(function ($journal) {
-            return Carbon::parse($journal->updated_at)->day; // ambil angka harinya
-        });
+        $currentMonth = now()->month;
+        $currentYear = now()->year;
 
-        $riwayatMeditasi = $user->exercises->map(function ($exercise) {
-            return Carbon::parse($exercise->updated_at)->day;
-        });
+        // DIUBAH: Query dibuat lebih efisien, langsung filter di database
+        $riwayatJurnal = $user->journals()
+                            ->whereYear('created_at', $currentYear)
+                            ->whereMonth('created_at', $currentMonth)
+                            ->pluck('created_at')
+                            ->map(fn($date) => Carbon::parse($date)->day)
+                            ->unique()
+                            ->values();
 
+        // BARU: Query untuk mengambil riwayat postingan (menggantikan meditasi)
+        // Pastikan model User Anda memiliki relasi 'posts'
+        $riwayatPostingan = $user->posts()
+                                ->whereYear('created_at', $currentYear)
+                                ->whereMonth('created_at', $currentMonth)
+                                ->pluck('created_at')
+                                ->map(fn($date) => Carbon::parse($date)->day)
+                                ->unique()
+                                ->values();
+
+        // Bagian untuk Grafik Mood, tidak ada perubahan, biarkan saja
         $moods = Mood::select(
                 DB::raw('DATE(created_at) as date'),
-                DB::raw('MAX(mood) as mood') // ambil mood terakhir tiap hari
+                DB::raw('MAX(mood) as mood')
             )
             ->where('user_id', $userId)
             ->where('created_at', '>=', Carbon::now()->subDays(6))
@@ -75,40 +83,32 @@ class DashboardController extends Controller
             ->get();
 
         $moodMap = [
-            'sad' => 1,
-            'anxious' => 2,
-            'stressed' => 2,
-            'calm' => 3,
-            'tired' => 3,
-            'happy' => 4,
-            'relaxed' => 4,
-            'angry' => 2,
-            'energetic' => 5,
+            'sad' => 1, 'anxious' => 2, 'stressed' => 2,
+            'calm' => 3, 'tired' => 3, 'happy' => 4,
+            'relaxed' => 4, 'angry' => 2, 'energetic' => 5,
         ];
 
         $data = [];
         $labels = [];
 
-        // 7 hari terakhir (biar selalu lengkap walau kosong)
         for ($i = 6; $i >= 0; $i--) {
             $day = Carbon::now()->subDays($i);
-            $labels[] = $day->locale('id')->isoFormat('dd'); // Sen, Sel, dst
-
+            $labels[] = $day->locale('id')->isoFormat('dd');
             $found = $moods->firstWhere('date', $day->toDateString());
-
             $data[] = $found ? ($moodMap[$found->mood] ?? 0) : 0;
         }
-$quote= $this->getRandomQuote();
-// dd($quote);
-        return view('dashboard', compact(
-            'user',
-            'topPost',
-            'riwayatJournal',
-            'riwayatMeditasi',
-            'labels',
-            'data',
-            'quote'
-        ));
-    }
 
+        $quote = $this->getRandomQuote();
+
+        // DIUBAH: Mengirim variabel baru ke view
+        return view('dashboard', [
+            'user' => $user,
+            'topPost' => $topPost,
+            'riwayatJurnal' => $riwayatJurnal,
+            'riwayatPostingan' => $riwayatPostingan, // Menggantikan riwayatMeditasi
+            'labels' => $labels,
+            'data' => $data,
+            'quote' => $quote,
+        ]);
+    }
 }

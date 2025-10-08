@@ -211,12 +211,6 @@
                 right: auto;
             }
 
-            /* #chat-bubble {
-                bottom: 70px;
-                left: 0;
-                right: auto;
-            } */
-
             #chat-bubble::after {
                 bottom: -10px;
                 right: 20px;
