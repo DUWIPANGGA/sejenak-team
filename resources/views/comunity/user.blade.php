@@ -1,6 +1,6 @@
-    @extends('layouts.app')
+@extends('layouts.app')
 
-    @section('title', 'Comunity')
+@section('title', 'Comunity')
 
     @section('style')
         <style>
@@ -500,7 +500,7 @@
             </div>
         </div>
 
-    @endsection
+@endsection
 
     @section('script')
         <script>
@@ -628,18 +628,18 @@
                             <button class="text-xs font-lexend text-gray-500 hover:text-dark transition-colors" onclick="showReplyForm('replyForm-${comment.id}')">Balas</button>
                         </div>
 
-                        <!-- Form untuk reply -->
-                        <div id="replyForm-${comment.id}" class="hidden mt-4 ml-8">
-                            <form class="add-reply-form" data-comment-id="${comment.id}">
-                                @csrf
-                                <input type="hidden" name="comment_id" value="${comment.id}">
-                                <textarea name="content" class="w-full p-2 text-sm border-2 border-dark rounded-playful-lg shadow-border-offset focus:outline-none font-lexend" placeholder="Tulis balasan..." required></textarea>
-                                <div class="flex justify-end mt-2 gap-2">
-                                    <button type="button" class="px-3 py-1 rounded-playful-lg border-2 border-dark font-lexend text-sm bg-gray-200 hover:bg-gray-300 transition-all" onclick="hideReplyForm('replyForm-${comment.id}')">Batal</button>
-                                    <button type="submit" class="bg-primary text-white px-3 py-1 rounded-playful-lg border-2 border-dark font-lexend text-sm shadow-border-offset hover:bg-primary/80 transition-all active:shadow-[1px_2px_0px_#1A1A40] active:translate-x-0.5 active:translate-y-0.5">Kirim</button>
-                                </div>
-                            </form>
-                        </div>
+                    <!-- Form untuk reply -->
+                    <div id="replyForm-${comment.id}" class="hidden mt-4 ml-8">
+                        <form class="add-reply-form" data-comment-id="${comment.id}">
+                            @csrf
+                            <input type="hidden" name="comment_id" value="${comment.id}">
+                            <textarea name="content" class="w-full p-2 text-sm border-2 border-dark rounded-playful-lg shadow-border-offset focus:outline-none font-lexend" placeholder="Tulis balasan..." required></textarea>
+                            <div class="flex justify-end mt-2 gap-2">
+                                <button type="button" class="px-3 py-1 rounded-playful-lg border-2 border-dark font-lexend text-sm bg-gray-200 hover:bg-gray-300 transition-all" onclick="hideReplyForm('replyForm-${comment.id}')">Batal</button>
+                                <button type="submit" class="bg-primary text-white px-3 py-1 rounded-playful-lg border-2 border-dark font-lexend text-sm shadow-border-offset hover:bg-primary/80 transition-all active:shadow-[1px_2px_0px_#1A1A40] active:translate-x-0.5 active:translate-y-0.5">Kirim</button>
+                            </div>
+                        </form>
+                    </div>
 
                         <!-- Daftar replies -->
                         <div class="replies-container mt-3">
@@ -812,24 +812,24 @@
                             <button class="text-xs font-lexend text-gray-500 hover:text-dark transition-colors" onclick="showReplyForm('replyForm-${data.comment.id}')">Balas</button>
                         </div>
 
-                        <!-- Form untuk reply -->
-                        <div id="replyForm-${data.comment.id}" class="hidden mt-4 ml-8">
-                            <form class="add-reply-form" data-comment-id="${data.comment.id}">
-                                @csrf
-                                <input type="hidden" name="comment_id" value="${data.comment.id}">
-                                <textarea name="content" class="w-full p-2 text-sm border-2 border-dark rounded-playful-lg shadow-border-offset focus:outline-none font-lexend" placeholder="Tulis balasan..." required></textarea>
-                                <div class="flex justify-end mt-2 gap-2">
-                                    <button type="button" class="px-3 py-1 rounded-playful-lg border-2 border-dark font-lexend text-sm bg-gray-200 hover:bg-gray-300 transition-all" onclick="hideReplyForm('replyForm-${data.comment.id}')">Batal</button>
-                                    <button type="submit" class="bg-primary text-white px-3 py-1 rounded-playful-lg border-2 border-dark font-lexend text-sm shadow-border-offset hover:bg-primary/80 transition-all active:shadow-[1px_2px_0px_#1A1A40] active:translate-x-0.5 active:translate-y-0.5">Kirim</button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <!-- Container untuk replies -->
-                        <div class="replies-container mt-3"></div>
+                    <!-- Form untuk reply -->
+                    <div id="replyForm-${data.comment.id}" class="hidden mt-4 ml-8">
+                        <form class="add-reply-form" data-comment-id="${data.comment.id}">
+                            @csrf
+                            <input type="hidden" name="comment_id" value="${data.comment.id}">
+                            <textarea name="content" class="w-full p-2 text-sm border-2 border-dark rounded-playful-lg shadow-border-offset focus:outline-none font-lexend" placeholder="Tulis balasan..." required></textarea>
+                            <div class="flex justify-end mt-2 gap-2">
+                                <button type="button" class="px-3 py-1 rounded-playful-lg border-2 border-dark font-lexend text-sm bg-gray-200 hover:bg-gray-300 transition-all" onclick="hideReplyForm('replyForm-${data.comment.id}')">Batal</button>
+                                <button type="submit" class="bg-primary text-white px-3 py-1 rounded-playful-lg border-2 border-dark font-lexend text-sm shadow-border-offset hover:bg-primary/80 transition-all active:shadow-[1px_2px_0px_#1A1A40] active:translate-x-0.5 active:translate-y-0.5">Kirim</button>
+                            </div>
+                        </form>
                     </div>
+
+                    <!-- Container untuk replies -->
+                    <div class="replies-container mt-3"></div>
                 </div>
-            `;
+            </div>
+        `;
 
                             commentsSection.innerHTML += newCommentHtml;
 
