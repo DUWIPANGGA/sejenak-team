@@ -47,7 +47,7 @@
                 <p class="text-gray-500">Pilih percakapan untuk mulai mengobrol</p>
             </div>
         </div>
-        
+
         <!-- Input Pesan (Awalnya Disembunyikan) -->
         <div id="message-input-container" style="display: none;" class="p-4 border-t-2 border-dark sticky bottom-0 bg-white z-10">
             <form id="message-form" class="flex items-center space-x-2">
@@ -72,16 +72,16 @@
         box-shadow: 2px 3px 0px #080330;
         transition: all 0.2s ease;
     }
-    
+
     .user-list-item:hover {
         transform: translateY(-2px);
         box-shadow: 4px 5px 0px #080330;
     }
-    
+
     .user-list-item.active {
         background-color: #F0C3FF;
     }
-    
+
     .online-status, .offline-status {
         display: inline-block;
         width: 8px;
@@ -89,20 +89,20 @@
         border-radius: 50%;
         margin-right: 4px;
     }
-    
+
     .online-status {
         background-color: #4CAF50;
     }
-    
+
     .offline-status {
         background-color: #9E9E9E;
     }
-    
+
     .unread-count {
         background-color: #FF5252;
         color: white;
     }
-    
+
     .message {
     margin-bottom: 1rem;
     max-width: 75%;
@@ -156,13 +156,13 @@ document.addEventListener('DOMContentLoaded', function() {
     //     isMobile: function() {
     //         return window.innerWidth < 768;
     //     },
-        
+
     //     init: function() {
     //         this.loadUsers();
     //         this.setupEventListeners();
     //         this.initPusher();
     //     },
-        
+
     //     initPusher: function() {
     //         this.pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
     //             cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //             this.handleNewMessage(data);
     //         });
     //     },
-        
+
     //     loadUsers: function() {
     //         fetch('{{ route("chat.users") }}')
     //             .then(response => response.json())
@@ -181,17 +181,17 @@ document.addEventListener('DOMContentLoaded', function() {
     //                 this.renderUsers(users);
     //             });
     //     },
-        
+
     //     renderUsers: function(users) {
     //         const usersList = document.getElementById('users-list');
-            
+
     //         users.forEach(user => {
     //             const userElement = document.createElement('div');
     //             userElement.className = 'user-list-item';
     //             userElement.dataset.userId = user.id;
     //             userElement.innerHTML = `
     //                 <div class="flex items-center w-full">
-    //                     <img src="${user.avatar || 'https://ui-avatars.com/api/?name=' + user.name}" 
+    //                     <img src="${user.avatar || 'https://ui-avatars.com/api/?name=' + user.name}"
     //                          class="rounded-full mr-3" width="40" height="40">
     //                     <div class="flex-1">
     //                         <h6 class="font-bold mb-0">${user.name}</h6>
@@ -199,41 +199,41 @@ document.addEventListener('DOMContentLoaded', function() {
     //                             ${user.is_online ? '<span class="online-status"></span> Online' : '<span class="offline-status"></span> Offline'}
     //                         </small>
     //                     </div>
-    //                     <span class="unread-count text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full" 
+    //                     <span class="unread-count text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full"
     //                           id="unread-${user.id}" style="display: none;">0</span>
     //                 </div>
     //             `;
-                
+
     //             userElement.addEventListener('click', () => {
     //                 this.selectUser(user);
     //             });
-                
+
     //             usersList.appendChild(userElement);
     //         });
     //     },
-        
+
     //     selectUser: function(user) {
     //         this.currentChat = user;
-            
+
     //         if (this.isMobile()) {
     //             chatListPanel.classList.add('hidden');
     //             chatWindowPanel.classList.remove('hidden');
     //             chatWindowPanel.classList.add('flex');
     //         }
-            
+
     //         document.querySelectorAll('.user-list-item').forEach(item => {
     //             item.classList.remove('active');
     //         });
     //         document.querySelector(`[data-user-id="${user.id}"]`).classList.add('active');
-            
+
     //         document.getElementById('current-chat-info').innerHTML = `
     //             <div class="flex items-center p-2 bg-white rounded-md border-2 border-dark shadow-md z-20 w-full">
     //                 <button id="back-to-list-button" class="text-dark mr-3 md:hidden">
     //                     <i class="fas fa-arrow-left"></i>
     //                 </button>
-                    
+
     //                 <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white mr-2 border-2 border-dark overflow-hidden">
-    //                     ${ user.avatar 
+    //                     ${ user.avatar
     //                        ? `<img src="${user.avatar}" class="w-full h-full object-cover">`
     //                        : `<i class="fas fa-user text-sm"></i>` }
     //                 </div>
@@ -252,11 +252,11 @@ document.addEventListener('DOMContentLoaded', function() {
     //             chatListPanel.classList.remove('hidden');
     //             this.currentChat = null;
     //         });
-            
+
     //         document.getElementById('message-input-container').style.display = 'block';
     //         this.loadMessages(user.id);
     //     },
-        
+
     //     loadMessages: function(userId) {
     //         fetch(`/chat/messages/${userId}`)
     //             .then(response => response.json())
@@ -265,20 +265,20 @@ document.addEventListener('DOMContentLoaded', function() {
     //                 this.markAsRead(userId);
     //             });
     //     },
-        
+
     //     renderMessages: function(messages) {
     //         const container = document.getElementById('messages-container');
     //         container.innerHTML = '';
-            
+
     //         if (messages.length === 0) {
     //             container.innerHTML = '<div class="flex justify-center items-center h-full"><p class="text-gray-500">Mulai percakapan dengan mengirim pesan</p></div>';
     //             return;
     //         }
-            
+
     //         messages.forEach(message => {
     //             const messageElement = document.createElement('div');
     //             messageElement.className = `message ${message.sender_id === this.currentUser ? 'sent' : 'received'}`;
-                
+
     //             messageElement.innerHTML = `
     //                 <div class="message-content">
     //                     <div class="message-text">${message.body}</div>
@@ -287,30 +287,30 @@ document.addEventListener('DOMContentLoaded', function() {
     //                     </div>
     //                 </div>
     //             `;
-                
+
     //             container.appendChild(messageElement);
     //         });
-            
+
     //         container.scrollTop = container.scrollHeight;
     //     },
-        
+
     //     setupEventListeners: function() {
     //         document.getElementById('message-form').addEventListener('submit', (e) => {
     //             e.preventDefault();
     //             this.sendMessage();
     //         });
-            
+
     //         document.getElementById('search-users').addEventListener('input', (e) => {
     //             this.searchUsers(e.target.value);
     //         });
     //     },
-        
+
     //     sendMessage: function() {
     //         const messageInput = document.getElementById('message-input');
     //         const message = messageInput.value.trim();
-            
+
     //         if (!message || !this.currentChat) return;
-            
+
     //         fetch('{{ route("chat.send") }}', {
     //             method: 'POST',
     //             headers: {
@@ -331,7 +331,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //             }
     //         });
     //     },
-        
+
     //     handleNewMessage: function(data) {
     //         if (this.currentChat && data.message.sender_id === this.currentChat.id) {
     //             this.loadMessages(this.currentChat.id);
@@ -339,7 +339,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //             this.updateUnreadCount(data.message.sender_id);
     //         }
     //     },
-        
+
     //     updateUnreadCount: function(userId) {
     //         const unreadElement = document.getElementById(`unread-${userId}`);
     //         if (unreadElement) {
@@ -348,7 +348,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //             unreadElement.style.display = 'flex';
     //         }
     //     },
-        
+
     //     markAsRead: function(userId) {
     //         fetch(`/chat/mark-read/${userId}`, {
     //             method: 'POST',
@@ -356,18 +356,18 @@ document.addEventListener('DOMContentLoaded', function() {
     //                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
     //             }
     //         });
-            
+
     //         const unreadElement = document.getElementById(`unread-${userId}`);
     //         if (unreadElement) {
     //             unreadElement.style.display = 'none';
     //             unreadElement.textContent = '0';
     //         }
     //     },
-        
+
     //     searchUsers: function(query) {
     //         const usersList = document.getElementById('users-list');
     //         const originalItems = usersList.querySelectorAll('.user-list-item');
-            
+
     //         originalItems.forEach(item => {
     //             const userName = item.querySelector('h6').textContent.toLowerCase();
     //             if (userName.includes(query.toLowerCase())) {
@@ -378,7 +378,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //         });
     //     }
     // };
-    
+
     // ChatApp.init();
 });
 </script>

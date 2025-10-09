@@ -88,6 +88,8 @@
             justify-content: center;
             align-items: center;
             cursor: grab;
+
+            user-select: none;
             transition: transform 0.3s ease;
             position: relative;
             border: 2px solid #080330;
@@ -376,19 +378,43 @@
 
 <body class="bg-gray-100 min-h-screen flex lexend">
     @include('layouts.component.loading')
-    <header
-        class="fixed top-0 left-0 right-0 bg-primary px-4 py-3 flex items-center justify-between shadow-border-offset border-b-2 border-dark md:hidden z-40">
-        <div class="flex items-center space-x-2 hover-gentle-bounce">
-            <div class="w-9 h-9 rounded-playful-sm flex items-center justify-center">
-                <img src="{{ asset('assets/icon/sejenak-header.svg') }}" alt="Sejenak Logo" class="w-full h-full">
-            </div>
-            <h1 class="text-lg font-bold font-exo2 text-dark">Sejenak</h1>
-        </div>
+   <header
+    class="fixed top-0 left-0 right-0 bg-primary px-4 py-3 flex items-center justify-between shadow-border-offset border-b-2 border-dark md:hidden z-40">
 
-        <a href="{{ route('user.profiles') }}">
-            <img src="{{ asset('assets/icon/nav-profile.svg') }}" alt="User Profile" class="w-8 h-8">
-        </a>
-    </header>
+    <div class="flex items-center space-x-2 hover-gentle-bounce">
+        <div class="w-9 h-9 rounded-playful-sm flex items-center justify-center">
+            <img src="{{ asset('assets/icon/sejenak-header.svg') }}" alt="Sejenak Logo" class="w-full h-full">
+        </div>
+        <h1 class="text-lg font-bold font-exo2 text-dark">Sejenak</h1>
+    </div>
+
+    @php
+        use Illuminate\Support\Str;
+
+        $avatar = Auth::user()->avatar ?? null;
+        if (empty($avatar)) {
+            $avatarUrl = asset('assets/icon/nav-profile.svg');
+        } elseif (Str::startsWith($avatar, 'http')) {
+            $avatarUrl = $avatar;
+        } else {
+            $avatarUrl = asset('storage/' . $avatar);
+        }
+
+        $userName = Str::limit(Auth::user()->name ?? 'Pengguna', 12);
+    @endphp
+
+    <a href="{{ route('user.profiles') }}" class="flex items-center space-x-2">
+        <img
+            src="{{ $avatarUrl }}"
+            alt="User Profile"
+            class="w-8 h-8 rounded-full border-2 border-dark object-cover shadow-border-offset">
+        <span class="text-dark font-exo2 font-semibold text-sm truncate max-w-[100px] hidden sm:inline">
+            {{ $userName }}
+        </span>
+    </a>
+</header>
+
+
 
     <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-10 hidden"></div>
 

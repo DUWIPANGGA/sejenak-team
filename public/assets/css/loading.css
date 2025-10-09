@@ -14,7 +14,7 @@
 .svg-container {
     width: 150px;
     height: 150px;
-    
+
     /* border: 1px solid #3F51B5; */
 }
 #maintance {
@@ -133,7 +133,7 @@
 
     30% {
         background-position-x: 60%;
-        background-position-y: 20%;
+        background-position-y: 100%;
     }
 
     100% {
@@ -150,7 +150,7 @@
 
     30% {
         background-position-x: 60%;
-        background-position-y: 20%;
+        background-position-y: 90%;
 
     }
 

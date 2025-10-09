@@ -3,11 +3,11 @@
 @section('title', 'Edit Profil')
 
 @section('content')
-<div id="main-profile-page" class="h-screen w-full flex items-start justify-center p-4 md:p-8">
-    <div class="bg-backgroundrow flex flex-row w-full max-w-4xl p-0 md:p-6 lg:p-8">
-        
+<div id="main-profile-page" class="h-full w-screen flex items-center justify-center px-4 py-12 md:py-8 md:gap-6">
+    <div class="bg-background flex flex-col md:flex-row w-full  md:p-6 lg:p-8 md:gap-6 gap-3" >
+
         <!-- Container untuk Judul -->
-        <div class="bg-white border-2 border-dark rounded-playful-md shadow-border-offset p-6 md:p-8 mb-6 transition-all duration-300 transform hover:scale-105">
+        <div class="click-1 w-full md:w-1/4  bg-white border-2 border-dark rounded-playful-md shadow-border-offset p-6 md:p-8 mb-6 transition-all duration-300 transform">
             <h1 class="text-3xl md:text-4xl font-bold text-dark text-center mb-2">Edit Profil</h1>
             <p class="text-center text-sm text-gray-600">Perbarui informasi dan biodata Anda.</p>
         </div>
@@ -17,16 +17,16 @@
           <span class="font-medium">Profil berhasil diperbarui!</span>
         </div>
 
-        <form id="profile-form" action="{{ route('user.profiles.update') }}" method="POST" enctype="multipart/form-data">
+        <form id="profile-form" action="{{ route('user.profiles.update') }}" method="POST" enctype="multipart/form-data" class="w-full md:w-3/4">
             @csrf
             @method('PATCH')
 
             <!-- Container Utama: Dua Kolom untuk Avatar & Bio -->
             <div class="flex flex-col md:flex-row gap-6 mb-6">
                 <!-- Kolom Kiri: Avatar dan Informasi Dasar -->
-                <div class="bg-white border-2 border-dark rounded-playful-md shadow-border-offset p-6 md:p-8 flex-1 transition-all duration-300 transform hover:scale-105">
+                <div class="click-1 bg-white border-2 border-dark rounded-playful-md shadow-border-offset p-6 md:p-8 flex-1 transition-all duration-300 ">
                     <h2 class="text-h4 font-bold text-dark mb-4">Informasi Dasar</h2>
-                    
+
                     <!-- Avatar Section -->
                     <div class="flex flex-col items-center justify-center gap-6 mb-6">
                         <div class="relative w-32 h-32 md:w-40 md:h-40 rounded-full border-2 border-dark overflow-hidden shadow-border-offset transition-transform duration-300 hover:scale-110">
@@ -57,17 +57,17 @@
                 </div>
 
                 <!-- Kolom Kanan: Bio -->
-                <div class="bg-white border-2 border-dark rounded-playful-md shadow-border-offset p-6 md:p-8 flex-1 transition-all duration-300 transform hover:scale-105">
+                <div class="click-1 bg-white border-2 border-dark rounded-playful-md shadow-border-offset p-6 md:p-8 flex-1 transition-all duration-300">
                     <h2 class="text-h4 font-bold text-dark mb-4">Tentang Saya</h2>
                     <label for="bio" class="block text-sm font-semibold text-gray-700">Bio</label>
                     <textarea id="bio" name="bio" rows="12" class="mt-1 block w-full border-2 border-dark rounded-playful-md p-3 focus:outline-none focus:ring-2 focus:ring-primary shadow-sm">{{ old('bio', $user->bio) }}</textarea>
                 </div>
             </div>
-            
+
             <!-- Container untuk Tombol Simpan -->
-            <div class="bg-white border-2 border-dark rounded-playful-md shadow-border-offset p-6 md:p-8 transition-all duration-300 transform hover:scale-105">
+            <div class="click-1 bg-white border-2 border-dark rounded-playful-md shadow-border-offset p-6 md:p-8 transition-all duration-300">
                 <div class="flex justify-end">
-                    <button type="submit" class="w-full md:w-auto px-8 py-3 bg-primary text-dark font-bold rounded-playful-md border-2 border-dark shadow-border-offset hover:bg-primary/80 transition-all duration-200 active:shadow-none active:translate-x-1 active:translate-y-1">
+                    <button type="submit" class="click-1 w-full md:w-auto px-8 py-3 bg-primary text-dark font-bold rounded-playful-md border-2 border-dark shadow-border-offset hover:bg-primary/80 transition-all duration-200 active:shadow-none active:translate-x-1 active:translate-y-1">
                         <i class="fas fa-save mr-2"></i> Simpan Perubahan
                     </button>
                 </div>
@@ -103,7 +103,7 @@
             successMessage.classList.remove('hidden');
             setTimeout(() => {
                 successMessage.classList.add('hidden');
-            }, 3000); 
+            }, 3000);
         });
     });
 </script>

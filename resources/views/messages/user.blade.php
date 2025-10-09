@@ -4,7 +4,7 @@
 @section('content')
 <div class="flex flex w-full h-[84vh] p-3 md:p-2 gap-4 pt-2 md:pb-0">
     <!-- Sidebar Kontak -->
-    <div id="chat-list-panel" class="w-full md:w-1/3 bg-white border-2 border-dark rounded-playful-lg flex flex-col overflow-hidden shadow-border-offset-lg mt-1 md:mt-0 z-10">
+    <div id="chat-list-panel" class="hidden w-full md:w-1/3 bg-white border-2 border-dark rounded-playful-lg md:flex flex-col overflow-hidden shadow-border-offset-lg  mt-1 md:mt-0 z-10">
         <div class="p-3 border-b-2 border-dark flex items-center bg-white">
             <h2 class="text-xl font-bold font-exo2">Chating</h2>
         </div>
@@ -32,31 +32,41 @@
     </div>
 
     <!-- Area Chat Utama -->
-    <div id="chat-window-panel" class="flex-1 hidden md:flex flex-col bg-white border-2 border-dark rounded-playful-lg flex-col overflow-hidden shadow-border-offset-lg mt-1 md:mt-0 z-10">
-        <!-- Header Chat -->
-        <div class="p-4 border-b-2 border-dark bg-white flex items-center z-20 sticky top-0">
-            <div class="current-contact-avatar w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white mr-3 border-2 border-dark">
-                <i class="fas fa-robot text-lg"></i>
-            </div>
-            <div class="current-contact-info flex-1">
-                <h3 class="font-bold text-lg font-exo2 text-dark">Nemo</h3>
-                <p class="text-sm text-gray-600">Online - Pendengar Ramah</p>
-            </div>
-        </div>
+    <div id="chat-window-panel" class="flex flex-col flex-1 bg-white border-2 border-dark rounded-playful-lg overflow-hidden shadow-border-offset-lg mb-8 md:mb-0 mt-1 md:mt-0 z-10">
 
-        <!-- Area Pesan -->
-        <div id="messages" class="flex-1 p-4 overflow-y-auto space-y-4 bg-gray-50">
-            <!-- Pesan akan ditambahkan secara dinamis oleh JavaScript -->
+    <!-- Header Chat -->
+    <div class="p-3 sm:p-4 border-b-2 border-dark bg-white flex items-center gap-3 sticky top-0 z-20">
+        <div class="current-contact-avatar w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary flex items-center justify-center text-white border-2 border-dark shrink-0">
+            <i class="fas fa-robot text-base sm:text-lg"></i>
         </div>
-
-        <!-- Input Pesan -->
-        <div class="p-4 border-t-2 border-dark bg-white z-10 flex items-center space-x-3 chat-input-container">
-            <input id="userInput" type="text" placeholder="Ketik pesan Anda..." class="flex-1 rounded-full py-3 px-4 bg-gray-100 border-2 border-dark focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
-            <button onclick="sendMessage()" class="bg-primary text-white p-3 rounded-full w-12 h-12 flex items-center justify-center border-2 border-dark shadow-[2px_3px_0px_#080330] hover:bg-primary-dark transition-transform duration-200 hover:scale-105 active:scale-95">
-                <i class="fas fa-paper-plane"></i>
-            </button>
+        <div class="current-contact-info flex-1 min-w-0">
+            <h3 class="font-exo2 font-bold text-dark text-base sm:text-lg truncate">Nemo</h3>
+            <p class="text-xs sm:text-sm text-gray-600">Online • Pendengar Ramah</p>
         </div>
     </div>
+
+    <!-- Area Pesan -->
+    <div id="messages" class="flex-1 p-3 sm:p-4 overflow-y-auto space-y-3 sm:space-y-4 bg-gray-50 scroll-smooth">
+        <!-- Pesan akan ditambahkan secara dinamis oleh JavaScript -->
+    </div>
+
+    <!-- Input Pesan -->
+    <div class="p-3 sm:p-4 border-t-2 border-dark bg-white flex items-center gap-2 sm:gap-3 sticky bottom-0 z-10">
+        <input
+            id="userInput"
+            type="text"
+            placeholder="Ketik pesan Anda..."
+            class="flex-1 rounded-full py-2.5 sm:py-3 px-3 sm:px-4 bg-gray-100 border-2 border-dark focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 text-sm sm:text-base"
+        >
+        <button
+            onclick="sendMessage()"
+            class="bg-primary text-white p-3 sm:p-3.5 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center border-2 border-dark shadow-[2px_3px_0px_#080330] hover:bg-primary-dark active:translate-x-0.5 active:translate-y-0.5 transition-all duration-200"
+        >
+            <i class="fas fa-paper-plane text-sm sm:text-base"></i>
+        </button>
+    </div>
+</div>
+
 
     <!-- Overlay untuk Mobile -->
     <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden"></div>
@@ -303,7 +313,7 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             const response = await sendMessageToGemini(text, conversationHistory);
             hideTypingIndicator(typingIndicator);
-            
+
             // Clean response - remove markdown and extra spaces
             const cleanResponse = response.replace(/\*\*/g, '').replace(/\*/g, '').trim();
             conversationHistory.push({ role: "assistant", content: cleanResponse });
@@ -331,14 +341,14 @@ document.addEventListener('DOMContentLoaded', function () {
         const now = new Date();
         const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
         const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-        
+
         const dayName = days[now.getDay()];
         const date = now.getDate();
         const monthName = months[now.getMonth()];
         const year = now.getFullYear();
         const hours = now.getHours().toString().padStart(2, '0');
         const minutes = now.getMinutes().toString().padStart(2, '0');
-        
+
         return {
             dayName: dayName,
             date: date,
@@ -360,7 +370,7 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             const config = psychologistConfigs[currentModel];
             const currentDateTime = getCurrentDateTimeInfo();
-            
+
             const prompt = `
                 ${config.promptContext}
 
@@ -437,7 +447,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         messageContainer.appendChild(messageBubble);
         messagesDiv.appendChild(messageContainer);
-        
+
         // Scroll to bottom
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
@@ -448,17 +458,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const indicator = document.createElement("div");
         indicator.className = "typing-indicator";
-        
+
         for (let i = 0; i < 3; i++) {
             const dot = document.createElement("div");
             dot.className = "typing-dot";
             indicator.appendChild(dot);
         }
-        
+
         messageContainer.appendChild(indicator);
         messagesDiv.appendChild(messageContainer);
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        
+
         return { container: messageContainer, indicator: indicator };
     }
 

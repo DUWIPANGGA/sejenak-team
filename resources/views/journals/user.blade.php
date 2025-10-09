@@ -181,7 +181,7 @@
 @endsection
 @section('content')
 
-<div class="flex flex-col md:flex-row w-full h-full gap-2 md:gap-4 p-2 md:p-4 md:pb-0 rounded-playful-lg overflow-hidden  md:overflow-hidden">
+<div class="flex flex-col md:flex-row w-full h-full gap-2 md:gap-4 p-2 md:p-4  rounded-playful-lg overflow-hidden  md:overflow-hidden">
 
     <div class=" flex flex-col w-full md:w-[350px] min-w-[280px] h-full gap-4">
 
