@@ -176,7 +176,7 @@
             </div>
         </aside>
 
-        <main class="main-content w-full h-full overflow-auto md:w-2/4 lg:w-1/2 flex-grow flex flex-col items-center gap-6 p-0 m-0 scrollbar-none">
+        <main class="main-content w-full h-full overflow-auto md:w-2/4 lg:w-1/2 flex-grow flex flex-col items-center gap-6 pb-8 md:pb-0 p-0 m-0 scrollbar-none">
             <h1 class="font-bold text-3xl font-exo2 text-dark text-shadow-h1">Homepage</h1>
 
             @foreach($posts as $post)
@@ -278,7 +278,7 @@
         </main>
 
 
-        <aside class="right-sidebar w-full md:w-1/4 lg:w-1/5 h-full flex-shrink-0">
+        <aside class="hidden md:flex right-sidebar w-full md:w-1/4 lg:w-1/5 h-full flex-shrink-0">
     <div class="bg-white p-6 rounded-playful-lg border-2 border-dark shadow-border-offset h-full">
         <h2 class="font-bold text-xl font-exo2 text-dark mb-4">Top User</h2>
         <div class="space-y-4">
@@ -318,17 +318,13 @@
 
 
 
-        <a href="#" onclick="openCreatePostModal()" class="fixed bottom-24 right-8 w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center border-2 border-dark shadow-border-offset hover:bg-primary/80 transition-all active:shadow-[1px_2px_0px_#1A1A40] active:translate-x-0.5 active:translate-y-0.5">
+        <a href="#" onclick="openCreatePostModal()" class="fixed bottom-24 right-8 w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center border-2 border-dark shadow-border-offset click-1">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-8 h-8">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
         </a>
 
-        <a href="#" class="fixed bottom-8 right-8 w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center border-2 border-dark shadow-border-offset hover:bg-primary/80 transition-all active:shadow-[1px_2px_0px_#1A1A40] active:translate-x-0.5 active:translate-y-0.5 md:hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-8 h-8">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
-        </a>
+        
 
     </div>
 

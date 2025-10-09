@@ -5,11 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Sejenak - @yield('title')</title>
+    <link rel="stylesheet" href="{{ asset('assets/css/loading.css'); }}">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Lexend:wght@100..900&display=swap');
+* {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+}
 
+*::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+}
         body {
             font-family: 'Lexend', sans-serif;
         }
@@ -227,46 +235,94 @@
     </style>
     <style type="text/tailwindcss">
         @layer utilities {
-.scrollbar-none::-webkit-scrollbar {
-  display: none;
+    .scrollbar-none::-webkit-scrollbar {
+        display: none;
+    }
+
+    .scrollbar-none {
+        -ms-overflow-style: none;  /* IE/Edge */
+        scrollbar-width: none;     /* Firefox */
+    }
+
+    .calendar-day-circle {
+        @apply w-10 h-10 flex items-center justify-center rounded-full border-2 transition-all cursor-pointer;
+    }
+
+    .calendar-dot {
+        @apply absolute bottom-1 w-2 h-2 rounded-full;
+    }
+
+    .text-shadow-custom {
+        text-shadow: 3px 5px 0px #000000;
+    }
+
+    .content-calendar {
+        @apply w-[90%] h-[90%] border border-black rounded flex justify-center items-center m-0;
+    }
+
+    .td-meditation {
+        @apply absolute w-3 h-3 bg-stroke border border-black rounded-full -bottom-[50%] left-[20%];
+    }
+
+    .td-jurnaling {
+        @apply absolute w-3 h-3 bg-stroke border border-black rounded-full -bottom-[50%] -left-[15%];
+    }
+
+    .td-disable {
+        @apply bg-stroke;
+    }
+
+    .td-purple {
+        @apply bg-secondary;
+    }
+
+    .td-orange {
+        @apply bg-accent;
+    }
+
+    .today {
+        @apply text-accent font-bold;
+    }
+
+    .click {
+        @apply transition-transform transition-shadow cursor-pointer ;
+        box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.25);  
+    }
+
+    .click:active {
+        @apply translate-x-0.5;
+        box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .click:hover {
+        transform: translateY(-2px);
+        box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.3);
+    }
+
+    .click-1 {
+        @apply border-dark cursor-pointer shadow-border-offset active:shadow-none active:translate-x-0.5 active:translate-y-0.5 transition-all  last:mb-0 ;
+    }
+    .-click-1 {
+        @apply border-dark cursor-pointer active:shadow-border-offset shadow-none active:-translate-x-0.5 active:-translate-y-0.5 transition-all last:mb-0 ;
+    }
+    .-hover-1 {
+        @apply border-dark cursor-pointer shadow-border-offset hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all last:mb-0 ;
+    }
+    .hover-1 {
+        @apply border-dark cursor-pointer shadow-border-offset hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all last:mb-0 ;
+    }
+
+    /* .click-1:active {
+        @apply translate-x-0.5 translate-y-0.5;
+        box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .click-1:hover {
+        transform: translateY(-2px);
+        box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.3);
+    } */
 }
 
-.scrollbar-none {
-  -ms-overflow-style: none;  /* IE/Edge */
-  scrollbar-width: none;     /* Firefox */
-}
-.calendar-day-circle {
-    @apply w-10 h-10 flex items-center justify-center rounded-full border-2 transition-all cursor-pointer;
-}
-
-.calendar-dot {
-    @apply absolute bottom-1 w-2 h-2 rounded-full;
-}
-            .text-shadow-custom {
-                text-shadow: 3px 5px 0px #000000;
-            }
-            .content-calendar {
-                @apply w-[90%] h-[90%] border border-black rounded flex justify-center items-center m-0;
-            }
-            .td-meditation {
-                @apply absolute w-3 h-3 bg-stroke border border-black rounded-full -bottom-[50%] left-[20%];
-            }
-            .td-jurnaling {
-                @apply absolute w-3 h-3 bg-stroke border border-black rounded-full -bottom-[50%] -left-[15%];
-            }
-            .td-disable {
-                @apply bg-stroke;
-            }
-            .td-purple {
-                @apply bg-secondary;
-            }
-            .td-orange {
-                @apply bg-accent;
-            }
-            .today {
-                @apply text-accent font-bold;
-            }
-        }
     </style>
     @yield('style')
     <script>
@@ -289,7 +345,9 @@
                         , exo2: ['exo-2', 'sans-serif']
                     }
                     , boxShadow: {
-                        'border-offset': '3px 4px 0 #080330'
+                        
+                        '-border-offset': '-3px -4px 0 #080330'
+                        ,'border-offset': '3px 4px 0 #080330'
                         , 'border-offset-lg': '5px 7px 0 #080330'
                         , 'border-offset-accent': '3px 4px 0 #8FD14F'
                     , }
@@ -334,6 +392,7 @@
     </script>
 </head>
 <body class="bg-gray-100 min-h-screen flex lexend">
+    @include('layouts.component.loading')
     <header class="fixed top-0 left-0 right-0 bg-primary px-4 py-3 flex items-center justify-between shadow-border-offset border-b-2 border-dark md:hidden z-40">
         <div class="flex items-center space-x-2 hover-gentle-bounce">
             <div class="w-9 h-9 rounded-playful-sm flex items-center justify-center">
@@ -357,7 +416,7 @@
         </div>
         
         {{-- <div class="dot-background md:m-5 md:ml-1 md:rounded-[40px] border-2 border-dark md:shadow-[5px_7px_0px_#080330] p-2 md:py-6 px-0 flex flex-col md:flex-row justify-center align-middle items-center max-w-[100vw] md:max-w-[95vw] flex-1 overflow-y-auto md:overflow-hidden"> --}}
-        <div class="dot-background md:m-5 md:ml-1 md:rounded-[40px] border-2 border-dark md:shadow-[5px_7px_0px_#080330] p-2 md:py-6 px-0 flex flex-col md:flex-row justify-center align-middle items-center max-w-[100vw] md:max-w-[95vw] md:h-[94vh] md:max-h-[94vh] overflow-y-auto md:overflow-hidden">
+        <div class="dot-background md:m-5 md:ml-1 md:rounded-[40px] border-2 border-dark md:shadow-[5px_7px_0px_#080330]  flex flex-col md:flex-row justify-center align-middle items-center max-w-[100vw] md:max-w-[95vw] md:h-[94vh] md:max-h-[94vh] overflow-y-auto md:overflow-hidden">
             <!-- Error Notification -->
             @if(session('error') || $errors->any())
             <div x-data="{ show: true }" x-show="show" x-transition class="fixed top-20 md:top-10 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4">

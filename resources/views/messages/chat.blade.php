@@ -11,7 +11,7 @@
         </div>
         <div id="users-list" class="flex flex-col p-2 overflow-y-auto space-y-2">
             <!-- Daftar pengguna akan dimuat di sini oleh JavaScript -->
-            <a href="{{ route('chat.bot') }}" class="user-list-item flex items-center p-3 rounded-playful-sm bg-primary border-2 border-dark shadow-border-offset">
+            <a href="{{ route('chat.bot') }}" class="click-1 user-list-item flex items-center p-3 rounded-playful-sm bg-primary border-2 border-dark shadow-border-offset">
                 <div class="w-10 h-10 rounded-full bg-dark flex items-center justify-center text-white mr-3">
                     <i class="fas fa-robot text-lg"></i>
                 </div>

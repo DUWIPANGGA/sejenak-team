@@ -41,6 +41,7 @@
                 extend: {
                     colors: {
                         primary: '#94B704',
+                        secondary: '#DCD489',
                         dark: '#080330',
                         lightbg: '#f7f7f7',
                         logininput: '#e6d09c',
@@ -70,8 +71,8 @@
             <p class="text-xl">Perjalanan menuju kesejahteraan emosional dimulai di sini.</p>
         </div>
 
-        <div class="flex-1 flex items-center justify-center p-4 bg-lightbg md:w-1/2">
-            <div class="w-full max-w-sm p-6 md:p-8 bg-white rounded-card-lg border-4 border-dark shadow-offset-dark">
+        <div class="flex-1 flex items-center justify-center  md:p-4 bg-secondary md:bg-lightbg md:w-1/2">
+            <div class="w-full max-w-sm p-6 md:p-8 bg-secondary md:bg-white md:rounded-card-lg md:border-4 border-dark md:shadow-offset-dark">
 
                 <x-validation-errors class="mb-4" />
 
@@ -95,12 +96,12 @@
 
                     <div class="mb-4">
                         <label for="email" class="block text-sm font-medium text-dark mb-1">Email</label>
-                        <input id="email" class="block w-full rounded-playful border-2 border-dark shadow-offset-dark p-2 bg-logininput placeholder-placeholder focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="Masukkan Email Anda" />
+                        <input id="email" class="block w-full rounded-playful border-2 border-dark shadow-offset-dark p-2 bg-logininput placeholder-placeholder placeholder-slate-700 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="Masukkan Email Anda" />
                     </div>
 
                     <div class="mb-4">
                         <label for="password" class="block text-sm font-medium text-dark mb-1">Kata sandi</label>
-                        <input id="password" class="block w-full rounded-playful border-2 border-dark shadow-offset-dark p-2 bg-logininput placeholder-placeholder focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" type="password" name="password" required autocomplete="current-password" placeholder="Masukkan Kata Sandi" />
+                        <input id="password" class="block w-full rounded-playful border-2 border-dark shadow-offset-dark p-2 bg-logininput placeholder-placeholder placeholder-slate-700 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" type="password" name="password" required autocomplete="current-password" placeholder="Masukkan Kata Sandi" />
                     </div>
 
                     <div class="flex justify-between items-center mt-4 mb-6">

@@ -1,5 +1,5 @@
 <head>
-    <link rel="stylesheet" href="{{ asset('assets/css/loading.css') }}">
+    <link rel="stylesheet" href="/css/loading.css">
 </head>
 <section id ="loading">
     <div class="svg-container">
@@ -17,11 +17,11 @@
                 </clipPath>
             </defs>
         </svg>
-    </div>
-    <div class="clip-container">
-      <div class="loading_1"></div>
-      <div class="loading_2"></div>
-    </div>
+        <div class="clip-container">
+          <div class="loading_1"></div>
+          <div class="loading_2"></div>
+        </div>
+      </div>
 </section>
 <script>
   window.addEventListener('load', function() {

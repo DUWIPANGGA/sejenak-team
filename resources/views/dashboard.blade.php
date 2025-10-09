@@ -29,14 +29,14 @@
 @endsection
 
 @section('content')
-<div class="w-full h-full grid grid-cols-1 md:grid-cols-3 gap-6 px-8 py-4">
+<div class="w-full h-full min-h-screen grid grid-cols-1 md:grid-cols-3 gap-5 px-8 py-8">
 
     <div class="flex flex-col gap-4">
         <div class="flex flex-row gap-4">
-            <div id="timeBox" class="flex-1 border border-dark rounded-playful-lg bg-primary flex items-center justify-center p-3">
+            <div id="timeBox" class="click-1 flex-1 border border-dark rounded-playful-lg bg-primary flex items-center justify-center p-3 h-full">
                 <h2 class="text-h2 text-white text-shadow-h1 font-exo2 text-center" id="currentTime"></h2>
             </div>
-            <div id="monthBox" class="flex-1 border border-dark rounded-playful-lg bg-primary flex items-center justify-center p-3">
+            <div id="monthBox" class="click-1 flex-1 border border-dark rounded-playful-lg bg-primary flex items-center justify-center p-3">
                 <h2 class="text-h2 text-white text-shadow-h1 font-exo2 text-center" id="currentMonthShort"></h2>
             </div>
         </div>
@@ -93,10 +93,10 @@
     </div>
 
     <div class="flex flex-col gap-6">
-        <div class="flex flex-col border-2 border-dark rounded-playful-lg bg-primary shadow-border-offset p-3 h-full">
+        <div class="click-1 flex flex-col border-2 border-dark rounded-playful-lg bg-primary shadow-border-offset p-3 h-1/2">
             <h3 class="text-lg font-bold text-white mb-3 shrink-0">Riwayat Jurnal</h3>
             
-            <div class="flex-1 border-2 border-dark rounded-playful-lg bg-white/10 p-2">
+            <div class="-click-1 flex-1 border-2 border-dark rounded-playful-lg bg-white/10 p-2">
                 
                 @forelse ($user->journals as $item)
                     <div data-id="{{ $item['id'] }}" class="p-3 bg-gray-100 border-2 border-dark rounded-playful-md flex justify-between items-start cursor-pointer shadow-border-offset hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all mb-3 last:mb-0 {{ $item['active'] ? 'history-item-active' : '' }}">
@@ -119,8 +119,8 @@
             </div>
         </div>
 
-        <div>
-            <div class="border-2 border-dark rounded-playful-lg bg-secondary shadow-border-offset p-5 h-full flex flex-col">
+        {{-- <div> --}}
+            <div class="click-1 border-2 border-dark rounded-playful-lg bg-secondary shadow-border-offset p-5 h-1/2 min-h-[250px] flex flex-col">
                 <div class="flex items-center justify-between mb-4 shrink-0">
                     <h3 class="text-xl font-bold text-dark flex items-center">
                         <span class="mr-2 text-2xl">😊</span> Grafik Mood Mingguan
@@ -131,11 +131,11 @@
                         <div class="w-3 h-3 rounded-full bg-pink-400"></div>
                     </div>
                 </div>
-                <div class="chart-container flex-1 relative min-h-[250px]"> 
-                    <canvas id="moodChart"></canvas>
+                <div class="chart-container flex-1 relative max-h-[150px]"> 
+                    <canvas id="moodChart" class="h-[50px]"></canvas>
                 </div>
             </div>
-        </div>
+        {{-- </div> --}}
         
     </div>
 
@@ -145,7 +145,7 @@
         $randomColor = $colors[array_rand($colors)];
     @endphp
     <div class="flex flex-col gap-6">
-        <div class="flex-grow border-2 border-dark rounded-playful-lg bg-white shadow-border-offset p-4 flex flex-col">
+        <div class="click-1 flex-grow border-2 border-dark rounded-playful-lg bg-primary shadow-border-offset p-4 flex flex-col">
             @if($topPost)
             <a href="#" class="flex flex-col gap-3 h-full">
                 <div class="flex justify-between items-center">
@@ -189,7 +189,7 @@
             @endif
         </div>
 
-        <div class="shrink-0 border-2 border-dark rounded-playful-lg bg-primary shadow-border-offset p-3 flex flex-col justify-center items-center text-center">
+        <div class="click-1 shrink-0 border-2 border-dark rounded-playful-lg bg-primary shadow-border-offset p-3 flex flex-col justify-center items-center text-center">
             @if($quote)
             <p id="quote" class="text-sm italic font-bold text-gray-700">
                 "{{ $quote['quote'] }}"
@@ -348,7 +348,13 @@
                 // ==========================================================
                 // PERUBAHAN #1 ADA DI BARIS INI
                 // ==========================================================
-                dayDiv.className = 'w-10 h-10 flex flex-col items-center justify-between py-1 rounded-lg relative cursor-pointer hover:bg-gray-200 transition-colors border-2 border-transparent';
+                dayDiv.className = `
+                    w-10 h-8 md:w-12 md:h-8 flex flex-col items-center justify-between py-1 
+                    rounded-lg relative cursor-pointer 
+                    border-2 border-dark
+                    hover:bg-gray-100 hover:scale-105 transition-all duration-200
+                    shadow-sm
+                `;
 
                 const dayNumber = document.createElement('span');
                 dayNumber.textContent = day;
@@ -375,7 +381,7 @@
                 if (riwayatJurnal.includes(day)) {
                     const journalIndicator = document.createElement('span');
                     journalIndicator.className = 'block w-2 h-2 rounded-full';
-                    journalIndicator.style.backgroundColor = '#DCD489';
+                    journalIndicator.style.backgroundColor = '#876582';
                     indicatorContainer.appendChild(journalIndicator);
                 }
 

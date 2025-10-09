@@ -10,7 +10,7 @@
         </div>
         <div class="flex flex-col p-2 overflow-y-auto space-y-2">
             <!-- Kontak-kontak psikolog -->
-            <a href="{{ route('chat') }}" class="user-list-item flex items-center p-3 rounded-playful-sm bg-primary border-2 border-dark shadow-border-offset">
+            <a href="{{ route('chat') }}" class="click-1 user-list-item flex items-center p-3 rounded-playful-sm bg-primary border-2 border-dark shadow-border-offset">
                 <div class="w-10 h-10 rounded-full bg-dark flex items-center justify-center text-white mr-3">
                     <i class="fas fa-user text-lg"></i>
                 </div>
@@ -19,7 +19,7 @@
                     <p class="text-xs text-dark">Curahkan semua masalah mu ke ahli</p>
                 </div>
             </a>
-            <div class="contact flex items-center p-3 rounded-playful-sm bg-primary border-2 border-dark shadow-border-offset cursor-pointer" data-model="friendly-listener">
+            <div class=" click-1 flex items-center p-3 rounded-playful-sm bg-primary border-2 border-dark shadow-border-offset cursor-pointer" data-model="friendly-listener">
                 <div class="w-10 h-10 rounded-full bg-dark flex items-center justify-center text-white mr-3">
                     <i class="fas fa-robot text-lg"></i>
                 </div>

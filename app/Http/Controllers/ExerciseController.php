@@ -115,4 +115,8 @@ class ExerciseController extends Controller
         
         return view('exercises.user-progress', compact('user', 'exercises', 'completed', 'started'));
     }
+    public function user()
+    {
+return view('exercises.user');
+    }
 }

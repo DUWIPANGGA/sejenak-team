@@ -3,8 +3,8 @@
 @section('title', 'Edit Profil')
 
 @section('content')
-<div id="main-profile-page" class="w-full flex items-start justify-center p-4 md:p-8">
-    <div class="bg-background w-full max-w-4xl p-0 md:p-6 lg:p-8">
+<div id="main-profile-page" class="h-screen w-full flex items-start justify-center p-4 md:p-8">
+    <div class="bg-backgroundrow flex flex-row w-full max-w-4xl p-0 md:p-6 lg:p-8">
         
         <!-- Container untuk Judul -->
         <div class="bg-white border-2 border-dark rounded-playful-md shadow-border-offset p-6 md:p-8 mb-6 transition-all duration-300 transform hover:scale-105">

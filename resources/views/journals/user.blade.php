@@ -181,16 +181,16 @@
 @endsection
 @section('content')
 
-<div class="flex flex-col md:flex-row w-full h-full gap-2 md:gap-4 p-2 md:p-4 md:pb-0 rounded-playful-lg overflow-scroll md:overflow-hidden">
+<div class="flex flex-col md:flex-row w-full h-full gap-2 md:gap-4 p-2 md:p-4 md:pb-0 rounded-playful-lg overflow-hidden  md:overflow-hidden">
 
-    <div class="flex flex-col w-full md:w-[350px] min-w-[280px] h-full gap-4">
+    <div class=" flex flex-col w-full md:w-[350px] min-w-[280px] h-full gap-4">
 
-        <div id="calendar" class="p-4 bg-white border-2 border-dark rounded-playful-lg shadow-border-offset">
+        <div id="calendar" class="click-1 hidden md:block p-4 bg-white border-2 border-dark rounded-playful-lg shadow-border-offset">
             <h2 id="calendar-title" class="text-3xl font-extrabold text-dark text-center mb-6"></h2>
             <div id="calendar-grid" class="grid grid-cols-7 gap-2 text-center"></div>
         </div>
 
-        <div class="flex-1  bg-white border-2 border-dark rounded-playful-lg shadow-border-offset flex flex-col overflow-hidden">
+        <div class="click-1 flex-1  bg-white border-2 border-dark rounded-playful-lg shadow-border-offset flex flex-col overflow-hidden">
             <h3 class="text-xl font-bold border-b-2 border-dark text-center text-white mb-4 p-2 bg-primary">Riwayat</h3>
             <div class="flex-1 space-y-3 overflow-y-auto pr-2 p-4 m-0">
                 @foreach ($journals as $item)
@@ -211,11 +211,8 @@
             </div>
 
             <div class=" mt-4 flex justify-between items-center px-4 pb-4">
-                <div class="py-2 px-4 bg-secondary border-2 border-dark rounded-full shadow-border-offset-accent flex items-center gap-2 cursor-pointer hover:bg-secondary/90">
-                    <span class="text-white text-xs font-semibold">Notebook1</span>
-                    <i class="fas fa-chevron-down text-white text-xs"></i>
-                </div>
-                <div class="py-2 px-4 bg-gray-200 border-2 border-dark rounded-full cursor-pointer hover:bg-gray-300 transition-colors shadow-border-offset">
+               
+                <div class="hover-1 py-2 px-4 bg-gray-200 border-2 border-dark rounded-full cursor-pointer hover:bg-gray-300 transition-colors shadow-border-offset">
                     <button id="new-note-btn" class="text-dark text-xs font-semibold">New</button>
                 </div>
             </div>
@@ -289,7 +286,7 @@
                 <button class="toolbar-btn" data-command="insertHorizontalRule" title="Horizontal Rule"><i class="fas fa-minus"></i></button>
             </div>
 
-            <button id="save-journal-btn" class="w-12 h-12 flex justify-center items-center bg-primary border-2 border-dark rounded-full shadow-border-offset-accent hover:bg-primary/80 transition-colors">
+            <button id="save-journal-btn" class="w-12 h-12 flex justify-center items-center bg-primary border-2 border-dark rounded-full shadow-border-offset-accent click-1">
                 <i class="fas fa-check text-dark text-xl"></i>
             </button>
         </div>

@@ -1,12 +1,12 @@
-@extends('layouts.app')
+    @extends('layouts.app')
 
 @section('content')
-<div class="w-full min-h-screen flex flex-col md:flex-row gap-6 overflow-y-auto p-8 justify-center items-center">
+<div class="w-full min-h-screen h-full flex flex-col md:flex-row overflow-y-auto p-0 justify-center items-center">
 
-    <div class="calendar-section  w-full lg:w-1/2 flex flex-col items-center gap-6">
+    <div class="h-3/4 calendar-section  w-full lg:w-1/2 flex flex-col items-center gap-6">
         <div class="calendar w-full max-w-2xl">
 
-            <div class="calendar-header flex justify-around items-center p-4 bg-primary rounded-t-playful-lg border-x-2 border-t-2 border-dark shadow-border-offset">
+            <div class=" calendar-header flex justify-around items-center p-4 bg-primary rounded-t-playful-lg border-x-2 border-t-2 border-dark shadow-border-offset">
                 <button id="prevMonth" class="bg-secondary border-2 border-black text-white rounded-full w-12 h-12 flex items-center justify-center text-3xl shadow-border-offset transition-all hover:bg-orange hover:rotate-[-8deg] hover:scale-110 active:shadow-[1px_2px_0px_#1A1A40] active:translate-x-0.5 active:translate-y-0.5">
                     <span class="-mt-1">⟨</span>
                 </button>
@@ -19,7 +19,7 @@
                 </button>
             </div>
 
-            <div class="bg-white p-4 rounded-b-playful-lg border-2 border-black shadow-border-offset">
+            <div class=" bg-white p-4 rounded-b-playful-lg border-2 border-black shadow-border-offset">
                 <div class="grid grid-cols-7 gap-2 text-center mb-2">
                     <div class="font-bold text-dark font-lexend text-sm md:text-base">Sen</div>
                     <div class="font-bold text-dark font-lexend text-sm md:text-base">Sel</div>
@@ -34,7 +34,7 @@
             </div>
 
         </div>
-        <div class="challenge-progress w-full max-w-2xl p-4 rounded-playful-lg border-2 border-dark bg-white shadow-border-offset">
+        <div class="h-1/4 challenge-progress w-full max-w-2xl p-4 rounded-playful-lg border-2 border-dark bg-white shadow-border-offset">
             
                 <!-- Tantangan 2 -->
                 <div class="flex items-center justify-between gap-4">
@@ -53,7 +53,7 @@
 
     <div class="right-section w-full lg:w-1/2 flex flex-col items-center gap-8">
 
-        <div class="stats-container w-full max-w-2xl p-6 rounded-playful-lg border-2 border-dark bg-primary shadow-border-offset">
+        <div class="h-1/2 stats-container w-full max-w-2xl p-6 rounded-playful-lg border-2 border-dark bg-primary shadow-border-offset">
             <h2 class="font-bold text-2xl md:text-3xl text-white mb-4 text-center font-exo2 text-shadow-h1">Aktivitasmu 🚀</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="stat-card p-4 rounded-playful-lg border-2 border-dark bg-white text-center shadow-border-offset">
@@ -72,7 +72,7 @@
 
         </div>
 
-        <div class="mood-container w-full max-w-2xl p-6 rounded-playful-lg border-2 border-dark bg-secondary shadow-border-offset">
+        <div class="h-1/2 mood-container w-full max-w-2xl p-6 rounded-playful-lg border-2 border-dark bg-secondary shadow-border-offset">
             <h2 class="font-bold text-2xl md:text-3xl text-white mb-4 text-center font-exo2 text-shadow-h1">Trafik Mood 🌈</h2>
             <div class="h-48 border-2 border-dark rounded-playful-lg bg-white p-4 shadow-border-offset">
                 <canvas id="moodChart"></canvas>

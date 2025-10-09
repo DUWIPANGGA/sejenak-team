@@ -5,9 +5,9 @@
 @section('content')
 <div id="main-meditation-page" class="w-full h-full flex flex-col lg:flex-row bg-background p-4 md:px-8 lg:px-12 font-main">
 
-    <div class="flex-1 p-0 md:p-4 flex flex-col items-center justify-start gap-6">
+    <div class="flex-1 p-0 md:p-4 flex flex-col items-center justify-center gap-6">
 
-        <div class="w-full max-w-xl p-6 bg-white border-2 border-dark rounded-playful-sm shadow-border-offset transition-all duration-300 transform hover:scale-105">
+        <div class="click-1 w-full max-w-xl p-6 bg-white border-2 border-dark rounded-playful-sm shadow-border-offset ">
             <h2 class="text-h6 text-dark font-bold mb-2">Terakhir Anda Bermeditasi</h2>
             <div class="flex items-center justify-between">
                 <p id="last-activity-text" class="text-sm text-gray-600">Memuat data terakhir...</p>
@@ -16,11 +16,11 @@
         </div>
 
         @if($dailySong)
-        <div class="w-full max-w-xl p-6 bg-white border-2 border-dark rounded-playful-sm shadow-border-offset-lg transition-all duration-300 transform hover:-translate-y-1">
+        <div class="click-1 w-full max-w-xl p-6 bg-white border-2 border-dark rounded-playful-sm shadow-border-offset-lg">
             <h3 class="text-h5 text-dark font-bold mb-4">Putar Meditasi Harian</h3>
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-4">
-                    <button id="play-pause-btn" class="w-12 h-12 rounded-full bg-primary text-dark flex items-center justify-center border-2 border-dark shadow-border-offset-accent transition-all duration-200 hover:scale-110 active:shadow-none active:translate-x-1 active:translate-y-1">
+                    <button id="play-pause-btn" class="hover-1 w-12 h-12 rounded-full bg-primary text-dark flex items-center justify-center border-2 border-dark shadow-border-offset-accent">
                         <i id="play-pause-icon" class="fas fa-play text-xl"></i>
                     </button>
                     <div>
@@ -48,19 +48,19 @@
         @endif
 
 
-        <div class="w-full p-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="p-6 bg-white border-2 border-dark rounded-playful-md shadow-border-offset-lg transition-all duration-300 transform hover:scale-105">
+        <div class="w-full p-0 md:p-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="click-1 p-6 bg-white border-2 border-dark rounded-playful-md">
                 <h4 class="text-h5 text-dark font-bold mb-2">Meditasi Tanpa Panduan</h4>
                 <p class="text-gray-600 text-sm mb-4">Gunakan white noise untuk bermeditasi sesuai durasi yang Anda inginkan.</p>
-                <a href="{{ route('user.meditation.meditasi') }}" class="w-full px-4 py-3 bg-white text-dark font-bold rounded-playful-sm border-2 border-dark shadow-border-offset-accent text-center hover:bg-gray-100 transition-all duration-200 block">
+                <a href="{{ route('user.meditation.meditasi') }}" class="hover-1 w-full px-4 py-3 bg-white text-dark font-bold rounded-playful-sm border-2 border-dark shadow-border-offset-accent text-center block">
                     <i class="fas fa-stopwatch mr-2"></i> Mulai sekarang
                 </a>
             </div>
 
-            <div class="p-6 bg-white border-2 border-dark rounded-playful-md shadow-border-offset-lg transition-all duration-300 transform hover:scale-105">
+            <div class="click-1 p-6 bg-white border-2 border-dark rounded-playful-md shadow-border-offset-lg ">
                 <h4 class="text-h5 text-dark font-bold mb-2">Pernapasan dalam</h4>
                 <p class="text-gray-600 text-sm mb-4">Latihan pernapasan singkat untuk menenangkan pikiran.</p>
-                <a href="#" class="w-full px-4 py-3 bg-white text-dark font-bold rounded-playful-sm border-2 border-dark shadow-border-offset-accent text-center hover:bg-gray-100 transition-all duration-200 block">
+                <a href="{{ route('user.exercise'); }}" class="hover-1 w-full px-4 py-3 bg-white text-dark font-bold rounded-playful-sm border-2 border-dark shadow-border-offset-accent text-center block">
                     <i class="fas fa-wind mr-2"></i> Latihan
                 </a>
             </div>
@@ -68,9 +68,9 @@
 
     </div>
 
-    <div class="hidden lg:flex flex-1 flex-col p-4 md:p-8 items-center justify-start gap-6">
+    <div class="hidden  w-1/2 h-full lg:flex  flex-col p-0 items-center justify-center gap-0">
 
-        <div class="w-full max-w-lg p-6 bg-white border-2 border-dark rounded-playful-md shadow-border-offset-lg transition-all duration-300 transform hover:-translate-y-1">
+        <div class="w-full h-full p-6 bg-white border-2 border-dark rounded-playful-md shadow-border-offset-lg click-1">
             <h3 class="text-h4 text-dark font-bold mb-4 text-center">Ringkasan Meditasi Anda</h3>
             <div class="flex justify-around items-center space-x-4 text-center">
                 <div class="flex-1">

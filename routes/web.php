@@ -1,26 +1,27 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\MoodController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\BlogController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ComunityController;
+use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KonselingController;
+use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\MeditationController;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Konselor\KonselorController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\Auth\VerificationController;
-use App\Http\Controllers\GoogleAuthController;
+use App\Http\Controllers\Konselor\KonselorController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -81,12 +82,13 @@ Route::middleware([
     
     Route::get('/history', [HistoryController::class,'user'])->name('user.history');
     Route::get('/meditation', [MeditationController::class,'user'])->name('user.meditation');
+    Route::get('/exercise', [ExerciseController::class,'user'])->name('user.exercise');
     Route::get('/meditation/white-noise', [MeditationController::class,'meditasi'])->name('user.meditation.meditasi');
     Route::get('/chat',[MessagesController::class, 'index'])->name('chat');
     Route::get('/chat/bot',[KonselingController::class, 'user'])->name('chat.bot');
     Route::post('/chat/gemini', [MessagesController::class, 'proxyToGemini'])->name('chat.gemini');
     Route::get('/profile', [DashboardController::class,'index'])->name('user.profile');
-    Route::get('/exercise', [DashboardController::class,'index'])->name('user.exercise');
+    // Route::get('/exercise', [DashboardController::class,'index'])->name('user.exercise');
     Route::get('/setting', [DashboardController::class,'index'])->name('user.setting');
     Route::get('/token', [TransactionController::class, 'showTokenPage'])->name('user.token');
     Route::get('/challenges',function(){
