@@ -483,7 +483,8 @@
                 </div>
                 <span class="text-xs font-medium text-dark">Dashboard</span>
             </a>
-            <a href="{{ route('user.comunity') }}" class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
+            <a href="{{ route('user.comunity') }}"
+                class="flex flex-col items-center space-y-1 transition-all duration-200 hover:scale-105 active:scale-95">
                 <div class="w-10 h-10 rounded-playful-sm flex items-center justify-center">
                     <img src="{{ asset('assets/icon/nav-post.svg') }}" alt="Postingan">
                 </div>
@@ -668,7 +669,7 @@
             setChatPosition();
         });
     </script>
-   <script>
+    <script>
 const chatContainer = document.getElementById('floating-chat-container');
 const avatarBtn = document.getElementById('floating-chat-avatar-btn');
 const chatBubble = document.getElementById('chat-bubble');
@@ -677,63 +678,82 @@ let isDragging = false;
 let offsetX = 0;
 let offsetY = 0;
 
-avatarBtn.addEventListener('mousedown', (e) => {
-  isDragging = true;
-  avatarBtn.style.cursor = 'grabbing';
-  const rect = chatContainer.getBoundingClientRect();
-  offsetX = e.clientX - rect.left;
-  offsetY = e.clientY - rect.top;
-});
+function startDrag(x, y) {
+    isDragging = true;
+    avatarBtn.style.cursor = 'grabbing';
+    const rect = chatContainer.getBoundingClientRect();
+    offsetX = x - rect.left;
+    offsetY = y - rect.top;
+}
 
-document.addEventListener('mousemove', (e) => {
-  if (!isDragging) return;
+function doDrag(x, y) {
+    if (!isDragging) return;
 
-  let left = e.clientX - offsetX;
-  let top = e.clientY - offsetY;
+    let left = x - offsetX;
+    let top = y - offsetY;
 
-  const windowWidth = window.innerWidth;
-  const windowHeight = window.innerHeight;
-  const avatarWidth = avatarBtn.offsetWidth;
-  const avatarHeight = avatarBtn.offsetHeight;
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    const avatarWidth = avatarBtn.offsetWidth;
+    const avatarHeight = avatarBtn.offsetHeight;
 
-  // Batasi agar avatar tetap sepenuhnya di layar
-  left = Math.min(Math.max(0, left), windowWidth - avatarWidth);
-  top = Math.min(Math.max(0, top), windowHeight - avatarHeight);
+    // Batas layar
+    left = Math.min(Math.max(0, left), windowWidth - avatarWidth);
+    top = Math.min(Math.max(0, top), windowHeight - avatarHeight);
 
-  chatContainer.style.left = left + 'px';
-  chatContainer.style.top = top + 'px';
+    chatContainer.style.left = left + 'px';
+    chatContainer.style.top = top + 'px';
 
-  // --- Posisi bubble ---
-  const bubbleWidth = chatBubble.offsetWidth;
-  const bubbleHeight = chatBubble.offsetHeight;
+    // --- Posisi bubble ---
+    const bubbleWidth = chatBubble.offsetWidth;
+    const bubbleHeight = chatBubble.offsetHeight;
 
-  let bubbleLeft, bubbleTop;
+    let bubbleLeft, bubbleTop;
 
-  // Geser kiri-kanan sesuai ruang
-  if (left + avatarWidth + bubbleWidth + 10 > windowWidth) {
-    bubbleLeft = left - bubbleWidth - 10; // di kiri
-  } else {
-    bubbleLeft = left + avatarWidth + 10; // di kanan
-  }
+    // Kanan / kiri
+    if (left + avatarWidth + bubbleWidth + 10 > windowWidth) {
+        bubbleLeft = left - bubbleWidth - 10;
+    } else {
+        bubbleLeft = left + avatarWidth + 10;
+    }
 
-  // Geser atas-bawah agar tetap terlihat
-  if (top < 20) {
-    bubbleTop = top + avatarHeight + 10; // bawah avatar
-  } else if (top + avatarHeight + bubbleHeight + 20 > windowHeight) {
-    bubbleTop = top - bubbleHeight - 10; // atas avatar
-  } else {
-    bubbleTop = top; // sejajar
-  }
+    // Atas / bawah
+    if (top < 20) {
+        bubbleTop = top + avatarHeight + 10; // di bawah avatar
+    } else if (top + avatarHeight + bubbleHeight + 20 > windowHeight) {
+        bubbleTop = top - bubbleHeight - 10; // di atas avatar
+    } else {
+        bubbleTop = top;
+    }
 
-  chatBubble.style.left = bubbleLeft + 'px';
-  chatBubble.style.top = bubbleTop + 'px';
-});
+    chatBubble.style.left = bubbleLeft + 'px';
+    chatBubble.style.top = bubbleTop + 'px';
+}
 
-document.addEventListener('mouseup', () => {
-  isDragging = false;
-  avatarBtn.style.cursor = 'grab';
-});
+function endDrag() {
+    isDragging = false;
+    avatarBtn.style.cursor = 'grab';
+}
+
+// 🖱️ Mouse Events
+avatarBtn.addEventListener('mousedown', (e) => startDrag(e.clientX, e.clientY));
+document.addEventListener('mousemove', (e) => doDrag(e.clientX, e.clientY));
+document.addEventListener('mouseup', endDrag);
+
+// 📱 Touch Events
+avatarBtn.addEventListener('touchstart', (e) => {
+    const touch = e.touches[0];
+    startDrag(touch.clientX, touch.clientY);
+}, { passive: true });
+
+document.addEventListener('touchmove', (e) => {
+    const touch = e.touches[0];
+    doDrag(touch.clientX, touch.clientY);
+}, { passive: true });
+
+document.addEventListener('touchend', endDrag);
 </script>
+
 
 
     @yield('script')

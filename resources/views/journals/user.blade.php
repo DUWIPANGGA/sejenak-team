@@ -211,7 +211,7 @@
             </div>
 
             <div class=" mt-4 flex justify-between items-center px-4 pb-4">
-               
+
                 <div class="hover-1 py-2 px-4 bg-gray-200 border-2 border-dark rounded-full cursor-pointer hover:bg-gray-300 transition-colors shadow-border-offset">
                     <button id="new-note-btn" class="text-dark text-xs font-semibold">New</button>
                 </div>
@@ -219,7 +219,7 @@
         </div>
     </div>
 
-    <div class="flex flex-col flex-1 h-full bg-white border-2 border-dark rounded-playful-lg shadow-border-offset p-6  min-w-[300px]">
+    <div class="flex flex-col flex-1 h-full bg-white border-2 border-dark rounded-playful-lg shadow-border-offset p-6  min-w-[300px] mb-5 md:mb-0">
 
         <div class="flex justify-between items-start pb-2 border-b-2 border-dark">
             <div class="flex flex-col">

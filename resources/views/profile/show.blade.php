@@ -3,7 +3,7 @@
 @section('title', 'Profil Pengguna')
 
 @section('content')
-<div class="flex flex-col md:flex-row items-start md:items-stretch justify-start p-6 pt-6 md:p-4 w-full h-full gap-6">
+<div class="flex flex-col md:flex-row items-start md:items-stretch justify-start p-6 pt-6 md:p-4 w-full h-auto md:h-full gap-6 overflow-scroll">
     <div class="w-full md:w-1/3 flex flex-col gap-6">
         <div class="hover-1 h-3/4 flex flex-col items-center justify-start p-4 bg-white rounded-playful-lg border-2 border-dark shadow-border-offset">
             <h2 class="text-h4 md:text-h3 font-bold text-dark mb-4 text-center">Profil Saya</h2>
@@ -100,7 +100,7 @@
                 </div>
             </div>
 
-            <div class="hover-1 h-1/3 bg-white p-4 rounded-playful-lg border-2 border-dark shadow-border-offset">
+            <div class="hover-1 md:h-1/3 h-auto bg-white p-4 rounded-playful-lg border-2 border-dark shadow-border-offset">
                 <h3 class="text-h5 font-bold text-dark mb-4">Akses Cepat</h3>
                 <div class="flex flex-col gap-4">
                     @if(Auth::check() && in_array(Auth::user()->role->name, ['super_admin', 'admin']))

@@ -3,11 +3,11 @@
 @section('title', 'Meditasi')
 
 @section('content')
-<div id="main-meditation-page" class="w-full h-full flex flex-col lg:flex-row bg-background p-4 md:px-8 lg:px-12 font-main">
+<div id="main-meditation-page" class="w-full h-full flex flex-col lg:flex-row bg-background p-4 my-8 md:py-0 md:px-8 lg:px-12 font-main">
 
     <div class="flex-1 p-0 md:p-4 flex flex-col items-center justify-center gap-6">
 
-        <div class="click-1 w-full max-w-xl p-6 bg-white border-2 border-dark rounded-playful-sm shadow-border-offset ">
+        <div class="h-1/4 click-1 w-full  p-6 bg-white border-2 border-dark rounded-playful-sm shadow-border-offset ">
             <h2 class="text-h6 text-dark font-bold mb-2">Terakhir Anda Bermeditasi</h2>
             <div class="flex items-center justify-between">
                 <p id="last-activity-text" class="text-sm text-gray-600">Memuat data terakhir...</p>
@@ -16,7 +16,7 @@
         </div>
 
         @if($dailySong)
-        <div class="click-1 w-full max-w-xl p-6 bg-white border-2 border-dark rounded-playful-sm shadow-border-offset-lg">
+        <div class="h-1/4 click-1 w-full p-6 bg-white border-2 border-dark rounded-playful-sm shadow-border-offset-lg">
             <h3 class="text-h5 text-dark font-bold mb-4">Putar Meditasi Harian</h3>
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-4">
@@ -48,18 +48,22 @@
         @endif
 
 
-        <div class="w-full p-0 md:p-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="click-1 p-6 bg-white border-2 border-dark rounded-playful-md">
+        <div class="w-full p-0  h-2/4 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="click-1 p-6 bg-white border-2 border-dark rounded-playful-md flex flex-col justify-between">
+                <div class="container">
                 <h4 class="text-h5 text-dark font-bold mb-2">Meditasi Tanpa Panduan</h4>
                 <p class="text-gray-600 text-sm mb-4">Gunakan white noise untuk bermeditasi sesuai durasi yang Anda inginkan.</p>
+                </div>
                 <a href="{{ route('user.meditation.meditasi') }}" class="hover-1 w-full px-4 py-3 bg-white text-dark font-bold rounded-playful-sm border-2 border-dark shadow-border-offset-accent text-center block">
                     <i class="fas fa-stopwatch mr-2"></i> Mulai sekarang
                 </a>
             </div>
 
-            <div class="click-1 p-6 bg-white border-2 border-dark rounded-playful-md shadow-border-offset-lg ">
+            <div class="click-1 p-6 bg-white border-2 border-dark rounded-playful-md shadow-border-offset-lg flex flex-col justify-between">
+                <div class="container">
                 <h4 class="text-h5 text-dark font-bold mb-2">Pernapasan dalam</h4>
                 <p class="text-gray-600 text-sm mb-4">Latihan pernapasan singkat untuk menenangkan pikiran.</p>
+                </div>
                 <a href="{{ route('user.exercise'); }}" class="hover-1 w-full px-4 py-3 bg-white text-dark font-bold rounded-playful-sm border-2 border-dark shadow-border-offset-accent text-center block">
                     <i class="fas fa-wind mr-2"></i> Latihan
                 </a>
