@@ -95,9 +95,9 @@
     <div class="flex flex-col gap-6">
         <div class="click-1 flex flex-col border-2 border-dark rounded-playful-lg bg-primary shadow-border-offset p-3 h-1/2">
             <h3 class="text-lg font-bold text-white mb-3 shrink-0">Riwayat Jurnal</h3>
-            
+
             <div class="-click-1 flex-1 border-2 border-dark rounded-playful-lg bg-white/10 p-2">
-                
+
                 @forelse ($user->journals as $item)
                     <div data-id="{{ $item['id'] }}" class="p-3 bg-gray-100 border-2 border-dark rounded-playful-md flex justify-between items-start cursor-pointer shadow-border-offset hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all mb-3 last:mb-0 {{ $item['active'] ? 'history-item-active' : '' }}">
                         <div class="flex flex-col">
@@ -131,12 +131,12 @@
                         <div class="w-3 h-3 rounded-full bg-pink-400"></div>
                     </div>
                 </div>
-                <div class="chart-container flex-1 relative max-h-[150px]"> 
+                <div class="chart-container flex-1 relative ">
                     <canvas id="moodChart" class="h-[50px]"></canvas>
                 </div>
             </div>
         {{-- </div> --}}
-        
+
     </div>
 
 
@@ -171,13 +171,13 @@
                     </div>
                     @endif
                 </div>
-                
+
                 @if($topPost->image)
                 <div class="w-full h-48 rounded-playful-lg border-2 border-dark overflow-hidden shadow-border-offset">
                     <img src="{{ asset('storage/' . $topPost->image) }}" alt="Post Image" class="w-full h-full object-cover">
                 </div>
                 @endif
-                
+
                 <div class="text-sm text-gray-700">
                     <p class="font-medium font-lexend text-dark">{{ \Illuminate\Support\Str::limit($topPost->content, 150, '...') }}</p>
                 </div>
@@ -349,8 +349,8 @@
                 // PERUBAHAN #1 ADA DI BARIS INI
                 // ==========================================================
                 dayDiv.className = `
-                    w-10 h-8 md:w-12 md:h-8 flex flex-col items-center justify-between py-1 
-                    rounded-lg relative cursor-pointer 
+                    w-10 h-8 md:w-12 md:h-8 flex flex-col items-center justify-between py-1
+                    rounded-lg relative cursor-pointer
                     border-2 border-dark
                     hover:bg-gray-100 hover:scale-105 transition-all duration-200
                     shadow-sm
@@ -368,7 +368,7 @@
                     dayDiv.classList.remove('border-transparent');
                     dayDiv.classList.add('border-black');
                 } else {
-                    if (weekDay === 6) { dayNumber.classList.add('text-indigo-600', 'font-semibold'); } 
+                    if (weekDay === 6) { dayNumber.classList.add('text-indigo-600', 'font-semibold'); }
                     else if (weekDay === 0) { dayNumber.classList.add('text-red-600', 'font-semibold'); }
                 }
 
@@ -391,7 +391,7 @@
                     postIndicator.style.backgroundColor = '#FF6600';
                     indicatorContainer.appendChild(postIndicator);
                 }
-                
+
                 dayDiv.appendChild(indicatorContainer);
                 cell.appendChild(dayDiv);
                 calendarBody.appendChild(cell);

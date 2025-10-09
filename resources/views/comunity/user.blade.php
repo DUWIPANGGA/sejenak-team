@@ -1,5 +1,5 @@
     @extends('layouts.app')
-    
+
     @section('title', 'Comunity')
 
     @section('style')
@@ -139,9 +139,9 @@
     </style>
     @endsection
     @section('content')
-    <div class="w-full min-h-full h-full flex flex-col md:flex-row gap-6 px-8 py-0 justify-center items-start overflow-auto">
+    <div class="w-full min-h-full h-full flex flex-col pt-5 md:pt-0 md:flex-row gap-6 px-8 py-0 justify-center items-start overflow-auto">
 
-        <div class="w-full md:hidden mb-6">
+        <div class="w-full md:hidden ">
             <div class="relative w-full">
                 <input type="text" placeholder="Pencarian..." class="w-full p-4 pl-12 rounded-playful-lg border-2 border-dark shadow-border-offset font-lexend focus:outline-none">
                 <img src="{{ asset('assets/component/emote/search.svg') }}" alt="Pencarian" class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 text-gray-400">
@@ -250,12 +250,12 @@
                             <button class="flex items-center gap-1 text-dark hover:text-red-500 transition-colors like-button" data-post-id="{{ $post->id }}" data-liked="{{ $post->isLikedByUser() ? 'true' : 'false' }}">
                                 @if($post->isLikedByUser())
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-7 h-7 like-icon text-red-500">
-                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 
-                                            2 12.28 2 8.5 2 5.42 4.42 3 
-                                            7.5 3c1.74 0 3.41 0.81 
-                                            4.5 2.09C13.09 3.81 14.76 3 
-                                            16.5 3 19.58 3 22 5.42 
-                                            22 8.5c0 3.78-3.4 6.86-8.55 
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36
+                                            2 12.28 2 8.5 2 5.42 4.42 3
+                                            7.5 3c1.74 0 3.41 0.81
+                                            4.5 2.09C13.09 3.81 14.76 3
+                                            16.5 3 19.58 3 22 5.42
+                                            22 8.5c0 3.78-3.4 6.86-8.55
                                             11.18L12 21.35z" />
                                 </svg>
                                 @else
@@ -289,9 +289,9 @@
             @foreach ($topUsers as $index => $user)
                 <div class="flex items-center gap-4">
                     @if ($user->avatar)
-                        <img 
-                            src="{{ Auth::user()->avatar_url }}" 
-                            alt="{{ $user->name }}" 
+                        <img
+                            src="{{ Auth::user()->avatar_url }}"
+                            alt="{{ $user->name }}"
                             class="w-10 h-10 rounded-full border-2 border-dark shadow-border-offset object-cover">
                     @else
                         @php
@@ -324,7 +324,7 @@
             </svg>
         </a>
 
-        
+
 
     </div>
 
@@ -546,7 +546,7 @@
                             </button>
                             <button class="text-xs font-lexend text-gray-500 hover:text-dark transition-colors" onclick="showReplyForm('replyForm-${comment.id}')">Balas</button>
                         </div>
-                        
+
                         <!-- Form untuk reply -->
                         <div id="replyForm-${comment.id}" class="hidden mt-4 ml-8">
                             <form class="add-reply-form" data-comment-id="${comment.id}">
@@ -559,7 +559,7 @@
                                 </div>
                             </form>
                         </div>
-                        
+
                         <!-- Daftar replies -->
                         <div class="replies-container mt-3">
                             ${repliesHtml}
@@ -730,7 +730,7 @@
                             </button>
                             <button class="text-xs font-lexend text-gray-500 hover:text-dark transition-colors" onclick="showReplyForm('replyForm-${data.comment.id}')">Balas</button>
                         </div>
-                        
+
                         <!-- Form untuk reply -->
                         <div id="replyForm-${data.comment.id}" class="hidden mt-4 ml-8">
                             <form class="add-reply-form" data-comment-id="${data.comment.id}">
@@ -743,7 +743,7 @@
                                 </div>
                             </form>
                         </div>
-                        
+
                         <!-- Container untuk replies -->
                         <div class="replies-container mt-3"></div>
                     </div>

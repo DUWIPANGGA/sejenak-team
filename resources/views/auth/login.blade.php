@@ -126,9 +126,9 @@
 
                 <!-- ====== PEMISAH DAN TOMBOL GOOGLE ====== -->
                 <div class="my-6 flex items-center">
-                    <div class="flex-grow border-t-2 border-gray-300"></div>
-                    <span class="flex-shrink mx-4 text-sm text-gray-500">ATAU</span>
-                    <div class="flex-grow border-t-2 border-gray-300"></div>
+                    <div class="flex-grow border-t-2 md:border-gray-300 border-gray-800"></div>
+                    <span class="flex-shrink mx-4 text-sm md:text-gray-500 text-gray-800">ATAU</span>
+                    <div class="flex-grow border-t-2 md:border-gray-300 border-gray-800"></div>
                 </div>
 
                 <a href="{{ route('google.redirect') }}" class="w-full flex items-center justify-center px-4 py-2 font-bold text-dark bg-white rounded-playful border-2 border-dark shadow-offset-dark transition-all duration-200 hover:bg-gray-100 hover:shadow-[3px_4px_0_#080330]">
