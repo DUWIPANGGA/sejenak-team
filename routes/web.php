@@ -64,7 +64,8 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', [DashboardController::class,'index'])->name('user.dashboard');
-    Route::get('/blog', [BlogController::class,'view'])->name('user.blog');
+    Route::get('/blog', [BlogController::class, 'view'])->name('user.blog');
+    Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('user.blog.show');
     Route::get('/comunity', [ComunityController::class,'user'])->name('user.comunity');
     Route::post('/comunity', [PostController::class,'store'])->name('user.comunity.store');
     Route::get('/posts/{post}/comments', [PostController::class,'loadComment'])->name('posts.comments');
@@ -203,7 +204,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,super_ad
     Route::delete('/circles/{circle}', [AdminController::class, 'deleteCircle'])->name('circles.delete');
 
     // Blog Management
-    Route::get('/blog', [BlogController::class, 'index'])->name('blog');
+    Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+    Route::get('/blog/create', [BlogController::class, 'create'])->name('blog.create');
+    Route::post('/blog', [BlogController::class, 'store'])->name('blog.store');
+    Route::get('/blog/{blog}/edit', [BlogController::class, 'edit'])->name('blog.edit');
+    Route::put('/blog/{blog}', [BlogController::class, 'update'])->name('blog.update');
+    Route::delete('/blog/{blog}', [BlogController::class, 'destroy'])->name('blog.destroy');
     
     // Reports
     Route::get('/reports', [AdminController::class, 'reports'])->name('reports');

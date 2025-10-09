@@ -130,7 +130,7 @@
                 <i class="fas fa-music w-6 text-center"></i>
                 <span class="ml-4 font-semibold">Audio</span>
             </a>
-            <a href="{{ route('admin.blog') }}" class="flex items-center mt-3 px-4 py-3 rounded-playful-sm transition-colors duration-200 hover:bg-secondary {{ request()->routeIs('admin.blog*') ? 'bg-secondary' : '' }}">
+            <a href="{{ route('admin.blog.index') }}" class="flex items-center mt-3 px-4 py-3 rounded-playful-sm transition-colors duration-200 hover:bg-secondary {{ request()->routeIs('admin.blog*') ? 'bg-secondary' : '' }}">
                 <i class="fas fa-newspaper w-6 text-center"></i>
                 <span class="ml-4 font-semibold">Blog</span>
             </a>
