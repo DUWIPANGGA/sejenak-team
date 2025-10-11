@@ -77,7 +77,7 @@
 </div>
 @endsection
 
-@section('scripts')
+@section('script')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const avatarInput = document.getElementById('avatar-input');

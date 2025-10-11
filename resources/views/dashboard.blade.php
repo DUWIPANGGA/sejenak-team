@@ -209,7 +209,7 @@
                                 </div>
                             @else
                                 @if ($topPost->user->avatar)
-                                    <img src="{{ asset($topPost->user->avatar) }}" alt="{{ $topPost->user->name }}"
+                                    <img src="{{ $topPost->user->avatar_url }}" alt="{{ $topPost->user->name }}"
                                         class="w-10 h-10 rounded-full border-2 border-dark shadow-border-offset mr-3 object-cover">
                                 @else
                                     <div
