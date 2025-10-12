@@ -83,9 +83,9 @@ Route::middleware('auth:api')->group(function () {
             Route::get('/my-posts', [PostController::class, 'getAllMyPost']);
             Route::get('/', [PostController::class, 'index']);
             Route::post('/', [PostController::class, 'store']);
-            Route::get('/{id}', [PostController::class, 'show']);
             Route::put('/{id}', [PostController::class, 'update']);
             Route::delete('/{id}', [PostController::class, 'destroy']);
+            Route::get('/{id}', [PostController::class, 'show']);
             });
         Route::prefix('comments')->group(function () {
             Route::get('/', [CommentController::class, 'index']);
