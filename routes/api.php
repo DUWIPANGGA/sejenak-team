@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\Api\AudioController;
 use App\Http\Controllers\Api\ReplyController;
+use App\Http\Controllers\Api\ChatBotController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\JournalController;
 use App\Http\Controllers\Api\ProfileController;
@@ -122,6 +123,8 @@ Route::middleware('auth:api')->group(function () {
         Route::put('/{id}/complete', [UserDailyChallengeController::class, 'completeChallenge']);
         Route::get('/my', [UserDailyChallengeController::class, 'myChallenges']);
     });
+    Route::post('/chat-bot', [ChatBotController::class, 'chat']);
+
     Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::get('/meditation/daily', [MeditationController::class, 'daily']);
     Route::get('/meditation/audios', [MeditationController::class, 'audios']);
