@@ -72,13 +72,13 @@ Route::middleware('auth:api')->group(function () {
             Route::post('/toggle', [LikeController::class, 'toggleLike']);
         });
         
-        Route::prefix('posts')->group(function () {
-            Route::get('/', [PostController::class, 'index']);
-            Route::post('/', [PostController::class, 'store']);
-            Route::get('/{id}', [PostController::class, 'show']);
-            Route::put('/{id}', [PostController::class, 'update']);
-            Route::delete('/{id}', [PostController::class, 'destroy']);
-        });
+        // Route::prefix('posts')->group(function () {
+        //     Route::get('/', [PostController::class, 'index']);
+        //     Route::post('/', [PostController::class, 'store']);
+        //     Route::get('/{id}', [PostController::class, 'show']);
+        //     Route::put('/{id}', [PostController::class, 'update']);
+        //     Route::delete('/{id}', [PostController::class, 'destroy']);
+        // });
         Route::prefix('posts')->group(function () {
             Route::get('/my-posts', [PostController::class, 'getAllMyPost']);
             Route::get('/', [PostController::class, 'index']);
