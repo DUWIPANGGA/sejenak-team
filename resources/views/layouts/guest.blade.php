@@ -24,27 +24,6 @@
   <meta name="twitter:description" content="Ruang aman untuk menenangkan diri, meditasi, dan refleksi.">
   <meta name="twitter:image" content="https://sejenak.app/assets/og-image.jpg">
 
-  <!-- Structured Data (Schema.org / JSON-LD) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "MobileApplication",
-    "name": "Sejenak",
-    "slogan": "A safe space for everybody",
-    "description": "Aplikasi meditasi & mindfulness yang membantu Anda menemukan ketenangan dan ruang aman untuk kesehatan mental.",
-    "url": "https://sejenak.app",
-    "operatingSystem": "Android, iOS",
-    "applicationCategory": "HealthApplication",
-    "author": {
-      "@type": "Organization",
-      "name": "Tim Sejenak"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Sejenak"
-    }
-  }
-  </script>
 
   <!-- (tambahan opsional) canonical tag -->
   <link rel="canonical" href="https://sejenak.app" />
