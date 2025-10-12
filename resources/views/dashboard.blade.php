@@ -10,7 +10,6 @@
             width: 12px;
             height: 12px;
             border-radius: 9999px;
-            /* bulat penuh */
             z-index: 10;
         }
 
@@ -25,14 +24,36 @@
             right: 4px;
             background-color: purple;
         }
+        
+        /* Tambahan untuk memperbaiki layout */
+        .dashboard-grid {
+            min-height: calc(100vh - 5rem);
+            padding-top: 1.5rem;    /* Space atas */
+    padding-bottom: 1.5rem;
+        }
+        
+        .calendar-container {
+            min-height: 250px;
+        }
+        
+        .mood-chart-container {
+            min-height: 200px;
+        }
+        
+        .history-container {
+            max-height: 200px;
+            overflow-y: auto;
+        }
     </style>
 @endsection
 
 @section('content')
-    <div class="w-full h-full min-h-screen grid grid-cols-1 md:grid-cols-3 gap-5 px-8 py-12 ">
+    <div class="w-full  dashboard-grid grid grid-cols-1 md:grid-cols-3 gap-5 px-8 py-12">
 
+        <!-- Kolom Kiri -->
         <div class="flex flex-col gap-4">
-            <div class="flex flex-row gap-4">
+            <!-- Time & Month -->
+            <div class="flex flex-row gap-4 h-20">
                 <div id="timeBox"
                     class="click-1 flex-1 border border-dark rounded-playful-lg bg-primary flex items-center justify-center p-3 h-full">
                     <h2 class="text-h2 text-white text-shadow-h1 font-exo2 text-center" id="currentTime"></h2>
@@ -43,42 +64,24 @@
                 </div>
             </div>
 
-            <div class="bg-primary p-2 rounded-3xl border-2 border-black shadow-lg">
+            <!-- Calendar -->
+            <div class="calendar-container bg-primary p-2 rounded-3xl border-2 border-black shadow-lg">
                 <div class="bg-white p-0 md:p-4 rounded-3xl border-2 border-dark">
                     <div id="calendarBody" class="grid grid-cols-7 gap-0 md:gap-2 w-[90%] md:w-full">
                     </div>
                 </div>
             </div>
-            <div id="daily-challenges"
-                class="click-1 bg-secondary border-2 border-dark rounded-playful-lg p-4 shadow-border-offset">
-                <h2 class="text-xl font-exo2 font-bold text-dark mb-3">🔥 Daily Challenges</h2>
-                <ul class="space-y-2">
-                    <li
-                        class="flex items-center gap-3 border-2 border-dark rounded-playful-sm bg-white px-3 py-2 hover:bg-primary/10 transition">
-                        <input type="checkbox" class="accent-primary w-5 h-5">
-                        <span class="font-medium text-dark">Meditasi 5 menit</span>
-                    </li>
-                    <li
-                        class="flex items-center gap-3 border-2 border-dark rounded-playful-sm bg-white px-3 py-2 hover:bg-primary/10 transition">
-                        <input type="checkbox" class="accent-primary w-5 h-5">
-                        <span class="font-medium text-dark">Tulis 1 hal yang kamu syukuri</span>
-                    </li>
-                    <li
-                        class="flex items-center gap-3 border-2 border-dark rounded-playful-sm bg-white px-3 py-2 hover:bg-primary/10 transition">
-                        <input type="checkbox" class="accent-primary w-5 h-5">
-                        <span class="font-medium text-dark">Minum air putih 2 gelas</span>
-                    </li>
-                </ul>
-            </div>
+            
+            <!-- Bottom Section -->
             <div class="flex flex-row gap-4 flex-1">
                 <div class="flex flex-col flex-1 gap-4">
                     <a href="{{ route('chat.bot') }}"
-                        class="flex-1 border border-dark rounded-playful-lg bg-secondary flex items-center justify-center p-3 gap-3">
+                        class="h-1/2 border border-dark rounded-playful-lg bg-secondary flex items-center justify-center p-3 gap-3">
                         <img src="{{ asset('assets/component/emote/ai_icon.svg') }}" alt="">
                         <p class="text-lg font-bold">Chat dengan nemo</p>
                     </a>
                     <a href="#"
-                        class="border border-dark rounded-playful-lg bg-secondary flex items-center justify-center p-3">
+                        class="h-1/2 border border-dark rounded-playful-lg bg-secondary flex items-center justify-center p-3">
                         <img src="{{ asset('assets/component/emote/setting.svg') }}" alt="">
                     </a>
                 </div>
@@ -126,13 +129,14 @@
             </div>
         </div>
 
+        <!-- Kolom Tengah -->
         <div class="flex flex-col gap-6">
+            <!-- Riwayat Jurnal -->
             <div
-                class="click-1 flex flex-col border-2 border-dark rounded-playful-lg bg-primary shadow-border-offset p-3 h-1/2">
-                <h3 class="text-lg font-bold text-white mb-3 shrink-0">Riwayat Jurnal</h3>
+                class="click-1 flex flex-col border-2 border-dark rounded-playful-lg bg-primary shadow-border-offset p-3">
+                <h3 class="text-lg font-bold text-white mb-3">Riwayat Jurnal</h3>
 
-                <div class="-click-1 flex-1 border-2 border-dark rounded-playful-lg bg-white/10 p-2">
-
+                <div class="history-container border-2 border-dark rounded-playful-lg bg-white/10 p-2">
                     @forelse ($user->journals as $item)
                         <div data-id="{{ $item['id'] }}"
                             class="p-3 bg-gray-100 border-2 border-dark rounded-playful-md flex justify-between items-start cursor-pointer shadow-border-offset hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all mb-3 last:mb-0 {{ $item['active'] ? 'history-item-active' : '' }}">
@@ -147,18 +151,17 @@
                             </span>
                         </div>
                     @empty
-                        <div class="h-full flex items-center justify-center">
+                        <div class="h-full flex items-center justify-center py-8">
                             <p class="text-white/70">Belum ada jurnal.</p>
                         </div>
                     @endforelse
-
                 </div>
             </div>
 
-            {{-- <div> --}}
+            <!-- Grafik Mood -->
             <div
-                class="click-1 border-2 border-dark rounded-playful-lg bg-secondary shadow-border-offset p-5 h-1/2 min-h-[250px] flex flex-col">
-                <div class="flex items-center justify-between mb-4 shrink-0">
+                class="click-1 border-2 border-dark rounded-playful-lg bg-secondary shadow-border-offset p-5 mood-chart-container flex flex-col">
+                <div class="flex items-center justify-between mb-4">
                     <h3 class="text-xl font-bold text-dark flex items-center">
                         <span class="mr-2 text-2xl">😊</span> Grafik Mood Mingguan
                     </h3>
@@ -168,15 +171,36 @@
                         <div class="w-3 h-3 rounded-full bg-pink-400"></div>
                     </div>
                 </div>
-                <div class="chart-container flex-1 relative ">
-                    <canvas id="moodChart" class="h-[50px]"></canvas>
+                <div class="chart-container flex-1 relative">
+                    <canvas id="moodChart"></canvas>
                 </div>
             </div>
-            {{-- </div> --}}
-
+            
+            <!-- Daily Challenges -->
+            <div id="daily-challenges"
+                class="click-1 bg-secondary border-2 border-dark rounded-playful-lg p-4 shadow-border-offset">
+                <h2 class="text-xl font-exo2 font-bold text-dark mb-3">🔥 Daily Challenges</h2>
+                <ul class="space-y-2">
+                    <li
+                        class="flex items-center gap-3 border-2 border-dark rounded-playful-sm bg-white px-3 py-2 hover:bg-primary/10 transition">
+                        <input type="checkbox" class="accent-primary w-5 h-5">
+                        <span class="font-medium text-dark">Meditasi 5 menit</span>
+                    </li>
+                    <li
+                        class="flex items-center gap-3 border-2 border-dark rounded-playful-sm bg-white px-3 py-2 hover:bg-primary/10 transition">
+                        <input type="checkbox" class="accent-primary w-5 h-5">
+                        <span class="font-medium text-dark">Tulis 1 hal yang kamu syukuri</span>
+                    </li>
+                    <li
+                        class="flex items-center gap-3 border-2 border-dark rounded-playful-sm bg-white px-3 py-2 hover:bg-primary/10 transition">
+                        <input type="checkbox" class="accent-primary w-5 h-5">
+                        <span class="font-medium text-dark">Minum air putih 2 gelas</span>
+                    </li>
+                </ul>
+            </div>
         </div>
 
-
+        <!-- Kolom Kanan -->
         @php
             $colors = [
                 'bg-red-400',
@@ -191,6 +215,7 @@
             $randomColor = $colors[array_rand($colors)];
         @endphp
         <div class="flex flex-col gap-6">
+            <!-- Top Post -->
             <div
                 class="click-1 flex-grow border-2 border-dark rounded-playful-lg bg-primary shadow-border-offset p-4 flex flex-col">
                 @if ($topPost)
@@ -239,14 +264,15 @@
                         </div>
                     </a>
                 @else
-                    <div class="h-full flex flex-col justify-center items-center">
+                    <div class="h-full flex flex-col justify-center items-center py-8">
                         <p class="text-dark font-lexend text-center">Belum ada postingan untuk ditampilkan saat ini. 😢</p>
                     </div>
                 @endif
             </div>
 
+            <!-- Quote -->
             <div
-                class="click-1 shrink-0 border-2 border-dark rounded-playful-lg bg-primary shadow-border-offset p-3 flex flex-col justify-center items-center text-center">
+                class="click-1 border-2 border-dark rounded-playful-lg bg-primary shadow-border-offset p-3 flex flex-col justify-center items-center text-center min-h-[120px]">
                 @if ($quote)
                     <p id="quote" class="text-sm italic font-bold text-gray-700">
                         "{{ $quote['quote'] }}"
