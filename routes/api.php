@@ -2,20 +2,21 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\MoodController;
+use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\Api\AudioController;
+use App\Http\Controllers\Api\ReplyController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\JournalController;
+use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\Api\ComunityController;
 use App\Http\Controllers\Api\DashboardController;
-use App\Http\Controllers\Api\JournalController;
+use App\Http\Controllers\Api\GoogleAuthController;
 use App\Http\Controllers\Api\MeditationController;
-use App\Http\Controllers\Api\ProfileController;
-use App\Http\Controllers\Api\ReplyController;
-use App\Http\Controllers\TransactionController;
 
 
 
@@ -28,6 +29,7 @@ Route::post('/register',[AuthController::class,'register']);
 Route::post('/refresh',[AuthController::class,'refresh']);
 Route::post('/logout',[AuthController::class,'logout']);
 Route::post('/login',[AuthController::class,'login']);
+Route::post('/googleAuth',[GoogleAuthController::class,'login']);
 
 Route::post('/verify-code', [AuthController::class, 'verify']);
 Route::post('/resend-verification', [AuthController::class, 'resendVerification']);
