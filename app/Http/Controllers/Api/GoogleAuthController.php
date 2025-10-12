@@ -96,7 +96,7 @@ class GoogleAuthController extends Controller
                 'code' => 200,
                 'status' => 'success',
                 'message' => 'Login via Google berhasil',
-                'access_token' => $jwtAccessToken,
+                'token' => $jwtAccessToken,
                 'expires_in' => auth('api')->factory()->getTTL() * 60,
                 'refresh_token' => $refreshToken,
                 'refresh_expires_in' => 60 * 60 * 24 * 7,
