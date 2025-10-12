@@ -17,7 +17,7 @@ class ChatBotController extends Controller
         }
 
         try {
-            $apiKey = env('GEMINI_API_KEY');
+            $apiKey = "AIzaSyBLma6UUgkYmEIj9Rhvgog_GG5DBgq9ERg";
 
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
