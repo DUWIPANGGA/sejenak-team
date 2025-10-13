@@ -34,12 +34,30 @@
         <div class="flex flex-col gap-4">
             <div class="flex flex-row gap-4">
                 <div id="timeBox"
-                    class="click-1 flex-1 border border-dark rounded-playful-lg bg-primary flex items-center justify-center p-3 h-full">
+                    class="click-1 w-1/3 border border-dark rounded-playful-lg bg-primary flex items-center justify-center p-3 h-full">
                     <h2 class="text-h2 text-white text-shadow-h1 font-exo2 text-center" id="currentTime"></h2>
                 </div>
                 <div id="monthBox"
-                    class="click-1 flex-1 border border-dark rounded-playful-lg bg-primary flex items-center justify-center p-3">
+                    class="click-1 w-1/3 border border-dark rounded-playful-lg bg-primary flex items-center justify-center p-3">
                     <h2 class="text-h2 text-white text-shadow-h1 font-exo2 text-center" id="currentMonthShort"></h2>
+                </div>
+                
+                <div id="weatherBox"
+                    class="click-1 flex-1 border border-dark rounded-playful-lg bg-secondary flex flex-col items-center justify-center p-3 text-dark">
+                    <div id="weather-loading" class="text-center">
+                        <p class="font-bold">Memuat cuaca...</p>
+                        <p class="text-xs">Izinkan lokasi Anda</p>
+                    </div>
+
+                    <div id="weather-content" class="hidden text-center">
+                        <p id="weather-city" class="font-bold text-sm leading-tight">Nama Kota</p>
+                        <p id="weather-temp" class="text-2xl font-bold leading-tight">25°C</p>
+                        <p id="weather-desc" class="text-xs leading-tight">Hujan rintik-rintik</p>
+                    </div>
+
+                    <div id="weather-error" class="hidden text-center">
+                        <p class="font-bold text-sm">Gagal memuat cuaca</p>
+                    </div>
                 </div>
             </div>
 
@@ -597,6 +615,66 @@
                     }
                 }
             });
+        });
+    </script>
+
+    {{-- SKRIP 4: LOGIKA BARU UNTUK FITUR CUACA 🌍 --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const weatherLoading = document.getElementById('weather-loading');
+            const weatherContent = document.getElementById('weather-content');
+            const weatherError = document.getElementById('weather-error');
+
+            const weatherCity = document.getElementById('weather-city');
+            const weatherTemp = document.getElementById('weather-temp');
+            const weatherDesc = document.getElementById('weather-desc');
+
+            function showWeatherData(data) {
+                weatherCity.textContent = data.city;
+                weatherTemp.textContent = `${data.temperature}°C`;
+                weatherDesc.textContent = data.description;
+
+                weatherLoading.classList.add('hidden');
+                weatherContent.classList.remove('hidden');
+                weatherError.classList.add('hidden');
+            }
+
+            function handleWeatherError(message) {
+                if (weatherError.querySelector('p')) {
+                    weatherError.querySelector('p').textContent = message;
+                }
+                weatherLoading.classList.add('hidden');
+                weatherContent.classList.add('hidden');
+                weatherError.classList.remove('hidden');
+            }
+            
+            if ('geolocation' in navigator) {
+                navigator.geolocation.getCurrentPosition(async (position) => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+
+                    try {
+                        const response = await fetch(`{{ route('weather.get') }}?lat=${lat}&lon=${lon}`);
+                        if (!response.ok) {
+                            throw new Error('Respons jaringan tidak baik.');
+                        }
+                        const data = await response.json();
+                        showWeatherData(data);
+                    } catch (error) {
+                        console.error('Fetch error:', error);
+                        handleWeatherError('Gagal mengambil data.');
+                    }
+                }, (error) => {
+                    console.error('Geolocation error:', error);
+                    if (error.code === error.PERMISSION_DENIED) {
+                        handleWeatherError('Izin lokasi ditolak.');
+                    } else {
+                        handleWeatherError('Lokasi tidak tersedia.');
+                    }
+                });
+            } else {
+                handleWeatherError('Geolocation tidak didukung.');
+            }
         });
     </script>
 @endsection

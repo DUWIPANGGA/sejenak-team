@@ -64,6 +64,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', [DashboardController::class,'index'])->name('user.dashboard');
+    Route::get('/weather', [DashboardController::class, 'getWeather'])->name('weather.get')->middleware('auth');
     Route::get('/blog', [BlogController::class, 'view'])->name('user.blog');
     Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('user.blog.show');
     Route::get('/comunity', [ComunityController::class,'user'])->name('user.comunity');

@@ -5,13 +5,63 @@ namespace App\Http\Controllers;
 use App\Models\Mood;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
-        function getRandomQuote()
+    public function getWeather(Request $request)
+    {
+        $request->validate([
+            'lat' => 'required|numeric',
+            'lon' => 'required|numeric',
+        ]);
+
+        $latitude = $request->lat;
+        $longitude = $request->lon;
+        $apiKey = env('OPENWEATHER_API_KEY');
+
+        $response = Http::get("https://api.openweathermap.org/data/2.5/weather", [
+            'lat' => $latitude,
+            'lon' => $longitude,
+            'appid' => $apiKey,
+            'units' => 'metric',
+            'lang' => 'id'
+        ]);
+
+        // ==========================================================
+        // PERUBAHAN UTAMA ADA DI SINI
+        // ==========================================================
+        if ($response->failed()) {
+            // Catat pesan error yang sebenarnya ke dalam file log
+            Log::error('Gagal mengambil data cuaca dari OpenWeatherMap.', [
+                'status' => $response->status(),
+                'body' => $response->body(), // Ini bagian paling penting
+            ]);
+
+            // Kirim response error seperti biasa
+            return response()->json(['error' => 'Gagal mengambil data cuaca.'], 500);
+        }
+        // ==========================================================
+        // AKHIR PERUBAHAN
+        // ==========================================================
+
+        $data = $response->json();
+
+        $weatherData = [
+            'city' => $data['name'],
+            'temperature' => round($data['main']['temp']),
+            'description' => ucfirst($data['weather'][0]['description']),
+            'icon' => $data['weather'][0]['icon'],
+        ];
+
+        return response()->json($weatherData);
+    }
+
+    function getRandomQuote()
     {
         // Path file JSON
         $path = public_path('assets/json/text.json');
