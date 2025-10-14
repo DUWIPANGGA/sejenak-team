@@ -55,30 +55,12 @@
             <!-- Time & Month -->
             <div class="flex flex-row gap-4 h-20">
                 <div id="timeBox"
-                    class="click-1 w-1/3 border border-dark rounded-playful-lg bg-primary flex items-center justify-center p-3 h-full">
+                    class="click-1 flex-1 border border-dark rounded-playful-lg bg-primary flex items-center justify-center p-3 h-full">
                     <h2 class="text-h2 text-white text-shadow-h1 font-exo2 text-center" id="currentTime"></h2>
                 </div>
                 <div id="monthBox"
-                    class="click-1 w-1/3 border border-dark rounded-playful-lg bg-primary flex items-center justify-center p-3">
+                    class="click-1 flex-1 border border-dark rounded-playful-lg bg-primary flex items-center justify-center p-3">
                     <h2 class="text-h2 text-white text-shadow-h1 font-exo2 text-center" id="currentMonthShort"></h2>
-                </div>
-                
-                <div id="weatherBox"
-                    class="click-1 flex-1 border border-dark rounded-playful-lg bg-secondary flex flex-col items-center justify-center p-3 text-dark">
-                    <div id="weather-loading" class="text-center">
-                        <p class="font-bold">Memuat cuaca...</p>
-                        <p class="text-xs">Izinkan lokasi Anda</p>
-                    </div>
-
-                    <div id="weather-content" class="hidden text-center">
-                        <p id="weather-city" class="font-bold text-sm leading-tight">Nama Kota</p>
-                        <p id="weather-temp" class="text-2xl font-bold leading-tight">25°C</p>
-                        <p id="weather-desc" class="text-xs leading-tight">Hujan rintik-rintik</p>
-                    </div>
-
-                    <div id="weather-error" class="hidden text-center">
-                        <p class="font-bold text-sm">Gagal memuat cuaca</p>
-                    </div>
                 </div>
             </div>
 
@@ -93,14 +75,23 @@
             <!-- Bottom Section -->
             <div class="flex flex-row gap-4 flex-1">
                 <div class="flex flex-col flex-1 gap-4">
-                    <a href="{{ route('chat.bot') }}"
-                        class="h-1/2 border border-dark rounded-playful-lg bg-secondary flex items-center justify-center p-3 gap-3">
-                        <img src="{{ asset('assets/component/emote/ai_icon.svg') }}" alt="">
-                        <p class="text-lg font-bold">Chat dengan nemo</p>
-                    </a>
-                    <a href="#"
-                        class="h-1/2 border border-dark rounded-playful-lg bg-secondary flex items-center justify-center p-3">
-                        <img src="{{ asset('assets/component/emote/setting.svg') }}" alt="">
+                    <div id="weatherBox" class="h-1/2 click-1 border border-dark rounded-playful-lg bg-secondary flex flex-col items-center justify-center p-3 text-dark">
+                        <div id="weather-loading" class="text-center">
+                            <p class="font-bold">Memuat cuaca...</p>
+                            <p class="text-xs">Izinkan lokasi</p>
+                        </div>
+                        <div id="weather-content" class="hidden text-center">
+                            <p id="weather-city" class="font-bold text-sm leading-tight">Nama Kota</p>
+                            <p id="weather-temp" class="text-2xl font-bold leading-tight">25°C</p>
+                            <p id="weather-desc" class="text-xs leading-tight">Cuaca</p>
+                        </div>
+                        <div id="weather-error" class="hidden text-center">
+                            <p class="font-bold text-sm">Gagal memuat</p>
+                        </div>
+                    </div>
+                    <a href="{{ route('chat.bot') }}" class="h-1/2 border border-dark rounded-playful-lg bg-secondary flex items-center justify-center p-3 gap-3">
+                        <img src="{{ asset('assets/component/emote/ai_icon.svg') }}" alt="AI Icon">
+                        <p class="text-lg font-bold">Chat Nemo</p>
                     </a>
                 </div>
                 <div class="w-1/2 flex">
@@ -447,9 +438,6 @@
                     cell.className = 'text-center w-20 md:w-auto p-1 relative flex items-center justify-center';
 
                     const dayDiv = document.createElement('div');
-                    // ==========================================================
-                    // PERUBAHAN #1 ADA DI BARIS INI
-                    // ==========================================================
                     dayDiv.className = `
                     w-5 h-8 md:w-12 md:h-8 flex flex-col items-center justify-between py-1
                     rounded-lg relative cursor-pointer
@@ -478,9 +466,6 @@
                     }
 
                     const indicatorContainer = document.createElement('div');
-                    // ==========================================================
-                    // PERUBAHAN #2 ADA DI BARIS INI
-                    // ==========================================================
                     indicatorContainer.className = 'flex items-center justify-center gap-1';
 
                     if (riwayatJurnal.includes(day)) {
@@ -656,15 +641,13 @@
 
             function showWeatherData(data) {
                 const cityName = data.city;
-                const maxLength = 8;
+                const maxLength = 12;
                 
-                if (cityName.length > maxLength) {
-                    weatherCity.textContent = cityName.substring(0, maxLength) + '...';
-                } else {
-                    weatherCity.textContent = cityName;
-                }
+                weatherCity.textContent = cityName.length > maxLength 
+                    ? cityName.substring(0, maxLength) + '...' 
+                    : cityName;
 
-                weatherTemp.textContent = `${data.temperature}°C`;
+                weatherTemp.textContent = `${Math.round(data.temperature)}°C`;
                 weatherDesc.textContent = data.description;
 
                 weatherLoading.classList.add('hidden');
@@ -680,8 +663,13 @@
                 weatherContent.classList.add('hidden');
                 weatherError.classList.remove('hidden');
             }
-            
-            if ('geolocation' in navigator) {
+
+            // Fungsi utama untuk mengambil data cuaca
+            async function fetchWeather() {
+                if (!('geolocation' in navigator)) {
+                    return handleWeatherError('Geolocation tidak didukung.');
+                }
+
                 navigator.geolocation.getCurrentPosition(async (position) => {
                     const lat = position.coords.latitude;
                     const lon = position.coords.longitude;
@@ -692,7 +680,17 @@
                             throw new Error('Respons jaringan tidak baik.');
                         }
                         const data = await response.json();
+
+                        // 4. Simpan data baru dan timestamp ke localStorage
+                        const dataToCache = {
+                            data: data,
+                            timestamp: new Date().getTime() // Simpan waktu saat ini
+                        };
+                        localStorage.setItem('weatherData', JSON.stringify(dataToCache));
+                        
+                        // Tampilkan data yang baru diambil
                         showWeatherData(data);
+
                     } catch (error) {
                         console.error('Fetch error:', error);
                         handleWeatherError('Gagal mengambil data.');
@@ -705,8 +703,28 @@
                         handleWeatherError('Lokasi tidak tersedia.');
                     }
                 });
+            }
+
+            const cachedWeather = localStorage.getItem('weatherData');
+
+            if (cachedWeather) {
+                const { data, timestamp } = JSON.parse(cachedWeather);
+                const now = new Date().getTime();
+                const tenMinutes = 10 * 60 * 1000; // 10 menit dalam milidetik
+
+                // 2. Cek apakah data belum kedaluwarsa (kurang dari 10 menit)
+                if ((now - timestamp) < tenMinutes) {
+                    console.log("Cuaca: Memuat dari cache (super cepat!)");
+                    showWeatherData(data); // Langsung tampilkan dari cache
+                } else {
+                    // 3. Jika data sudah kedaluwarsa, ambil data baru
+                    console.log("Cuaca: Cache kedaluwarsa, mengambil data baru.");
+                    fetchWeather();
+                }
             } else {
-                handleWeatherError('Geolocation tidak didukung.');
+                // 3. Jika tidak ada cache sama sekali, ambil data baru
+                console.log("Cuaca: Tidak ada cache, mengambil data baru.");
+                fetchWeather();
             }
         });
     </script>

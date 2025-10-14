@@ -394,16 +394,16 @@
         </div>
 
         <!-- Comment Modal -->
-        <!-- Comment Modal -->
         <div id="commentModal"
             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 hidden">
             <div
                 class="bg-white p-6 rounded-playful-lg border-2 border-dark max-w-xl w-full shadow-border-offset overflow-y-auto max-h-[90vh]">
                 <div class="flex justify-between items-center mb-4 border-b pb-4">
                     <h3 class="text-xl font-bold font-exo2 text-dark">Komentar</h3>
-                    <button type="button" class="text-dark hover:text-gray-500 transition-colors"
-                        onclick="closeCommentModal()">
-                        <img src="https://www.svgrepo.com/show/501309/close-sm.svg" alt="Close" class="w-6 h-6">
+                    <button type="button" class="text-dark hover:text-gray-500 transition-colors" onclick="closeCommentModal()">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        </svg>
                     </button>
                 </div>
 
@@ -446,7 +446,9 @@
                 <div class="flex justify-between items-center mb-4 border-b pb-4">
                     <h3 class="text-xl font-bold font-exo2 text-dark">Buat Postingan Baru</h3>
                     <button class="text-dark hover:text-gray-500 transition-colors" onclick="closeCreatePostModal()">
-                        <img src="https://www.svgrepo.com/show/501309/close-sm.svg" alt="Close" class="w-6 h-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        </svg>
                     </button>
                 </div>
 
@@ -504,6 +506,16 @@
 
     @section('script')
         <script>
+            function getAvatarUrl(avatarPath) {
+                if (!avatarPath) return ''; // Kembalikan string kosong jika tidak ada avatar
+                // Cek apakah path adalah URL absolut
+                if (avatarPath.startsWith('http://') || avatarPath.startsWith('https://')) {
+                    return avatarPath; // Jika ya, gunakan langsung
+                }
+                // Jika tidak, tambahkan prefix /storage/
+                return `/storage/${avatarPath}`;
+            }
+
             // Fungsi untuk membuka modal komentar dan memuat data via AJAX
             function openCommentModal(postId) {
                 // Tampilkan modal
@@ -564,8 +576,9 @@
                     commentsHtml = '<p class="text-center text-gray-500">Belum ada komentar.</p>';
                 } else {
                     comments.forEach(comment => {
-                        const userAvatar = comment.user.avatar ?
-                            `<img src="/storage/${comment.user.avatar}" alt="${comment.user.name}" class="w-8 h-8 rounded-full border-2 border-dark shadow-border-offset flex-shrink-0">` :
+                        const avatarUrl = getAvatarUrl(comment.user.avatar);
+                        const userAvatar = avatarUrl ?
+                            `<img src="${avatarUrl}" alt="${comment.user.name}" class="w-8 h-8 rounded-full border-2 border-dark shadow-border-offset flex-shrink-0">` :
                             `<div class="w-8 h-8 flex items-center justify-center rounded-full border-2 border-dark shadow-border-offset font-bold text-white bg-blue-400">${comment.user.name.charAt(0).toUpperCase()}</div>`;
 
                         const timeAgo = new Date(comment.created_at).toLocaleDateString('id-ID', {
@@ -580,8 +593,9 @@
                         let repliesHtml = '';
                         if (comment.replies && comment.replies.length > 0) {
                             comment.replies.forEach(reply => {
-                                const replyUserAvatar = reply.user.avatar ?
-                                    `<img src="/storage/${reply.user.avatar}" alt="${reply.user.name}" class="w-6 h-6 rounded-full border-2 border-dark shadow-border-offset flex-shrink-0">` :
+                                const replyAvatarUrl = getAvatarUrl(reply.user.avatar);
+                                const replyUserAvatar = replyAvatarUrl ?
+                                    `<img src="${replyAvatarUrl}" alt="${reply.user.name}" class="w-6 h-6 rounded-full border-2 border-dark shadow-border-offset flex-shrink-0">` :
                                     `<div class="w-6 h-6 flex items-center justify-center rounded-full border-2 border-dark shadow-border-offset font-bold text-white text-xs bg-green-400">${reply.user.name.charAt(0).toUpperCase()}</div>`;
 
                                 const replyTimeAgo = new Date(reply.created_at).toLocaleDateString('id-ID', {
@@ -622,7 +636,9 @@
                         </div>
                         <div class="flex items-center gap-4 mt-2 ml-3">
                             <button class="flex items-center gap-1 text-dark hover:text-red-500 transition-colors">
-                                <img src="https://www.svgrepo.com/show/511051/heart-fill.svg" alt="Like" class="w-4 h-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                                    <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                                </svg>
                                 <span class="font-lexend text-xs">${comment.likes_count || 0}</span>
                             </button>
                             <button class="text-xs font-lexend text-gray-500 hover:text-dark transition-colors" onclick="showReplyForm('replyForm-${comment.id}')">Balas</button>
@@ -716,8 +732,9 @@
                                 user.name.split(' ').map(n => n[0]).join('').substring(0, 1).toUpperCase() :
                                 '?';
 
-                            const replyUserAvatar = user.avatar ?
-                                `<img src="${user.avatar}" alt="${user.name}" class="w-6 h-6 rounded-full border-2 border-dark shadow-border-offset flex-shrink-0">` :
+                            const replyAvatarUrl = getAvatarUrl(user.avatar);
+                            const replyUserAvatar = replyAvatarUrl ?
+                                `<img src="${replyAvatarUrl}" alt="${user.name}" class="w-6 h-6 rounded-full border-2 border-dark shadow-border-offset flex-shrink-0">` :
                                 `<div class="w-6 h-6 flex items-center justify-center rounded-full border-2 border-dark shadow-border-offset font-bold text-white text-xs bg-green-400">${initials}</div>`;
 
                             const newReplyHtml = `
@@ -806,7 +823,9 @@
                         </div>
                         <div class="flex items-center gap-4 mt-2 ml-3">
                             <button class="flex items-center gap-1 text-dark hover:text-red-500 transition-colors">
-                                <img src="https://www.svgrepo.com/show/511051/heart-fill.svg" alt="Like" class="w-4 h-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                                    <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                                </svg>
                                 <span class="font-lexend text-xs">0</span>
                             </button>
                             <button class="text-xs font-lexend text-gray-500 hover:text-dark transition-colors" onclick="showReplyForm('replyForm-${data.comment.id}')">Balas</button>
