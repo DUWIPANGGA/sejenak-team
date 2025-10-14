@@ -639,6 +639,38 @@
             const weatherTemp = document.getElementById('weather-temp');
             const weatherDesc = document.getElementById('weather-desc');
 
+            // FUNGSI PENERJEMAH CUACA
+            function translateWeather(description) {
+                const descLower = description.toLowerCase();
+                switch (descLower) {
+                    case 'broken clouds':
+                        return 'Cukup Berawan';
+                    case 'overcast clouds':
+                        return 'Mendung';
+                    case 'scattered clouds':
+                        return 'Berawan Sebagian';
+                    case 'few clouds':
+                        return 'Sedikit Berawan';
+                    case 'clear sky':
+                        return 'Cerah';
+                    case 'light rain':
+                        return 'Gerimis';
+                    case 'moderate rain':
+                        return 'Hujan';
+                    case 'heavy intensity rain':
+                        return 'Hujan Lebat';
+                    case 'thunderstorm':
+                        return 'Hujan Petir';
+                    case 'mist':
+                    case 'fog':
+                        return 'Berkabut';
+                    case 'haze':
+                        return 'Sedikit Berkabut';
+                    default:
+                        return description.charAt(0).toUpperCase() + description.slice(1);
+                }
+            }
+
             function showWeatherData(data) {
                 const cityName = data.city;
                 const maxLength = 12;
@@ -648,7 +680,7 @@
                     : cityName;
 
                 weatherTemp.textContent = `${Math.round(data.temperature)}°C`;
-                weatherDesc.textContent = data.description;
+                weatherDesc.textContent = translateWeather(data.description);
 
                 weatherLoading.classList.add('hidden');
                 weatherContent.classList.remove('hidden');

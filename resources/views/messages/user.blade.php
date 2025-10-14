@@ -252,6 +252,27 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
+    async function initializeWeather() {
+        const cachedWeather = localStorage.getItem('weatherData');
+        const tenMinutes = 10 * 60 * 1000; // 10 menit dalam milidetik
+
+        if (cachedWeather) {
+            const { data, timestamp } = JSON.parse(cachedWeather);
+            const now = new Date().getTime();
+
+            // Cek apakah cache masih valid (kurang dari 10 menit)
+            if ((now - timestamp) < tenMinutes) {
+                currentWeatherData = `cuacanya ${data.description.toLowerCase()}`;
+                console.log("Cuaca (Chat): Memuat dari cache (super cepat!)", currentWeatherData);
+                return; // Langsung pakai data cache dan hentikan fungsi
+            }
+        }
+
+        // Jika tidak ada cache atau sudah kedaluwarsa, ambil data baru
+        console.log("Cuaca (Chat): Cache kosong/kedaluwarsa, mengambil data baru.");
+        fetchWeather();
+    }
+
     async function fetchWeather() {
         if (!('geolocation' in navigator)) {
             console.log("Geolocation tidak didukung.");
@@ -264,8 +285,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 const response = await fetch(`{{ route('weather.get') }}?lat=${lat}&lon=${lon}`);
                 if (!response.ok) throw new Error('Gagal mengambil data cuaca.');
                 const data = await response.json();
+                
+                // BARU: Simpan data dan timestamp ke cache
+                const dataToCache = {
+                    data: data,
+                    timestamp: new Date().getTime()
+                };
+                localStorage.setItem('weatherData', JSON.stringify(dataToCache));
+
+                // Set variabel cuaca untuk digunakan AI
                 currentWeatherData = `cuacanya ${data.description.toLowerCase()}`;
-                console.log("Data cuaca berhasil diambil:", currentWeatherData);
+                console.log("Data cuaca berhasil diambil & disimpan ke cache:", currentWeatherData);
+
             } catch (error) {
                 console.error("Error saat mengambil cuaca:", error);
                 currentWeatherData = null;
@@ -531,7 +562,7 @@ document.addEventListener('DOMContentLoaded', function () {
     userInput.focus();
 
     // Fetch weather
-    fetchWeather();
+    initializeWeather();
 });
 </script>
 @endsection
