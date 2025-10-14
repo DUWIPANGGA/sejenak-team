@@ -29,7 +29,7 @@
         .dashboard-grid {
             min-height: calc(100vh - 5rem);
             padding-top: 1.5rem;    /* Space atas */
-    padding-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
         }
         
         .calendar-container {
@@ -643,8 +643,7 @@
             });
         });
     </script>
-
-    {{-- SKRIP 4: LOGIKA BARU UNTUK FITUR CUACA 🌍 --}}
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const weatherLoading = document.getElementById('weather-loading');
@@ -656,7 +655,15 @@
             const weatherDesc = document.getElementById('weather-desc');
 
             function showWeatherData(data) {
-                weatherCity.textContent = data.city;
+                const cityName = data.city;
+                const maxLength = 8;
+                
+                if (cityName.length > maxLength) {
+                    weatherCity.textContent = cityName.substring(0, maxLength) + '...';
+                } else {
+                    weatherCity.textContent = cityName;
+                }
+
                 weatherTemp.textContent = `${data.temperature}°C`;
                 weatherDesc.textContent = data.description;
 

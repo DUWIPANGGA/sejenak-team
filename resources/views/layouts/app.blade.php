@@ -216,6 +216,14 @@
             cursor: pointer;
         }
 
+        #weather-city {
+            white-space: nowrap; /* Mencegah teks turun ke baris baru */
+            overflow: hidden;    /* Menyembunyikan teks yang meluber keluar dari kotak */
+            text-overflow: ellipsis; /* Menampilkan titik-titik (...) pada teks yang terpotong */
+            
+            /* Opsional: Beri lebar maksimal agar lebih terkontrol */
+            max-width: 120px; 
+        }
 
 
 
@@ -511,7 +519,7 @@
     <div id="floating-chat-container" class="desktop">
         <div id="chat-bubble">
             <div id="chat-bubble-content">
-                <p class="chat-message-ai">Hai! Aku adalah Sejenak AI. Ada yang bisa saya bantu?</p>
+                <p class="chat-message-ai" id="ai-greeting-message">Memuat info... 🤔</p>
             </div>
             <div id="chat-input-area">
                 <input type="text" id="chat-input" placeholder="Ketik pesan Anda..."
@@ -571,6 +579,58 @@
             </a> -->
         </div>
     </nav>
+
+    <script>
+        // Jalankan skrip setelah seluruh halaman dimuat
+        document.addEventListener('DOMContentLoaded', function () {
+            // Cari elemen sapaan AI berdasarkan ID yang baru kita buat
+            const greetingElement = document.getElementById('ai-greeting-message');
+            const defaultMessage = "Hai! Aku Sejenak AI. Ada yang bisa dibantu?";
+
+            // Pastikan elemennya ada sebelum melanjutkan
+            if (!greetingElement) {
+                return;
+            }
+
+            // Cek apakah browser mendukung Geolocation
+            if (!('geolocation' in navigator)) {
+                console.log("Geolocation tidak didukung, menampilkan pesan default.");
+                greetingElement.textContent = defaultMessage;
+                return;
+            }
+
+            // Minta lokasi pengguna
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                const { latitude: lat, longitude: lon } = position.coords;
+                
+                try {
+                    // Panggil endpoint weather yang sudah ada
+                    const response = await fetch(`{{ route('weather.get') }}?lat=${lat}&lon=${lon}`);
+
+                    // Jika gagal, tampilkan pesan default
+                    if (!response.ok) {
+                        throw new Error('Gagal mengambil data cuaca.');
+                    }
+
+                    const data = await response.json();
+                    
+                    // Buat pesan sapaan yang baru dengan info cuaca
+                    const weatherMessage = `Cuaca hari ini ${data.description.toLowerCase()}, lho. Ada yang bisa kubantu?`;
+                    
+                    // Perbarui teks di dalam chat bubble
+                    greetingElement.textContent = weatherMessage;
+
+                } catch (error) {
+                    console.error("Error saat mengambil cuaca:", error);
+                    greetingElement.textContent = defaultMessage; // Tampilkan default jika ada error
+                }
+            }, () => {
+                // Ini akan berjalan jika pengguna menolak izin lokasi
+                console.log("Izin lokasi ditolak, menampilkan pesan default.");
+                greetingElement.textContent = defaultMessage;
+            });
+        });
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

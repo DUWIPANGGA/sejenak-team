@@ -240,6 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let currentModel = "friendly-listener";
     let conversationHistory = [];
+    let currentWeatherData = null;
 
     // --- Konfigurasi Psikolog ---
     const psychologistConfigs = {
@@ -250,6 +251,30 @@ document.addEventListener('DOMContentLoaded', function () {
             promptContext: "Anda adalah Nemo, pendengar yang ramah dan empatik. Berikan respons singkat, santai, dan suportif dalam bahasa Indonesia seperti chat dengan teman. Maksimal 2-3 kalimat."
         }
     };
+
+    async function fetchWeather() {
+        if (!('geolocation' in navigator)) {
+            console.log("Geolocation tidak didukung.");
+            return;
+        }
+        navigator.geolocation.getCurrentPosition(async (position) => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            try {
+                const response = await fetch(`{{ route('weather.get') }}?lat=${lat}&lon=${lon}`);
+                if (!response.ok) throw new Error('Gagal mengambil data cuaca.');
+                const data = await response.json();
+                currentWeatherData = `cuacanya ${data.description.toLowerCase()}`;
+                console.log("Data cuaca berhasil diambil:", currentWeatherData);
+            } catch (error) {
+                console.error("Error saat mengambil cuaca:", error);
+                currentWeatherData = null;
+            }
+        }, (error) => {
+            console.error("Error Geolocation:", error.message);
+            currentWeatherData = null;
+        });
+    }
 
     // --- Helper ---
     const isMobile = () => window.innerWidth < 768;
@@ -354,33 +379,43 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- Fungsi API Gemini ---
     async function sendMessageToGemini(userMessage, conversationHistory) {
+        // PERINGATAN: Kunci API di frontend sangat tidak aman.
         const GEMINI_API_KEY = "AIzaSyBLma6UUgkYmEIj9Rhvgog_GG5DBgq9ERg";
         const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
         try {
             const config = psychologistConfigs[currentModel];
-            const currentDateTime = getCurrentDateTimeInfo();
             
+            // --- BLOK LOGIKA BARU UNTUK CUACA ---
+            let weatherInstruction = '';
+            // Cek jika ini adalah pesan pertama dari user DAN data cuaca sudah ada
+            if (conversationHistory.filter(msg => msg.role === 'user').length === 1 && currentWeatherData) {
+                weatherInstruction = `
+    [INFORMASI CUACA SAAT INI: ${currentWeatherData}]
+
+    INSTRUKSI KHUSUS UNTUK RESPON PERTAMA:
+    1. Awali responsmu dengan mengomentari cuaca saat ini secara alami dan positif.
+    2. Setelah itu, langsung tanyakan kabar atau perasaan pengguna.
+    3. Contoh: "Di sini ${currentWeatherData} lho, bikin suasana jadi adem. Kamu sendiri gimana kabarnya hari ini?" atau "Wah, ${currentWeatherData}, pas banget buat santai. Kalau kamu, lagi ngerasain apa sekarang?"
+    4. Jaga agar tetap singkat dan terdengar seperti teman.
+                `;
+            }
+            // --- AKHIR BLOK LOGIKA BARU ---
+
             const prompt = `
                 ${config.promptContext}
 
-                [INFORMASI WAKTU SAAT INI: ${currentDateTime.fullDateTime}]
-                [HARI INI: ${currentDateTime.dayName}]
-                [TANGGAL: ${currentDateTime.date} ${currentDateTime.monthName} ${currentDateTime.year}]
-                [JAM: ${currentDateTime.hours}:${currentDateTime.minutes} WIB]
+                ${weatherInstruction}
 
-                Riwayat percakapan:
-                ${conversationHistory.map(msg =>
-                    `${msg.role === 'user' ? 'Klien' : config.name}: ${msg.content}`
-                ).join('\n')}
+                Riwayat percakapan sejauh ini:
+                ${conversationHistory.map(msg => `${msg.role === 'user' ? 'Pengguna' : config.name}: ${msg.content}`).join('\n')}
 
-                Pesan user: "${userMessage}"
+                Pesan terbaru dari Pengguna untuk direspons: "${userMessage}"
 
-                INSTRUKSI:
-                - Hanya gunakan informasi waktu jika user secara spesifik menanyakan tentang hari, tanggal, atau jam
-                - Jika user tidak menanyakan waktu, jangan sebutkan informasi tanggal/jam
-                - Tetap berperan sebagai Nemo yang friendly dan supportif
-                - Respons maksimal 2-3 kalimat, bahasa Indonesia santai`;
+                INSTRUKSI UMUM:
+                - Tetaplah menjadi Nemo yang suportif.
+                - Jawab dengan singkat, padat, dan jelas.
+            `;
 
             const response = await fetch(GEMINI_API_URL, {
                 method: 'POST',
@@ -396,9 +431,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
             });
 
-            if (!response.ok) throw new Error(`HTTP error! ${response.status}`);
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             const data = await response.json();
-
+            
             return data.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, saya tidak dapat memberikan jawaban saat ini.";
         } catch (error) {
             throw error;
@@ -494,6 +529,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Focus input field
     userInput.focus();
+
+    // Fetch weather
+    fetchWeather();
 });
 </script>
 @endsection
