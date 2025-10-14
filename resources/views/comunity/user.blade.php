@@ -230,7 +230,7 @@
                             @else
                                 {{-- Skenario 2: Postingan pengguna (dengan atau tanpa avatar) --}}
                                 @if ($post->user->avatar)
-                                    <img src="{{ asset($post->user->avatar) }}" alt="{{ $post->user->name }}"
+                                    <img src="{{ $post->user->avatar_url }}" alt="{{ $post->user->name }}"
                                         class="w-10 h-10 rounded-full border-2 border-dark shadow-border-offset mr-3 object-cover">
                                 @else
                                     <div
@@ -353,7 +353,7 @@
                         @foreach ($topUsers as $index => $user)
                             <div class="flex items-center gap-4">
                                 @if ($user->avatar)
-                                    <img src="{{ Auth::user()->avatar_url }}" alt="{{ $user->name }}"
+                                    <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}"
                                         class="w-10 h-10 rounded-full border-2 border-dark shadow-border-offset object-cover">
                                 @else
                                     @php

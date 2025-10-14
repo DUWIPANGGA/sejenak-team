@@ -6,14 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <meta name="description" content="Sejenak adalah platform yang membantu Anda berefleksi dan terhubung dengan orang lain untuk kesejahteraan emosional. Mulailah perjalanan Anda menuju kesehatan mental di sini.">
-    <meta name="keywords" content="kesehatan mental, kesejahteraan emosional, refleksi, koneksi, Sejenak, platform perawatan diri, kesejahteraan, kesehatan mental, terapi">
-    <meta name="robots" content="index, follow">
+     <title>Sejenak – A Safe Space for Everybody</title>
+  <meta name="description" content="Sejenak adalah aplikasi meditasi & mindfulness, menyediakan ruang aman bagi siapa saja untuk menenangkan pikiran, mengelola stres, dan menjaga kesehatan mental.">
+  <meta name="keywords" content="sejenak, meditasi, mindfulness, ruang aman, safe space, kesehatan mental, aplikasi meditasi, self care, relaksasi">
 
-    <meta property="og:title" content="Sejenak - Space For Everybody">
-    <meta property="og:description" content="Sejenak adalah platform yang membantu Anda berefleksi dan terhubung dengan orang lain untuk kesejahteraan emosional. Mulailah perjalanan Anda menuju kesehatan mental di sini.">
-    <meta property="og:image" content="/img/icon3.png">
-    <meta property="og:url" content="https://www.sejenak.miomidev.com">
+  <!-- Open Graph (social media sharing) -->
+  <meta property="og:title" content="Sejenak – A Safe Space for Everybody">
+  <meta property="og:description" content="Temukan ruang aman untuk mereset pikiran. Meditasi, latihan pernapasan, dan refleksi diri dalam satu aplikasi.">
+  <meta property="og:image" content="https://sejenak.app/assets/og-image.jpg">  
+  <meta property="og:url" content="https://sejenak.app">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="id_ID">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sejenak – A Safe Space for Everybody">
+  <meta name="twitter:description" content="Ruang aman untuk menenangkan diri, meditasi, dan refleksi.">
+  <meta name="twitter:image" content="https://sejenak.app/assets/og-image.jpg">
+
+
+  <!-- (tambahan opsional) canonical tag -->
+  <link rel="canonical" href="https://sejenak.app" />
+  
+  <!-- (tambahan opsional) robots meta -->
+  <meta name="robots" content="index, follow" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 

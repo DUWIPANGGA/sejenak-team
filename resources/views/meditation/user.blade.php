@@ -61,8 +61,8 @@
 
             <div class="click-1 p-6 bg-white border-2 border-dark rounded-playful-md shadow-border-offset-lg flex flex-col justify-between">
                 <div class="container">
-                <h4 class="text-h5 text-dark font-bold mb-2">Pernapasan dalam</h4>
-                <p class="text-gray-600 text-sm mb-4">Latihan pernapasan singkat untuk menenangkan pikiran.</p>
+                <h4 class="text-h5 text-dark font-bold mb-2">Latihan Singkat</h4>
+                <p class="text-gray-600 text-sm mb-4">Latihan singkat untuk menenangkan pikiran.</p>
                 </div>
                 <a href="{{ route('user.exercise'); }}" class="hover-1 w-full px-4 py-3 bg-white text-dark font-bold rounded-playful-sm border-2 border-dark shadow-border-offset-accent text-center block">
                     <i class="fas fa-wind mr-2"></i> Latihan

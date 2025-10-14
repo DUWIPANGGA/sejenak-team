@@ -5,6 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+     <title>Sejenak – A Safe Space for Everybody</title>
+  <meta name="description" content="Sejenak adalah aplikasi meditasi & mindfulness, menyediakan ruang aman bagi siapa saja untuk menenangkan pikiran, mengelola stres, dan menjaga kesehatan mental.">
+  <meta name="keywords" content="sejenak, meditasi, mindfulness, ruang aman, safe space, kesehatan mental, aplikasi meditasi, self care, relaksasi">
+
+  <!-- Open Graph (social media sharing) -->
+  <meta property="og:title" content="Sejenak – A Safe Space for Everybody">
+  <meta property="og:description" content="Temukan ruang aman untuk mereset pikiran. Meditasi, latihan pernapasan, dan refleksi diri dalam satu aplikasi.">
+  <meta property="og:image" content="https://sejenak.app/assets/og-image.jpg">  
+  <meta property="og:url" content="https://sejenak.app">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="id_ID">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sejenak – A Safe Space for Everybody">
+  <meta name="twitter:description" content="Ruang aman untuk menenangkan diri, meditasi, dan refleksi.">
+  <meta name="twitter:image" content="https://sejenak.app/assets/og-image.jpg">
+
+  <!-- Structured Data (Schema.org / JSON-LD) -->
+  
+
+  <!-- (tambahan opsional) canonical tag -->
+  <link rel="canonical" href="https://sejenak.app" />
+  
+  <!-- (tambahan opsional) robots meta -->
+  <meta name="robots" content="index, follow" />
     <title>Sejenak - @yield('title')</title>
     <link rel="stylesheet" href="{{ asset('assets/css/loading.css') }}">
     <script src="https://cdn.tailwindcss.com"></script>
