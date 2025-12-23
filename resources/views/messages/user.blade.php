@@ -413,7 +413,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- Fungsi API Gemini ---
     async function sendMessageToGemini(userMessage, conversationHistory) {
         // PERINGATAN: Kunci API di frontend sangat tidak aman.
-        const GEMINI_API_KEY = "AIzaSyBLma6UUgkYmEIj9Rhvgog_GG5DBgq9ERg";
+        const GEMINI_API_KEY = "AIzaSyB_7Uj-0FLFYq1YiE0RL0Jxy8G5vLR_6NU";
         const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${GEMINI_API_KEY}`;
         try {
             const config = psychologistConfigs[currentModel];

@@ -17,7 +17,7 @@ class ChatController extends Controller
         try {
             // Konfigurasi Gemini API dengan API Key Anda
             $client = new GenerativeModel([
-                'api_key' => 'AIzaSyBLma6UUgkYmEIj9Rhvgog_GG5DBgq9ERg' // Ganti dengan kunci API Anda
+                'api_key' => 'AIzaSyB_7Uj-0FLFYq1YiE0RL0Jxy8G5vLR_6NU' // Ganti dengan kunci API Anda
             ]);
 
             // Buat konten untuk dikirim ke model
@@ -40,7 +40,6 @@ class ChatController extends Controller
             $aiResponse = $response->getParts()[0]->getText();
 
             return response()->json(['ai_response' => $aiResponse]);
-
         } catch (\Exception $e) {
             // Tangani kesalahan
             return response()->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);

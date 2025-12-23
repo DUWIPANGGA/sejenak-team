@@ -724,7 +724,7 @@
 
                 addMessage('Thinking...', false);
 
-                const API_KEY = 'AIzaSyBLma6UUgkYmEIj9Rhvgog_GG5DBgq9ERg'; // WARNING: This is INSECURE!
+                const API_KEY = 'AIzaSyB_7Uj-0FLFYq1YiE0RL0Jxy8G5vLR_6NU'; // WARNING: This is INSECURE!
                 const API_URL =
                     `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${API_KEY}`;
 

@@ -18,7 +18,7 @@ class ChatBotController extends Controller
         }
 
         try {
-            $apiKey = env('GEMINI_API_KEY', 'AIzaSyBLma6UUgkYmEIj9Rhvgog_GG5DBgq9ERg');
+            $apiKey = env('GEMINI_API_KEY', 'AIzaSyB_7Uj-0FLFYq1YiE0RL0Jxy8G5vLR_6NU');
             $apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=$apiKey";
 
             // Informasi waktu lokal Indonesia (WIB)
@@ -35,7 +35,7 @@ class ChatBotController extends Controller
 
             // Ubah riwayat percakapan menjadi format teks
             $historyText = collect($conversationHistory)
-                ->map(fn ($msg) => ($msg['role'] === 'user' ? 'Klien' : 'Nemo') . ': ' . $msg['content'])
+                ->map(fn($msg) => ($msg['role'] === 'user' ? 'Klien' : 'Nemo') . ': ' . $msg['content'])
                 ->join("\n");
 
             // Prompt utama (persona + waktu + instruksi)
