@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('title', 'Chating')
 
+@section('floating-chat')
+@endsection
 @section('content')
 <div class="flex flex w-full h-[84vh] p-3 md:p-2 gap-4 pt-2 md:pb-0">
     <!-- Sidebar Kontak -->
@@ -412,41 +414,37 @@ document.addEventListener('DOMContentLoaded', function () {
     async function sendMessageToGemini(userMessage, conversationHistory) {
         // PERINGATAN: Kunci API di frontend sangat tidak aman.
         const GEMINI_API_KEY = "AIzaSyBLma6UUgkYmEIj9Rhvgog_GG5DBgq9ERg";
-        const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+        const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${GEMINI_API_KEY}`;
+        try {
+            const config = psychologistConfigs[currentModel];
+            
+            // --- PERUBAHAN LOGIKA CUACA ---
+            // Kita tidak lagi memaksa AI membahas cuaca di awal.
+            // Sebagai gantinya, kita berikan info cuaca sebagai konteks opsional.
+            let contextualInfo = '';
+            if (currentWeatherData) {
+                contextualInfo = `[INFORMASI KONTEKSTUAL: Cuaca saat ini adalah ${currentWeatherData}]`;
+            }
 
-        try {
-            const config = psychologistConfigs[currentModel];
-            
-            // --- BLOK LOGIKA BARU UNTUK CUACA ---
-            let weatherInstruction = '';
-            // Cek jika ini adalah pesan pertama dari user DAN data cuaca sudah ada
-            if (conversationHistory.filter(msg => msg.role === 'user').length === 1 && currentWeatherData) {
-                weatherInstruction = `
-    [INFORMASI CUACA SAAT INI: ${currentWeatherData}]
+            const prompt = `
+                ${config.promptContext}
 
-    INSTRUKSI KHUSUS UNTUK RESPON PERTAMA:
-    1. Awali responsmu dengan mengomentari cuaca saat ini secara alami dan positif.
-    2. Setelah itu, langsung tanyakan kabar atau perasaan pengguna.
-    3. Contoh: "Di sini ${currentWeatherData} lho, bikin suasana jadi adem. Kamu sendiri gimana kabarnya hari ini?" atau "Wah, ${currentWeatherData}, pas banget buat santai. Kalau kamu, lagi ngerasain apa sekarang?"
-    4. Jaga agar tetap singkat dan terdengar seperti teman.
-                `;
-            }
-            // --- AKHIR BLOK LOGIKA BARU ---
+                ${contextualInfo}
 
-            const prompt = `
-                ${config.promptContext}
+                Riwayat percakapan sejauh ini:
+                ${conversationHistory.map(msg => `${msg.role === 'user' ? 'Pengguna' : config.name}: ${msg.content}`).join('\n')}
 
-                ${weatherInstruction}
+                Pesan terbaru dari Pengguna untuk direspons: "${userMessage}"
 
-                Riwayat percakapan sejauh ini:
-                ${conversationHistory.map(msg => `${msg.role === 'user' ? 'Pengguna' : config.name}: ${msg.content}`).join('\n')}
+                INSTRUKSI PENTING TENTANG CUACA:
+                - JANGAN menyebutkan cuaca kecuali jika salah satu kondisi ini terpenuhi:
+                  1. Pengguna secara eksplisit bertanya tentang cuaca (misal: "cuaca hari ini gimana?").
+                  2. Suasana hati pengguna (misal: sedih, murung, senang) sangat cocok atau bisa dianalogikan dengan cuaca saat ini.
+                - CONTOH ANALOGI: Jika pengguna bilang "aku lagi sedih banget" dan cuacanya "hujan", kamu boleh merespons seperti "Pantesan, di sini juga lagi hujan, jadi ikut melow. Kenapa sedihnya? Cerita sini."
+                - Jika pengguna hanya menyapa biasa atau memulai topik lain, FOKUS pada percakapan dan ABAIKAN informasi cuaca sepenuhnya.
 
-                Pesan terbaru dari Pengguna untuk direspons: "${userMessage}"
-
-                INSTRUKSI UMUM:
-                - Tetaplah menjadi Nemo yang suportif.
-                - Jawab dengan singkat, padat, dan jelas.
-            `;
+                INSTRUKSI UMUM:
+                - Tetaplah menjadi Nemo yang suportif.`;
 
             const response = await fetch(GEMINI_API_URL, {
                 method: 'POST',

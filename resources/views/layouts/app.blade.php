@@ -516,23 +516,25 @@
         </div>
     </main>
 
-    <div id="floating-chat-container" class="desktop">
-        <div id="chat-bubble">
-            <div id="chat-bubble-content">
-                <p class="chat-message-ai" id="ai-greeting-message">Memuat info... 🤔</p>
+    @section('floating-chat')
+        <div id="floating-chat-container" class="desktop">
+            <div id="chat-bubble">
+                <div id="chat-bubble-content">
+                    <p class="chat-message-ai" id="ai-greeting-message">Memuat info... 🤔</p>
+                </div>
+                <div id="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="Ketik pesan Anda..."
+                           onkeydown="handleKeyDown(event)">
+                    <button id="chat-send-btn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
             </div>
-            <div id="chat-input-area">
-                <input type="text" id="chat-input" placeholder="Ketik pesan Anda..."
-                    onkeydown="handleKeyDown(event)">
-                <button id="chat-send-btn">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
+            <div id="floating-chat-avatar-btn" class="bg-none">
+                <img src="{{ asset('assets/component/lady_icon.svg') }}" alt="AI Avatar" class="bg-transparent">
             </div>
         </div>
-        <div id="floating-chat-avatar-btn" class="bg-none">
-            <img src="{{ asset('assets/component/lady_icon.svg') }}" alt="AI Avatar" class="bg-transparent">
-        </div>
-    </div>
+    @show
 
     <nav class="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-dark shadow-border-offset md:hidden z-40">
         <div class="flex justify-around items-center py-2">
@@ -724,7 +726,7 @@
 
                 const API_KEY = 'AIzaSyBLma6UUgkYmEIj9Rhvgog_GG5DBgq9ERg'; // WARNING: This is INSECURE!
                 const API_URL =
-                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${API_KEY}`;
 
 
                 try {

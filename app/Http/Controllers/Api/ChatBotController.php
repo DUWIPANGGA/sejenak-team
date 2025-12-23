@@ -19,7 +19,7 @@ class ChatBotController extends Controller
 
         try {
             $apiKey = env('GEMINI_API_KEY', 'AIzaSyBLma6UUgkYmEIj9Rhvgog_GG5DBgq9ERg');
-            $apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$apiKey";
+            $apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=$apiKey";
 
             // Informasi waktu lokal Indonesia (WIB)
             $now = now()->setTimezone('Asia/Jakarta');
